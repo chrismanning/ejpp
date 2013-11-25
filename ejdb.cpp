@@ -23,6 +23,8 @@
 
 #include <boost/optional.hpp>
 
+#include "bson-cpp/inc/bson.h"
+
 #include "c_ejdb.hpp"
 #include "ejdb.hpp"
 
@@ -36,17 +38,12 @@ void query::eqry_deleter::operator()(EJQ* ptr) const { c_ejdb::querydel(ptr); }
 
 ejdb::ejdb() : m_db(c_ejdb::newdb(), ejdb_deleter()) {}
 
-ejdb::ejdb(const std::string& path, int mode) : ejdb() {
-    std::error_code ec;
-    auto b = open(path, mode, ec);
-    assert(b ? !ec : !!ec);
-}
-
 ejdb::operator bool() const noexcept { return static_cast<bool>(m_db); }
 
 std::error_code ejdb::error() const noexcept { return make_error_code(c_ejdb::ecode(m_db.get())); }
 
 bool ejdb::open(const std::string& path, int mode, std::error_code& ec) noexcept {
+    assert(m_db);
     const auto r = c_ejdb::open(m_db.get(), path.c_str(), mode);
     ec = make_error_code(!r ? c_ejdb::ecode(m_db.get()) : 0);
     return r;

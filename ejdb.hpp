@@ -57,7 +57,6 @@ struct db_mode {
 
 struct ejdb {
     ejdb();
-    explicit ejdb(const std::string& path, int mode);
 
     explicit operator bool() const noexcept;
     std::error_code error() const noexcept;
