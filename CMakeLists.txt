@@ -19,7 +19,8 @@ set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS} -g -O1")
 
 add_subdirectory(bson-cpp)
 
-set(SRC_LIST ejdb.cpp)
+set(SRC_LIST ${SRC_LIST} ejdb.cpp)
+set(SRC_LIST ${SRC_LIST} c_ejdb.cpp)
 
 add_library(ejpp SHARED ${SRC_LIST})
 target_link_libraries(ejpp -ltcejdb)

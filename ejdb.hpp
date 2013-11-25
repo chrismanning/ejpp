@@ -30,6 +30,8 @@
 
 #include <boost/optional/optional_fwd.hpp>
 
+#include "bson-cpp/inc/bsonobj.h"
+
 struct EJDB;
 struct EJCOLL;
 struct EJQ;
@@ -40,6 +42,18 @@ struct query;
 
 class error_category;
 inline std::error_code make_error_code(int ecode);
+
+struct db_mode {
+    enum {                    /** Database open modes */
+          JBOREADER = 1 << 0, /**< Open as a reader. */
+          JBOWRITER = 1 << 1, /**< Open as a writer. */
+          JBOCREAT = 1 << 2,  /**< Create if db file not exists. */
+          JBOTRUNC = 1 << 3,  /**< Truncate db on open. */
+          JBONOLCK = 1 << 4,  /**< Open without locking. */
+          JBOLCKNB = 1 << 5,  /**< Lock without blocking. */
+          JBOTSYNC = 1 << 6   /**< Synchronize every transaction. */
+    };
+};
 
 struct ejdb {
     ejdb();
@@ -56,10 +70,12 @@ struct ejdb {
     collection create_collection(const std::string& name, std::error_code& ec) noexcept;
     bool remove_collection(const std::string& name, bool unlink_file, std::error_code& ec) noexcept;
 
-    query create_query(const std::string& json, std::error_code& ec) noexcept;
+    query create_query(const bson::BSONObj& doc, std::error_code& ec) noexcept;
+
+    bool sync(std::error_code& ec) noexcept;
 
   private:
-    std::shared_ptr<EJDB> db;
+    std::shared_ptr<EJDB> m_db;
 };
 
 struct collection {
@@ -67,20 +83,23 @@ struct collection {
 
     explicit operator bool() const noexcept;
 
-    boost::optional<bson_oid_t> save_json(const std::string& json, std::error_code& ec);
-    boost::optional<bson_oid_t> save_json(const std::string& json, bool merge, std::error_code& ec);
-    boost::optional<bson_oid_t> save_bson(const std::vector<char>& data);
+    boost::optional<bson::OID> save_document(const bson::BSONObj& data, std::error_code& ec) noexcept;
+    boost::optional<bson::OID> save_document(const bson::BSONObj& data, bool merge, std::error_code& ec) noexcept;
+    boost::optional<bson::BSONObj> load_document(bson::OID oid, std::error_code& ec) const noexcept;
+    bool remove_document(bson::OID, std::error_code& ec) noexcept;
 
     bool set_index(const std::string& ipath, int flags) noexcept;
     std::vector<void> execute_query(const query&) noexcept;
     uint32_t count_query(const query&) noexcept;
 
+    bool sync(std::error_code& ec) noexcept;
+
   private:
     friend struct ejdb;
-    collection(std::shared_ptr<EJDB> db, EJCOLL* coll) noexcept;
+    collection(std::weak_ptr<EJDB> m_db, EJCOLL* coll) noexcept;
 
-    std::shared_ptr<EJDB> db;
-    EJCOLL* coll{ nullptr };
+    std::weak_ptr<EJDB> m_db;
+    EJCOLL* coll{nullptr};
 };
 
 struct query {
@@ -89,14 +108,14 @@ struct query {
 
     explicit operator bool() const noexcept;
 
-    query& operator|=(const std::vector<void>&) noexcept;
+    query& operator|=(const bson::BSONObj&) noexcept;
 
   private:
     friend struct ejdb;
     friend struct collection;
-    query(std::shared_ptr<EJDB> db, EJQ* qry) noexcept;
+    query(std::weak_ptr<EJDB> m_db, EJQ* qry) noexcept;
 
-    std::shared_ptr<EJDB> db;
+    std::weak_ptr<EJDB> m_db;
 
     struct eqry_deleter {
         void operator()(EJQ* ptr) const;
