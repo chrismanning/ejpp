@@ -37,6 +37,8 @@ typedef struct EJQ EJQ;
 
 typedef TCLIST* EJQRESULT;
 
+} // extern "C"
+
 namespace c_ejdb {
 
 const char* version();
@@ -107,7 +109,5 @@ bool tranabort(EJCOLL* coll);
 bool transtatus(EJCOLL* jcoll, bool* txactive);
 
 } // namespace c_ejdb
-
-} // extern "C"
 
 #endif // EJDB_C_EJDB_HPP

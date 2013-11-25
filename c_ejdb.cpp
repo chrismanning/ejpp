@@ -19,8 +19,6 @@
 
 #include "c_ejdb.hpp"
 
-extern "C" {
-
 namespace c_ejdb {
 
 const char* version() { return ejdbversion(); }
@@ -101,5 +99,3 @@ bool tranabort(EJCOLL* coll) { return ejdbtranabort(coll); }
 bool transtatus(EJCOLL* jcoll, bool* txactive) { return ejdbtranstatus(jcoll, txactive); }
 
 } // namespace c_ejdb
-
-} // extern "C"
