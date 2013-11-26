@@ -22,11 +22,12 @@
 #include <array>
 
 #include <boost/optional.hpp>
+#include <boost/range/adaptor/transformed.hpp>
 
-#include "bson-cpp/inc/bson.h"
+#include "bson/bson.h"
 
-#include "c_ejdb.hpp"
-#include "ejdb.hpp"
+#include <ejpp/c_ejdb.hpp>
+#include <ejpp/ejdb.hpp>
 
 namespace ejdb {
 
@@ -40,50 +41,76 @@ ejdb::ejdb() : m_db(c_ejdb::newdb(), ejdb_deleter()) {}
 
 ejdb::operator bool() const noexcept { return static_cast<bool>(m_db); }
 
-std::error_code ejdb::error() const noexcept { return make_error_code(c_ejdb::ecode(m_db.get())); }
+std::error_code ejdb::error() const noexcept {
+    assert(m_db);
+    return make_error_code(c_ejdb::ecode(m_db.get()));
+}
 
 bool ejdb::open(const std::string& path, int mode, std::error_code& ec) noexcept {
     assert(m_db);
     const auto r = c_ejdb::open(m_db.get(), path.c_str(), mode);
-    ec = make_error_code(!r ? c_ejdb::ecode(m_db.get()) : 0);
+    if (!r)
+        ec = error();
     return r;
 }
 
-bool ejdb::is_open() const noexcept { return c_ejdb::isopen(m_db.get()); }
+bool ejdb::is_open() const noexcept {
+    assert(m_db);
+    return c_ejdb::isopen(m_db.get());
+}
 
 bool ejdb::close(std::error_code& ec) noexcept {
+    assert(m_db);
     const auto r = c_ejdb::closedb(m_db.get());
-    ec = make_error_code(!r ? c_ejdb::ecode(m_db.get()) : 0);
+    if (!r)
+        ec = error();
     return r;
 }
 
 collection ejdb::get_collection(const std::string& name, std::error_code& ec) const noexcept {
+    assert(m_db);
     const auto r = c_ejdb::getcoll(m_db.get(), name.c_str());
-    ec = make_error_code(!r ? c_ejdb::ecode(m_db.get()) : 0);
+    if (!r)
+        ec = error();
     return {m_db, r};
 }
 
 collection ejdb::create_collection(const std::string& name, std::error_code& ec) noexcept {
+    assert(m_db);
     const auto r = c_ejdb::createcoll(m_db.get(), name.c_str(), nullptr);
-    ec = make_error_code(!r ? c_ejdb::ecode(m_db.get()) : 0);
+    if (!r)
+        ec = error();
     return {m_db, r};
 }
 
 bool ejdb::remove_collection(const std::string& name, bool unlink_file, std::error_code& ec) noexcept {
+    assert(m_db);
     const auto r = c_ejdb::rmcoll(m_db.get(), name.c_str(), unlink_file);
-    ec = make_error_code(!r ? c_ejdb::ecode(m_db.get()) : 0);
+    if (!r)
+        ec = error();
     return r;
 }
 
+const std::deque<collection> ejdb::get_collections() const noexcept {
+    assert(m_db);
+    auto colls = c_ejdb::getcolls(m_db.get());
+    auto range = boost::adaptors::transform(colls, [this](EJCOLL* c) { return collection{m_db, c}; });
+    return {range.begin(), range.end()};
+}
+
 query ejdb::create_query(const bson::BSONObj& doc, std::error_code& ec) noexcept {
+    assert(m_db);
     const auto r = c_ejdb::createquery(m_db.get(), doc.objdata());
-    ec = make_error_code(!r ? c_ejdb::ecode(m_db.get()) : 0);
+    if (!r)
+        ec = error();
     return {m_db, r};
 }
 
 bool ejdb::sync(std::error_code& ec) noexcept {
+    assert(m_db);
     const auto r = c_ejdb::syncdb(m_db.get());
-    ec = make_error_code(!r ? c_ejdb::ecode(m_db.get()) : 0);
+    if (!r)
+        ec = error();
     return r;
 }
 
@@ -99,7 +126,7 @@ boost::optional<bson::OID> collection::save_document(const bson::BSONObj& doc, b
                                                      std::error_code& ec) noexcept {
     assert(coll);
     auto db = m_db.lock();
-    if (db && (ec = std::make_error_code(std::errc::owner_dead)))
+    if (!db && (ec = std::make_error_code(std::errc::owner_dead)))
         return {};
     std::array<char, 12> oid;
     const auto r = c_ejdb::savebson2(coll, doc.objdata(), oid.data(), merge);
@@ -108,6 +135,7 @@ boost::optional<bson::OID> collection::save_document(const bson::BSONObj& doc, b
 }
 
 boost::optional<bson::BSONObj> collection::load_document(bson::OID oid, std::error_code& ec) const noexcept {
+    assert(coll);
     const auto r = c_ejdb::loadbson(coll, reinterpret_cast<const char*>(oid.getData()));
     auto db = m_db.lock();
     ec = make_error_code(!r && db ? c_ejdb::ecode(db.get()) : 0);
@@ -117,18 +145,38 @@ boost::optional<bson::BSONObj> collection::load_document(bson::OID oid, std::err
 }
 
 bool collection::remove_document(bson::OID oid, std::error_code& ec) noexcept {
+    assert(coll);
     const auto r = c_ejdb::rmbson(coll, (char*)oid.getData());
     auto db = m_db.lock();
     if (!r && db)
-        ec = std::make_error_code(std::errc::owner_dead);
+        ec = make_error_code(c_ejdb::ecode(db.get()));
+    return r;
+}
+
+std::vector<bson::BSONObj> collection::execute_query(const query& qry, query::search_mode sm) noexcept {
+    assert(coll);
+    assert(qry.qry);
+    uint32_t s{0};
+    const auto list = c_ejdb::qryexecute(coll, qry.qry.get(), &s, sm);
+    assert(s == c_ejdb::qresultnum(list));
+    std::vector<bson::BSONObj> r;
+    r.reserve(s);
+    int ns{0};
+    for (uint32_t i = 0; i < s; i++) {
+        bson::BSONObj obj{reinterpret_cast<const char*>(c_ejdb::qresultbsondata(list, i, &ns))};
+        r.emplace_back(obj.copy());
+    }
+    assert(r.size() == s);
+    c_ejdb::qresultdispose(list);
     return r;
 }
 
 bool collection::sync(std::error_code& ec) noexcept {
+    assert(coll);
     const auto r = c_ejdb::syncoll(coll);
     auto db = m_db.lock();
     if (!r && db)
-        ec = std::make_error_code(std::errc::owner_dead);
+        ec = make_error_code(c_ejdb::ecode(db.get()));
     return r;
 }
 
@@ -137,11 +185,24 @@ query::query(std::weak_ptr<EJDB> db, EJQ* qry) noexcept : m_db(db), qry(qry) {}
 query::~query() noexcept {}
 
 query& query::operator|=(const bson::BSONObj& obj) noexcept {
+    assert(qry);
     auto db = m_db.lock();
     if (!db)
         return *this;
 
     auto q = c_ejdb::queryaddor(db.get(), qry.get(), obj.objdata());
+    if (q != qry.get())
+        qry.reset(q);
+
+    return *this;
+}
+
+query& query::set_hints(const bson::BSONObj& obj) noexcept {
+    assert(qry);
+    auto db = m_db.lock();
+    if (!db)
+        return *this;
+    auto q = c_ejdb::queryhints(db.get(), qry.get(), obj.objdata());
     if (q != qry.get())
         qry.reset(q);
 

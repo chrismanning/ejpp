@@ -23,6 +23,7 @@
 #define EJDB_C_EJDB_HPP
 
 #include <tcejdb/tcutil.h>
+#include <deque>
 
 extern "C" {
 
@@ -61,7 +62,7 @@ bool isopen(EJDB* jb);
 
 EJCOLL* getcoll(EJDB* jb, const char* colname);
 
-TCLIST* getcolls(EJDB* jb);
+std::deque<EJCOLL*> getcolls(EJDB* jb);
 
 EJCOLL* createcoll(EJDB* jb, const char* colname, void* opts);
 

@@ -16,8 +16,9 @@
 **************************************************************************/
 
 #include <tcejdb/ejdb.h>
+#include <tcejdb/ejdb_private.h>
 
-#include "c_ejdb.hpp"
+#include <ejpp/c_ejdb.hpp>
 
 namespace c_ejdb {
 
@@ -41,7 +42,10 @@ bool isopen(EJDB* jb) { return ejdbisopen(jb); }
 
 EJCOLL* getcoll(EJDB* jb, const char* colname) { return ejdbgetcoll(jb, colname); }
 
-TCLIST* getcolls(EJDB* jb) { return ejdbgetcolls(jb); }
+std::deque<EJCOLL*> getcolls(EJDB* jb) {
+    std::deque<EJCOLL*> colls{jb->cdbs, jb->cdbs + jb->cdbsnum};
+    return std::move(colls);
+}
 
 EJCOLL* createcoll(EJDB* jb, const char* colname, void* opts) {
     return ejdbcreatecoll(jb, colname, reinterpret_cast<EJCOLLOPTS*>(opts));

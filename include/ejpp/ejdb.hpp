@@ -26,11 +26,11 @@
 #include <string>
 #include <system_error>
 #include <cassert>
-#include <vector>
+#include <deque>
 
 #include <boost/optional/optional_fwd.hpp>
 
-#include "bson-cpp/inc/bsonobj.h"
+#include "bson/bsonobj.h"
 
 struct EJDB;
 struct EJCOLL;
@@ -45,13 +45,13 @@ inline std::error_code make_error_code(int ecode);
 
 struct db_mode {
     enum {                    /** Database open modes */
-          JBOREADER = 1 << 0, /**< Open as a reader. */
-          JBOWRITER = 1 << 1, /**< Open as a writer. */
-          JBOCREAT = 1 << 2,  /**< Create if db file not exists. */
-          JBOTRUNC = 1 << 3,  /**< Truncate db on open. */
-          JBONOLCK = 1 << 4,  /**< Open without locking. */
-          JBOLCKNB = 1 << 5,  /**< Lock without blocking. */
-          JBOTSYNC = 1 << 6   /**< Synchronize every transaction. */
+          read = 1 << 0,      /**< Open as a reader. */
+          write = 1 << 1,     /**< Open as a writer. */
+          create = 1 << 2,    /**< Create if db file not exists. */
+          truncate = 1 << 3,  /**< Truncate db on open. */
+          nolock = 1 << 4,    /**< Open without locking. */
+          noblock = 1 << 5,   /**< Lock without blocking. */
+          trans_sync = 1 << 6 /**< Synchronize every transaction. */
     };
 };
 
@@ -68,6 +68,7 @@ struct ejdb {
     collection get_collection(const std::string& name, std::error_code& ec) const noexcept;
     collection create_collection(const std::string& name, std::error_code& ec) noexcept;
     bool remove_collection(const std::string& name, bool unlink_file, std::error_code& ec) noexcept;
+    const std::deque<collection> get_collections() const noexcept;
 
     query create_query(const bson::BSONObj& doc, std::error_code& ec) noexcept;
 
@@ -75,6 +76,32 @@ struct ejdb {
 
   private:
     std::shared_ptr<EJDB> m_db;
+};
+
+struct query {
+    query() noexcept = default;
+    ~query() noexcept;
+
+    enum search_mode {/*< Query search mode flags */
+                      count_only = 1,
+                      first_only = 1 << 1};
+
+    explicit operator bool() const noexcept;
+
+    query& operator|=(const bson::BSONObj&) noexcept;
+    query& set_hints(const bson::BSONObj&) noexcept;
+
+  private:
+    friend struct ejdb;
+    friend struct collection;
+    query(std::weak_ptr<EJDB> m_db, EJQ* qry) noexcept;
+
+    std::weak_ptr<EJDB> m_db;
+
+    struct eqry_deleter {
+        void operator()(EJQ* ptr) const;
+    };
+    std::unique_ptr<EJQ, eqry_deleter> qry;
 };
 
 struct collection {
@@ -88,8 +115,7 @@ struct collection {
     bool remove_document(bson::OID, std::error_code& ec) noexcept;
 
     bool set_index(const std::string& ipath, int flags) noexcept;
-    std::vector<void> execute_query(const query&) noexcept;
-    uint32_t count_query(const query&) noexcept;
+    std::vector<bson::BSONObj> execute_query(const query&, query::search_mode) noexcept;
 
     bool sync(std::error_code& ec) noexcept;
 
@@ -99,27 +125,6 @@ struct collection {
 
     std::weak_ptr<EJDB> m_db;
     EJCOLL* coll{nullptr};
-};
-
-struct query {
-    query() noexcept = default;
-    ~query() noexcept;
-
-    explicit operator bool() const noexcept;
-
-    query& operator|=(const bson::BSONObj&) noexcept;
-
-  private:
-    friend struct ejdb;
-    friend struct collection;
-    query(std::weak_ptr<EJDB> m_db, EJQ* qry) noexcept;
-
-    std::weak_ptr<EJDB> m_db;
-
-    struct eqry_deleter {
-        void operator()(EJQ* ptr) const;
-    };
-    std::unique_ptr<EJQ, eqry_deleter> qry;
 };
 
 } // namespace ejdb
