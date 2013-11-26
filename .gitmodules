@@ -1,3 +1,4 @@
 [submodule "bson-cpp"]
 	path = bson-cpp
 	url = https://github.com/kloplop321/bson-cpp.git
+    ignore = dirty
