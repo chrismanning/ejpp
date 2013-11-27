@@ -43,8 +43,8 @@ ExternalProject_Add(bsoncpp
 PREFIX ${CMAKE_CURRENT_SOURCE_DIR}/bson-cpp
 SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/bson-cpp
 CMAKE_ARGS --no-warn-unused-cli ${PARENT_CMAKE_ARGS}
- -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_SOURCE_DIR} "-DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}"
-INSTALL_DIR ${CMAKE_CURRENT_SOURCE_DIR}
+ -DCMAKE_INSTALL_PREFIX=${CMAKE_SOURCE_DIR} "-DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}"
+INSTALL_DIR ${CMAKE_SOURCE_DIR}
 )
 
 set(SRC_LIST ${SRC_LIST} src/ejpp/ejdb.cpp include/ejpp/ejdb.hpp)
@@ -55,20 +55,18 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 message(STATUS "EJDB libs: " ${EJDB_LIBRARIES})
 
 add_library(ejpp-static STATIC ${SRC_LIST})
-target_link_libraries(ejpp-static ${EJDB_LIBRARIES})
+target_link_libraries(ejpp-static ${EJDB_LIBRARIES} -L${CMAKE_SOURCE_DIR}/lib/ -lbsoncpp)
 add_dependencies(ejpp-static bsoncpp)
 
 add_library(ejpp SHARED ${SRC_LIST})
-target_link_libraries(ejpp ${EJDB_LIBRARIES})
+target_link_libraries(ejpp ${EJDB_LIBRARIES} -L${CMAKE_SOURCE_DIR}/lib/ -lbsoncpp)
 add_dependencies(ejpp bsoncpp)
 
 install(TARGETS ejpp ejpp-static
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib)
-install(FILES ejdb.hpp c_ejdb.hpp DESTINATION include/ejpp)
+install(DIRECTORY include/ejpp DESTINATION include/ejpp)
 install(DIRECTORY inc/bson DESTINATION include/bson
     FILES_MATCHING PATTERN "*.h"
 )
-install(DIRECTORY lib/bson DESTINATION lib/bson
-    FILES_MATCHING REGEX ".*[.](a|so)"
-)
+install(DIRECTORY lib/bson DESTINATION lib/bson)
