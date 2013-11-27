@@ -153,7 +153,7 @@ bool collection::remove_document(bson::OID oid, std::error_code& ec) noexcept {
     return r;
 }
 
-std::vector<bson::BSONObj> collection::execute_query(const query& qry, query::search_mode sm) noexcept {
+std::vector<bson::BSONObj> collection::execute_query(const query& qry, int sm) noexcept {
     assert(coll);
     assert(qry.qry);
     uint32_t s{0};

@@ -119,7 +119,7 @@ struct collection {
     bool remove_document(bson::OID, std::error_code& ec) noexcept;
 
     bool set_index(const std::string& ipath, int flags) noexcept;
-    std::vector<bson::BSONObj> execute_query(const query&, query::search_mode) noexcept;
+    std::vector<bson::BSONObj> execute_query(const query&, int) noexcept;
 
     bool sync(std::error_code& ec) noexcept;
 
