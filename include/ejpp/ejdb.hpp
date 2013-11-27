@@ -82,9 +82,13 @@ struct query {
     query() noexcept = default;
     ~query() noexcept;
 
-    enum search_mode {/*< Query search mode flags */
-                      count_only = 1,
-                      first_only = 1 << 1};
+    query(query&&) noexcept = default;
+
+    enum search_mode {
+        /*< Query search mode flags */
+        count_only = 1,
+        first_only = 1 << 1
+    };
 
     explicit operator bool() const noexcept;
 

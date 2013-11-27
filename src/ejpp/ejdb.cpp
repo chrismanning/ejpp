@@ -168,7 +168,7 @@ std::vector<bson::BSONObj> collection::execute_query(const query& qry, query::se
     }
     assert(r.size() == s);
     c_ejdb::qresultdispose(list);
-    return r;
+    return std::move(r);
 }
 
 bool collection::sync(std::error_code& ec) noexcept {
