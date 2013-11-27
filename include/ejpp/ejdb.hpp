@@ -43,7 +43,7 @@ struct query;
 class error_category;
 inline std::error_code make_error_code(int ecode);
 
-struct db_mode {
+struct db_mode final {
     enum {                    /** Database open modes */
           read = 1 << 0,      /**< Open as a reader. */
           write = 1 << 1,     /**< Open as a writer. */
@@ -55,7 +55,7 @@ struct db_mode {
     };
 };
 
-struct ejdb {
+struct ejdb final {
     ejdb();
 
     explicit operator bool() const noexcept;
@@ -78,7 +78,7 @@ struct ejdb {
     std::shared_ptr<EJDB> m_db;
 };
 
-struct query {
+struct query final {
     query() noexcept = default;
     ~query() noexcept;
 
@@ -108,7 +108,7 @@ struct query {
     std::unique_ptr<EJQ, eqry_deleter> qry;
 };
 
-struct collection {
+struct collection final {
     collection() noexcept = default;
 
     explicit operator bool() const noexcept;
