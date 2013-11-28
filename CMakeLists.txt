@@ -55,6 +55,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 message(STATUS "EJDB libs: " ${EJDB_LIBRARIES})
 
 add_library(ejpp-static STATIC ${SRC_LIST})
+SET_TARGET_PROPERTIES(ejpp-static PROPERTIES OUTPUT_NAME ejpp)
 target_link_libraries(ejpp-static ${EJDB_LIBRARIES} -L${CMAKE_SOURCE_DIR}/lib/ -lbsoncpp)
 add_dependencies(ejpp-static bsoncpp)
 
