@@ -74,6 +74,8 @@ struct ejdb final {
 
     bool sync(std::error_code& ec) noexcept;
 
+    bson::BSONObj metadata() noexcept;
+
   private:
     std::shared_ptr<EJDB> m_db;
 };
@@ -83,6 +85,7 @@ struct query final {
     ~query() noexcept;
 
     query(query&&) noexcept = default;
+    query& operator=(query&&) noexcept = default;
 
     enum search_mode {
         /*< Query search mode flags */
@@ -98,14 +101,14 @@ struct query final {
   private:
     friend struct ejdb;
     friend struct collection;
-    query(std::weak_ptr<EJDB> m_db, EJQ* qry) noexcept;
+    query(std::weak_ptr<EJDB> m_db, EJQ* m_qry) noexcept;
 
     std::weak_ptr<EJDB> m_db;
 
     struct eqry_deleter {
         void operator()(EJQ* ptr) const;
     };
-    std::unique_ptr<EJQ, eqry_deleter> qry;
+    std::unique_ptr<EJQ, eqry_deleter> m_qry;
 };
 
 struct collection final {
@@ -119,16 +122,18 @@ struct collection final {
     bool remove_document(bson::OID, std::error_code& ec) noexcept;
 
     bool set_index(const std::string& ipath, int flags) noexcept;
-    std::vector<bson::BSONObj> execute_query(const query&, int) noexcept;
+    std::vector<bson::BSONObj> execute_query(const query&, int flags = 0) noexcept;
+
+    std::vector<bson::BSONObj> get_all() noexcept;
 
     bool sync(std::error_code& ec) noexcept;
 
   private:
     friend struct ejdb;
-    collection(std::weak_ptr<EJDB> m_db, EJCOLL* coll) noexcept;
+    collection(std::weak_ptr<EJDB> m_db, EJCOLL* m_coll) noexcept;
 
     std::weak_ptr<EJDB> m_db;
-    EJCOLL* coll{nullptr};
+    EJCOLL* m_coll{nullptr};
 };
 
 } // namespace ejdb

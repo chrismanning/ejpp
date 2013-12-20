@@ -109,6 +109,8 @@ bool tranabort(EJCOLL* coll);
 
 bool transtatus(EJCOLL* jcoll, bool* txactive);
 
+const void* metadb(EJDB*);
+
 } // namespace c_ejdb
 
 #endif // EJDB_C_EJDB_HPP

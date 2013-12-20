@@ -36,7 +36,6 @@ foreach(CACHE_VAR ${CACHE_VARS})
     set(PARENT_CMAKE_ARGS ${PARENT_CMAKE_ARGS} "-D${CACHE_VAR}${CACHE_VAR_TYPE}=${${CACHE_VAR}}")
   endif()
 endforeach()
-message("PARENT_CMAKE_ARGS: ${PARENT_CMAKE_ARGS}")
 
 include(ExternalProject)
 ExternalProject_Add(bsoncpp
@@ -45,6 +44,7 @@ SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/bson-cpp
 CMAKE_ARGS --no-warn-unused-cli ${PARENT_CMAKE_ARGS}
  -DCMAKE_INSTALL_PREFIX=${CMAKE_SOURCE_DIR} "-DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}"
 INSTALL_DIR ${CMAKE_SOURCE_DIR}
+TEST_BEFORE_INSTALL 1
 )
 
 set(SRC_LIST ${SRC_LIST} src/ejpp/ejdb.cpp include/ejpp/ejdb.hpp)
