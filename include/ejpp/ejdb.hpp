@@ -30,7 +30,7 @@
 
 #include <boost/optional/optional_fwd.hpp>
 
-#include "bson/bsonobj.h"
+#include <jbson/document.hpp>
 
 struct EJDB;
 struct EJCOLL;
@@ -70,11 +70,11 @@ struct ejdb final {
     bool remove_collection(const std::string& name, bool unlink_file, std::error_code& ec) noexcept;
     const std::deque<collection> get_collections() const noexcept;
 
-    query create_query(const bson::BSONObj& doc, std::error_code& ec) noexcept;
+    query create_query(const jbson::document& doc, std::error_code& ec) noexcept;
 
     bool sync(std::error_code& ec) noexcept;
 
-    bson::BSONObj metadata() noexcept;
+    boost::optional<jbson::document> metadata() noexcept;
 
   private:
     std::shared_ptr<EJDB> m_db;
@@ -95,8 +95,8 @@ struct query final {
 
     explicit operator bool() const noexcept;
 
-    query& operator|=(const bson::BSONObj&) noexcept;
-    query& set_hints(const bson::BSONObj&) noexcept;
+    query& operator|=(const jbson::document&) noexcept;
+    query& set_hints(const jbson::document&) noexcept;
 
   private:
     friend struct ejdb;
@@ -116,15 +116,15 @@ struct collection final {
 
     explicit operator bool() const noexcept;
 
-    boost::optional<bson::OID> save_document(const bson::BSONObj& data, std::error_code& ec) noexcept;
-    boost::optional<bson::OID> save_document(const bson::BSONObj& data, bool merge, std::error_code& ec) noexcept;
-    boost::optional<bson::BSONObj> load_document(bson::OID oid, std::error_code& ec) const noexcept;
-    bool remove_document(bson::OID, std::error_code& ec) noexcept;
+    boost::optional<std::array<char,12>> save_document(const jbson::document& data, std::error_code& ec) noexcept;
+    boost::optional<std::array<char,12>> save_document(const jbson::document& data, bool merge, std::error_code& ec) noexcept;
+    boost::optional<jbson::document> load_document(std::array<char,12> oid, std::error_code& ec) const noexcept;
+    bool remove_document(std::array<char,12>, std::error_code& ec) noexcept;
 
     bool set_index(const std::string& ipath, int flags) noexcept;
-    std::vector<bson::BSONObj> execute_query(const query&, int flags = 0) noexcept;
+    std::vector<jbson::document> execute_query(const query&, int flags = 0) noexcept;
 
-    std::vector<bson::BSONObj> get_all() noexcept;
+    std::vector<jbson::document> get_all() noexcept;
 
     bool sync(std::error_code& ec) noexcept;
 

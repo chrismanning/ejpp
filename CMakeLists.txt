@@ -23,30 +23,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_C_FLAGS} -std=c++1y")
 
 set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS} -g")
 
-get_cmake_property(CACHE_VARS CACHE_VARIABLES)
-foreach(CACHE_VAR ${CACHE_VARS})
-  get_property(CACHE_VAR_HELPSTRING CACHE ${CACHE_VAR} PROPERTY HELPSTRING)
-  if(CACHE_VAR_HELPSTRING STREQUAL "No help, variable specified on the command line.")
-    get_property(CACHE_VAR_TYPE CACHE ${CACHE_VAR} PROPERTY TYPE)
-    if(CACHE_VAR_TYPE STREQUAL "UNINITIALIZED")
-      set(CACHE_VAR_TYPE)
-    else()
-      set(CACHE_VAR_TYPE :${CACHE_VAR_TYPE})
-    endif()
-    set(PARENT_CMAKE_ARGS ${PARENT_CMAKE_ARGS} "-D${CACHE_VAR}${CACHE_VAR_TYPE}=${${CACHE_VAR}}")
-  endif()
-endforeach()
-
-include(ExternalProject)
-ExternalProject_Add(bsoncpp
-PREFIX ${CMAKE_CURRENT_SOURCE_DIR}/bson-cpp
-SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/bson-cpp
-CMAKE_ARGS --no-warn-unused-cli ${PARENT_CMAKE_ARGS}
- -DCMAKE_INSTALL_PREFIX=${CMAKE_SOURCE_DIR} "-DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}"
-INSTALL_DIR ${CMAKE_SOURCE_DIR}
-TEST_BEFORE_INSTALL 1
-)
-
 set(SRC_LIST ${SRC_LIST} src/ejpp/ejdb.cpp include/ejpp/ejdb.hpp)
 set(SRC_LIST ${SRC_LIST} src/ejpp/c_ejdb.cpp include/ejpp/c_ejdb.hpp)
 
@@ -56,18 +32,17 @@ message(STATUS "EJDB libs: " ${EJDB_LIBRARIES})
 
 add_library(ejpp-static STATIC ${SRC_LIST})
 SET_TARGET_PROPERTIES(ejpp-static PROPERTIES OUTPUT_NAME ejpp)
-target_link_libraries(ejpp-static ${EJDB_LIBRARIES} -L${CMAKE_SOURCE_DIR}/lib/ -lbsoncpp)
-add_dependencies(ejpp-static bsoncpp)
+target_link_libraries(ejpp-static ${EJDB_LIBRARIES})
+
+set(JBSON_ENABLE_TESTING ON)
+add_subdirectory(jbson)
+include_directories(jbson/include)
 
 add_library(ejpp SHARED ${SRC_LIST})
-target_link_libraries(ejpp ${EJDB_LIBRARIES} -L${CMAKE_SOURCE_DIR}/lib/ -lbsoncpp)
-add_dependencies(ejpp bsoncpp)
+target_link_libraries(ejpp ${EJDB_LIBRARIES})
 
 install(TARGETS ejpp ejpp-static
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib)
 install(DIRECTORY include/ejpp DESTINATION include/ejpp)
-install(DIRECTORY inc/bson DESTINATION include/bson
-    FILES_MATCHING PATTERN "*.h"
-)
-install(DIRECTORY lib/bson DESTINATION lib/bson)
+install(DIRECTORY include/jbson DESTINATION include/jbson)

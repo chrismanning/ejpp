@@ -2,3 +2,6 @@
 	path = bson-cpp
     url = https://github.com/chrismanning/bson-cpp.git
     ignore = dirty
+[submodule "jbson"]
+	path = jbson
+	url = https://github.com/chrismanning/jbson.git
