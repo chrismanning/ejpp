@@ -23,6 +23,7 @@
 #define EJDB_C_EJDB_HPP
 
 #include <tcejdb/tcutil.h>
+#include <boost/utility/string_ref_fwd.hpp>
 #include <deque>
 
 extern "C" {
@@ -110,6 +111,8 @@ bool tranabort(EJCOLL* coll);
 bool transtatus(EJCOLL* jcoll, bool* txactive);
 
 const void* metadb(EJDB*);
+
+boost::string_ref collection_name(EJCOLL* coll);
 
 } // namespace c_ejdb
 

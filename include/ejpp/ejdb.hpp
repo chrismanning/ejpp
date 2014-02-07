@@ -128,6 +128,8 @@ struct collection final {
 
     bool sync(std::error_code& ec) noexcept;
 
+    boost::string_ref name() const noexcept;
+
   private:
     friend struct ejdb;
     collection(std::weak_ptr<EJDB> m_db, EJCOLL* m_coll) noexcept;

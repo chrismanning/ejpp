@@ -22,6 +22,8 @@
 #include <tcejdb/ejdb.h>
 #include <tcejdb/ejdb_private.h>
 
+#include <boost/utility/string_ref.hpp>
+
 #include <ejpp/c_ejdb.hpp>
 
 namespace c_ejdb {
@@ -111,6 +113,11 @@ const void* metadb(EJDB* jb) {
     if(bs == nullptr)
         return nullptr;
     return bs->data;
+}
+
+boost::string_ref collection_name(EJCOLL* coll) {
+    assert(coll->cnamesz >= 0);
+    return boost::string_ref{coll->cname, static_cast<size_t>(coll->cnamesz)};
 }
 
 } // namespace c_ejdb
