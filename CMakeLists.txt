@@ -3,14 +3,24 @@ cmake_minimum_required(VERSION 2.8.11)
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
+option(EJPP_ENABLE_TESTING "Enable ejpp testing" ON)
+option(EJPP_SANITIZE_ADDRESS "Use -fsanitize=address where available" OFF)
+option(EJPP_SANITIZE_THREAD "Use -fsanitize=thread where available" OFF)
+option(EJPP_LEAK_CHECKER "Enable memory leak checking where available" OFF)
+
+if(${EJPP_ENABLE_TESTING})
+enable_testing()
+endif()
+
 set(EJDB_STATIC_LIB true)
 find_package(EJDB REQUIRED)
-find_package(Boost REQUIRED)
-include_directories(${Boost_INCLUDE_DIRS} ${EJDB_INCLUDE_DIRS})
+find_package(Boost 1.53.0 REQUIRED)
+find_package(JBSON REQUIRED)
+
+include_directories(${Boost_INCLUDE_DIRS} ${EJDB_INCLUDE_DIRS} ${JBSON_INCLUDE_DIRS})
 
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-unknown-warning-option -Wno-unused-private-field -Wno-mismatched-tags")
- set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
 endif()
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -fno-omit-frame-pointer -pthread")
@@ -28,15 +38,9 @@ set(SRC_LIST ${SRC_LIST} src/ejpp/c_ejdb.cpp include/ejpp/c_ejdb.hpp)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-message(STATUS "EJDB libs: " ${EJDB_LIBRARIES})
-
 add_library(ejpp-static STATIC ${SRC_LIST})
 SET_TARGET_PROPERTIES(ejpp-static PROPERTIES OUTPUT_NAME ejpp)
 target_link_libraries(ejpp-static ${EJDB_LIBRARIES})
-
-set(JBSON_ENABLE_TESTING ON)
-add_subdirectory(jbson)
-include_directories(jbson/include)
 
 add_library(ejpp SHARED ${SRC_LIST})
 target_link_libraries(ejpp ${EJDB_LIBRARIES})
@@ -45,4 +49,3 @@ install(TARGETS ejpp ejpp-static
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib)
 install(DIRECTORY include/ejpp DESTINATION include/ejpp)
-install(DIRECTORY include/jbson DESTINATION include/jbson)

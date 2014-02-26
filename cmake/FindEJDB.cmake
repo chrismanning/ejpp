@@ -1,11 +1,11 @@
-# - Try to find EJDB
+# - Try to find EJDB using pkg-config
 # Once done this will define
 #  EJDB_FOUND - System has EJDB
 #  EJDB_INCLUDE_DIRS - The EJDB include directories
 #  EJDB_LIBRARIES - The libraries needed to use EJDB
 #  EJDB_DEFINITIONS - Compiler switches required for using EJDB
-#  EJDB_STATIC_LIB
-find_package(PkgConfig)
+#  EJDB_STATIC_LIB - Determines whether or not to use static EJDB
+find_package(PkgConfig REQUIRED)
 pkg_check_modules(PC_EJDB tcejdb)
 set(EJDB_DEFINITIONS ${PC_EJDB_CFLAGS_OTHER})
 
