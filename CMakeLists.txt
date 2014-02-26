@@ -45,6 +45,56 @@ target_link_libraries(ejpp-static ${EJDB_LIBRARIES})
 add_library(ejpp SHARED ${SRC_LIST})
 target_link_libraries(ejpp ${EJDB_LIBRARIES})
 
+get_cmake_property(CACHE_VARS CACHE_VARIABLES)
+foreach(CACHE_VAR ${CACHE_VARS})
+  get_property(CACHE_VAR_HELPSTRING CACHE ${CACHE_VAR} PROPERTY HELPSTRING)
+  if(CACHE_VAR_HELPSTRING STREQUAL "No help, variable specified on the command line.")
+    get_property(CACHE_VAR_TYPE CACHE ${CACHE_VAR} PROPERTY TYPE)
+    if(CACHE_VAR_TYPE STREQUAL "UNINITIALIZED")
+      set(CACHE_VAR_TYPE)
+    else()
+      set(CACHE_VAR_TYPE :${CACHE_VAR_TYPE})
+    endif()
+    set(PARENT_CMAKE_ARGS ${PARENT_CMAKE_ARGS} "-D${CACHE_VAR}${CACHE_VAR_TYPE}=${${CACHE_VAR}}")
+  endif()
+endforeach()
+
+include(ExternalProject)
+ExternalProject_Add(
+    gtest_${PROJECT_NAME}
+    SVN_REPOSITORY http://googletest.googlecode.com/svn/trunk/
+    SVN_REVISION -r 660
+    UPDATE_COMMAND ""
+    TIMEOUT 10
+    CMAKE_ARGS --no-warn-unused-cli ${PARENT_CMAKE_ARGS} "-DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS} -std=c++11" -DBUILD_SHARED_LIBS=OFF
+    # Disable install step
+    INSTALL_COMMAND ""
+    LOG_DOWNLOAD ON
+    LOG_CONFIGURE ON
+    LOG_BUILD ON)
+ExternalProject_Get_Property(gtest_${PROJECT_NAME} source_dir)
+set(GTEST_INCLUDE_DIRS ${source_dir}/include)
+message(STATUS "Gtest include dirs: ${GTEST_INCLUDE_DIRS}")
+
+include_directories(${GTEST_INCLUDE_DIRS})
+
+ExternalProject_Get_Property(gtest_${PROJECT_NAME} binary_dir)
+set(GTEST_LIBRARY_DIR ${binary_dir})
+set(GTEST_LIBRARIES "-L${GTEST_LIBRARY_DIR} -lgtest")
+
+add_library(${PROJECT_NAME}_test_main OBJECT test/test_main.cpp)
+
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+function(cxx_test test_name)
+  add_executable(${test_name} test/${test_name}.cpp $<TARGET_OBJECTS:${PROJECT_NAME}_test_main>)
+  add_dependencies(${test_name} gtest_${PROJECT_NAME})
+  target_link_libraries(${test_name} ${LINK_LIBS} ejpp z ${GTEST_LIBRARIES})
+  add_test(${test_name} ${EXECUTABLE_OUTPUT_PATH}/${test_name})
+endfunction()
+
+cxx_test(ejpp_test1)
+
 install(TARGETS ejpp ejpp-static
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib)
