@@ -125,9 +125,8 @@ bool ejdb::sync(std::error_code& ec) noexcept {
 
 boost::optional<jbson::document> ejdb::metadata() noexcept {
     assert(m_db);
-    auto r = reinterpret_cast<const char*>(c_ejdb::metadb(m_db.get()));
-    auto size = jbson::detail::little_endian_to_native<int32_t>(r, r + 4);
-    return r == nullptr ? boost::optional<jbson::document>{boost::none} : jbson::document{r, r+size};
+    auto r = c_ejdb::metadb(m_db.get());
+    return r.empty() ? boost::optional<jbson::document>{boost::none} : jbson::document{std::move(r)};
 }
 
 collection::collection(std::weak_ptr<EJDB> db, EJCOLL* coll) noexcept : m_db(db), m_coll(coll) {}
@@ -154,13 +153,12 @@ boost::optional<std::array<char, 12>> collection::save_document(const jbson::doc
 boost::optional<jbson::document> collection::load_document(std::array<char, 12> oid, std::error_code& ec) const
     noexcept {
     assert(m_coll);
-    const auto r = reinterpret_cast<const char*>(c_ejdb::loadbson(m_coll, oid.data()));
+    auto r = c_ejdb::loadbson(m_coll, oid.data());
     auto db = m_db.lock();
-    ec = make_error_code(!r && db ? c_ejdb::ecode(db.get()) : 0);
+    ec = make_error_code(r.empty() && db ? c_ejdb::ecode(db.get()) : 0);
     if(!ec)
         return boost::none;
-    auto size = jbson::detail::little_endian_to_native<int32_t>(r, r + 4);
-    return jbson::document(r, r + size);
+    return jbson::document(std::move(r));
 }
 
 bool collection::remove_document(std::array<char, 12> oid, std::error_code& ec) noexcept {

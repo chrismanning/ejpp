@@ -25,6 +25,7 @@
 #include <tcejdb/tcutil.h>
 #include <boost/utility/string_ref_fwd.hpp>
 #include <deque>
+#include <vector>
 
 extern "C" {
 
@@ -75,7 +76,7 @@ bool savebson2(EJCOLL* jcoll, const void* bsdata, char oid[12], bool merge);
 
 bool rmbson(EJCOLL* coll, char oid[12]);
 
-const void* loadbson(EJCOLL* coll, const char oid[12]);
+std::vector<char> loadbson(EJCOLL* coll, const char oid[12]);
 
 EJQ* createquery(EJDB* jb, const void* qbsdata);
 
@@ -110,7 +111,7 @@ bool tranabort(EJCOLL* coll);
 
 bool transtatus(EJCOLL* jcoll, bool* txactive);
 
-const void* metadb(EJDB*);
+std::vector<char> metadb(EJDB*);
 
 boost::string_ref collection_name(EJCOLL* coll);
 

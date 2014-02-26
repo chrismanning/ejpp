@@ -69,8 +69,11 @@ bool savebson2(EJCOLL* jcoll, const void* bsdata, char oid[12], bool merge) {
 
 bool rmbson(EJCOLL* coll, char oid[12]) { return ejdbrmbson(coll, reinterpret_cast<bson_oid_t*>(oid)); }
 
-const void* loadbson(EJCOLL* coll, const char oid[12]) {
-    return ejdbloadbson(coll, reinterpret_cast<const bson_oid_t*>(oid));
+std::vector<char> loadbson(EJCOLL* coll, const char oid[12]) {
+    auto bs = ejdbloadbson(coll, reinterpret_cast<const bson_oid_t*>(oid));
+    std::vector<char> ret{bs->data, bs->data + bs->dataSize};
+    bson_del(bs);
+    return std::move(ret);
 }
 
 EJQ* createquery(EJDB* jb, const void* qbsdata) { return ejdbcreatequery2(jb, qbsdata); }
@@ -108,11 +111,13 @@ bool tranabort(EJCOLL* coll) { return ejdbtranabort(coll); }
 
 bool transtatus(EJCOLL* jcoll, bool* txactive) { return ejdbtranstatus(jcoll, txactive); }
 
-const void* metadb(EJDB* jb) {
+std::vector<char> metadb(EJDB* jb) {
     auto bs = ejdbmeta(jb);
     if(bs == nullptr)
-        return nullptr;
-    return bs->data;
+        return {};
+    std::vector<char> ret{bs->data, bs->data+bs->dataSize};
+    bson_del(bs);
+    return std::move(ret);
 }
 
 boost::string_ref collection_name(EJCOLL* coll) {
