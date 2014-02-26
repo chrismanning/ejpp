@@ -156,7 +156,7 @@ boost::optional<jbson::document> collection::load_document(std::array<char, 12> 
     auto r = c_ejdb::loadbson(m_coll, oid.data());
     auto db = m_db.lock();
     ec = make_error_code(r.empty() && db ? c_ejdb::ecode(db.get()) : 0);
-    if(!ec)
+    if(ec)
         return boost::none;
     return jbson::document(std::move(r));
 }
