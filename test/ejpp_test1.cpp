@@ -30,7 +30,7 @@ using namespace jbson;
 
 #include <gtest/gtest.h>
 
-struct EjdbTest : ::testing::Test {
+struct EjdbTest1 : ::testing::Test {
     void SetUp() override {
         ASSERT_TRUE(static_cast<bool>(jb));
         std::error_code ec;
@@ -51,7 +51,7 @@ struct EjdbTest : ::testing::Test {
     ejdb::ejdb jb;
 };
 
-TEST_F(EjdbTest, TestSaveLoad) {
+TEST_F(EjdbTest1, TestSaveLoad) {
     ASSERT_TRUE(static_cast<bool>(jb));
 
     std::error_code ec;
@@ -86,7 +86,7 @@ TEST_F(EjdbTest, TestSaveLoad) {
     }));
 }
 
-TEST_F(EjdbTest, TestBuildQuery1) {
+TEST_F(EjdbTest1, TestBuildQuery1) {
     ASSERT_TRUE(static_cast<bool>(jb));
 
     std::error_code ec;
