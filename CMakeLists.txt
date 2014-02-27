@@ -5,7 +5,6 @@ set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 option(EJPP_ENABLE_TESTING "Enable ejpp testing" ON)
 option(EJPP_SANITIZE_ADDRESS "Use -fsanitize=address where available" OFF)
-option(EJPP_SANITIZE_THREAD "Use -fsanitize=thread where available" OFF)
 option(EJPP_LEAK_CHECKER "Enable memory leak checking where available" OFF)
 
 if(${EJPP_ENABLE_TESTING})
@@ -21,6 +20,15 @@ include_directories(${Boost_INCLUDE_DIRS} ${EJDB_INCLUDE_DIRS} ${JBSON_INCLUDE_D
 
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-unknown-warning-option -Wno-unused-private-field -Wno-mismatched-tags")
+endif()
+
+if(${EJPP_SANITIZE_ADDRESS})
+ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address")
+ if(${EJPP_LEAK_CHECKER})
+  SET(ENV{ASAN_OPTIONS} "detect_leaks=1")
+ endif(${EJPP_LEAK_CHECKER})
+elseif(${EJPP_LEAK_CHECKER})
+ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=leak")
 endif()
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -fno-omit-frame-pointer -pthread")
