@@ -24,6 +24,8 @@
 
 #include <boost/utility/string_ref.hpp>
 
+#include <jbson/detail/endian.hpp>
+
 #include <ejpp/c_ejdb.hpp>
 
 namespace c_ejdb {
@@ -71,7 +73,16 @@ bool rmbson(EJCOLL* coll, char oid[12]) { return ejdbrmbson(coll, reinterpret_ca
 
 std::vector<char> loadbson(EJCOLL* coll, const char oid[12]) {
     auto bs = ejdbloadbson(coll, reinterpret_cast<const bson_oid_t*>(oid));
-    std::vector<char> ret{bs->data, bs->data + bs->dataSize};
+    if(bs == nullptr)
+        return {};
+    assert(bs != nullptr);
+    assert(bs->data != nullptr);
+
+    size_t s = bs->dataSize;
+    if(bs->dataSize <= 0)
+        s = jbson::detail::little_endian_to_native<int32_t>(bs->data, bs->data + 4);
+    assert(s >= 4);
+    std::vector<char> ret{bs->data, bs->data + s};
     bson_del(bs);
     return std::move(ret);
 }
