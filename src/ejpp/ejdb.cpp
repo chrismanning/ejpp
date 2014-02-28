@@ -172,6 +172,11 @@ bool collection::remove_document(std::array<char, 12> oid, std::error_code& ec) 
     return r;
 }
 
+bool collection::set_index(const std::string& ipath, int flags) noexcept {
+    assert(m_coll);
+    return c_ejdb::setindex(m_coll, ipath.c_str(), flags);
+}
+
 std::vector<jbson::document> collection::execute_query(const query& qry, int sm) noexcept {
     assert(m_coll);
     if(!qry)
