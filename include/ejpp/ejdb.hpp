@@ -85,7 +85,7 @@ struct query final {
     ~query() noexcept;
 
     query(query&&) noexcept = default;
-    query& operator=(query&&) noexcept = default;
+    query& operator=(query&&) & noexcept = default;
 
     enum search_mode {
         /*< Query search mode flags */
@@ -95,8 +95,11 @@ struct query final {
 
     explicit operator bool() const noexcept;
 
-    query& operator|=(const jbson::document&) noexcept;
-    query& set_hints(const jbson::document&) noexcept;
+    query& operator|=(const jbson::document&) & noexcept;
+    query& set_hints(const jbson::document&) & noexcept;
+
+    query&& operator|=(const jbson::document&) && noexcept;
+    query&& set_hints(const jbson::document&) && noexcept;
 
   private:
     friend struct ejdb;

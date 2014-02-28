@@ -221,7 +221,7 @@ query::query(std::weak_ptr<EJDB> db, EJQ* qry) noexcept : m_db(db), m_qry(qry) {
 
 query::~query() noexcept {}
 
-query& query::operator|=(const jbson::document& obj) noexcept {
+query& query::operator|=(const jbson::document& obj) & noexcept {
     assert(m_qry);
     auto db = m_db.lock();
     if(!db)
@@ -234,7 +234,7 @@ query& query::operator|=(const jbson::document& obj) noexcept {
     return *this;
 }
 
-query& query::set_hints(const jbson::document& obj) noexcept {
+query& query::set_hints(const jbson::document& obj) & noexcept {
     assert(m_qry);
     auto db = m_db.lock();
     if(!db)
@@ -244,6 +244,31 @@ query& query::set_hints(const jbson::document& obj) noexcept {
         m_qry.reset(q);
 
     return *this;
+}
+
+query&& query::operator|=(const jbson::document& obj) && noexcept {
+    assert(m_qry);
+    auto db = m_db.lock();
+    if(!db)
+        return std::move(*this);
+
+    auto q = c_ejdb::queryaddor(db.get(), m_qry.get(), obj.data().data());
+    if(q != m_qry.get())
+        m_qry.reset(q);
+
+    return std::move(*this);
+}
+
+query&& query::set_hints(const jbson::document& obj) && noexcept {
+    assert(m_qry);
+    auto db = m_db.lock();
+    if(!db)
+        return std::move(*this);
+    auto q = c_ejdb::queryhints(db.get(), m_qry.get(), obj.data().data());
+    if(q != m_qry.get())
+        m_qry.reset(q);
+
+    return std::move(*this);
 }
 
 query::operator bool() const noexcept { return !m_db.expired() && m_qry != nullptr; }
