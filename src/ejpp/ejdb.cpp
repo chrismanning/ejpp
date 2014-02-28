@@ -97,7 +97,9 @@ bool ejdb::remove_collection(const std::string& name, bool unlink_file, std::err
 const std::deque<collection> ejdb::get_collections() const noexcept {
     assert(m_db);
     auto colls = c_ejdb::getcolls(m_db.get());
-    auto range = boost::adaptors::transform(colls, [this](EJCOLL* c) { return collection{m_db, c}; });
+    auto range = boost::adaptors::transform(colls, [this](EJCOLL* c) {
+        return collection{m_db, c};
+    });
     return {range.begin(), range.end()};
 }
 

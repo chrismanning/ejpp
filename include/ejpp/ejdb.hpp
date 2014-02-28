@@ -44,14 +44,27 @@ class error_category;
 inline std::error_code make_error_code(int ecode);
 
 struct db_mode final {
-    enum {                    /** Database open modes */
-          read = 1 << 0,      /**< Open as a reader. */
-          write = 1 << 1,     /**< Open as a writer. */
-          create = 1 << 2,    /**< Create if db file not exists. */
-          truncate = 1 << 3,  /**< Truncate db on open. */
-          nolock = 1 << 4,    /**< Open without locking. */
-          noblock = 1 << 5,   /**< Lock without blocking. */
-          trans_sync = 1 << 6 /**< Synchronize every transaction. */
+    enum {                     /** Database open modes */
+           read = 1 << 0,      /**< Open as a reader. */
+           write = 1 << 1,     /**< Open as a writer. */
+           create = 1 << 2,    /**< Create if db file not exists. */
+           truncate = 1 << 3,  /**< Truncate db on open. */
+           nolock = 1 << 4,    /**< Open without locking. */
+           noblock = 1 << 5,   /**< Lock without blocking. */
+           trans_sync = 1 << 6 /**< Synchronize every transaction. */
+    };
+};
+
+struct index_mode final {
+    enum {                    /** Index modes, index types. */
+           drop = 1 << 0,     /**< Drop index. */
+           drop_all = 1 << 1, /**< Drop index for all types. */
+           optimize = 1 << 2, /**< Optimize indexes. */
+           rebuild = 1 << 3,  /**< Rebuild index. */
+           number = 1 << 4,   /**< Number index. */
+           string = 1 << 5,   /**< String index.*/
+           array = 1 << 6,    /**< Array token index. */
+           istring = 1 << 7   /**< Case insensitive string index */
     };
 };
 
@@ -85,7 +98,7 @@ struct query final {
     ~query() noexcept;
 
     query(query&&) noexcept = default;
-    query& operator=(query&&) & noexcept = default;
+    query& operator=(query&&)&noexcept = default;
 
     enum search_mode {
         /*< Query search mode flags */
@@ -95,11 +108,11 @@ struct query final {
 
     explicit operator bool() const noexcept;
 
-    query& operator|=(const jbson::document&) & noexcept;
-    query& set_hints(const jbson::document&) & noexcept;
+    query& operator|=(const jbson::document&)&noexcept;
+    query& set_hints(const jbson::document&)&noexcept;
 
-    query&& operator|=(const jbson::document&) && noexcept;
-    query&& set_hints(const jbson::document&) && noexcept;
+    query&& operator|=(const jbson::document&)&&noexcept;
+    query&& set_hints(const jbson::document&)&&noexcept;
 
   private:
     friend struct ejdb;
@@ -119,10 +132,11 @@ struct collection final {
 
     explicit operator bool() const noexcept;
 
-    boost::optional<std::array<char,12>> save_document(const jbson::document& data, std::error_code& ec) noexcept;
-    boost::optional<std::array<char,12>> save_document(const jbson::document& data, bool merge, std::error_code& ec) noexcept;
-    boost::optional<jbson::document> load_document(std::array<char,12> oid, std::error_code& ec) const noexcept;
-    bool remove_document(std::array<char,12>, std::error_code& ec) noexcept;
+    boost::optional<std::array<char, 12>> save_document(const jbson::document& data, std::error_code& ec) noexcept;
+    boost::optional<std::array<char, 12>> save_document(const jbson::document& data, bool merge,
+                                                        std::error_code& ec) noexcept;
+    boost::optional<jbson::document> load_document(std::array<char, 12> oid, std::error_code& ec) const noexcept;
+    bool remove_document(std::array<char, 12>, std::error_code& ec) noexcept;
 
     bool set_index(const std::string& ipath, int flags) noexcept;
     std::vector<jbson::document> execute_query(const query&, int flags = 0) noexcept;
