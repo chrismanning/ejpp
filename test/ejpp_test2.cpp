@@ -192,38 +192,53 @@ TEST_F(EjdbTest2, TestSetIndex1) {
     ASSERT_TRUE(static_cast<bool>(oid));
 }
 
-template <typename ElemC>
-static boost::optional<jbson::basic_element<ElemC>> path_impl(const jbson::basic_element<ElemC>& elem) {
-    return elem;
-}
-
-template <typename DocC, typename ElemC>
-static boost::optional<jbson::basic_element<ElemC>> path_impl(const jbson::basic_document<DocC, ElemC>&) {
+template <typename T>
+static auto path_impl(T&&) -> boost::none_t {
     return boost::none;
 }
 
 template <typename DocC, typename ElemC, typename... StringsT>
-static boost::optional<jbson::basic_element<ElemC>> path_impl(const jbson::basic_document<DocC, ElemC>& doc,
-                                                              boost::string_ref first, StringsT&&... strs) {
+static auto path_impl(const jbson::basic_array<DocC, ElemC>& doc,
+                      boost::string_ref first, StringsT&&... strs) {
+    boost::optional<jbson::basic_element<ElemC>> ret;
+    auto it = doc.find(boost::lexical_cast<size_t>(first));
+    if(it == doc.end())
+        return ret = boost::none;
+    if(sizeof...(StringsT) == 0)
+        return ret = *it;
+    if(it->type() == jbson::element_type::document_element)
+        return ret = path_impl(jbson::get<jbson::element_type::document_element>(*it), std::forward<StringsT>(strs)...);
+    else if(it->type() == jbson::element_type::array_element)
+        return ret = path_impl(jbson::get<jbson::element_type::array_element>(*it), std::forward<StringsT>(strs)...);
+    return ret = boost::none;
+}
+
+template <typename DocC, typename ElemC, typename... StringsT>
+static auto path_impl(const jbson::basic_document<DocC, ElemC>& doc,
+                      boost::string_ref first, StringsT&&... strs) {
+    boost::optional<jbson::basic_element<ElemC>> ret;
     auto it = doc.find(first);
     if(it == doc.end())
-        return boost::none;
+        return ret = boost::none;
     if(sizeof...(StringsT) == 0)
-        return *it;
+        return ret = *it;
     if(it->type() == jbson::element_type::document_element)
-        return path_impl(jbson::get<jbson::element_type::document_element>(*it), std::forward<StringsT>(strs)...);
-    return boost::none;
+        return ret = path_impl(jbson::get<jbson::element_type::document_element>(*it), std::forward<StringsT>(strs)...);
+    else if(it->type() == jbson::element_type::array_element)
+        return ret = path_impl(jbson::get<jbson::element_type::array_element>(*it), std::forward<StringsT>(strs)...);
+    return ret = boost::none;
 }
 
 template <typename DocC, typename ElemC, typename... StringsT>
-static boost::optional<jbson::basic_element<ElemC>> path(const jbson::basic_document<DocC, ElemC>& doc,
-                                                         StringsT&&... strs) {
-    return path_impl(doc, std::forward<StringsT>(strs)...);
+static auto path(const jbson::basic_document<DocC, ElemC>& doc, StringsT&&... strs) {
+    boost::optional<jbson::basic_element<ElemC>> ret;
+    return ret = path_impl(doc, std::forward<StringsT>(strs)...);
 }
 
 TEST_F(EjdbTest2, TestQuery1) {
     auto contacts = jb.create_collection("contacts", ec);
     ASSERT_TRUE(static_cast<bool>(contacts));
+    ASSERT_FALSE(ec);
 
     jbson::document bsq1;
     ASSERT_NO_THROW(bsq1 = R"({ "address.zip": "630090" })"_json_doc);
@@ -231,7 +246,8 @@ TEST_F(EjdbTest2, TestQuery1) {
     jbson::document bshints;
     ASSERT_NO_THROW(bshints = R"({ "$orderby": { "name": 1 } })"_json_doc);
 
-    auto q1 = jb.create_query(bsq1, ec).set_hints(bshints);
+    ejdb::query q1;
+    ASSERT_NO_THROW(q1 = jb.create_query(bsq1, ec).set_hints(bshints));
     static_assert(std::is_same<decltype(q1), ejdb::query>::value, "");
     ASSERT_TRUE(static_cast<bool>(q1));
 
@@ -263,6 +279,7 @@ TEST_F(EjdbTest2, TestQuery1) {
 TEST_F(EjdbTest2, TestQuery2) {
     auto contacts = jb.create_collection("contacts", ec);
     ASSERT_TRUE(static_cast<bool>(contacts));
+    ASSERT_FALSE(ec);
 
     jbson::document bsq1;
 
@@ -271,7 +288,8 @@ TEST_F(EjdbTest2, TestQuery2) {
     jbson::document bshints;
     ASSERT_NO_THROW(bshints = R"({ "$orderby": { "name": -1 } })"_json_doc);
 
-    auto q1 = jb.create_query(bsq1, ec).set_hints(bshints);
+    ejdb::query q1;
+    ASSERT_NO_THROW(q1 = jb.create_query(bsq1, ec).set_hints(bshints));
     static_assert(std::is_same<decltype(q1), ejdb::query>::value, "");
     ASSERT_TRUE(static_cast<bool>(q1));
 
@@ -303,6 +321,7 @@ TEST_F(EjdbTest2, TestQuery2) {
 TEST_F(EjdbTest2, TestQuery3) {
     auto contacts = jb.create_collection("contacts", ec);
     ASSERT_TRUE(static_cast<bool>(contacts));
+    ASSERT_FALSE(ec);
     EXPECT_TRUE(contacts.set_index("address.zip", ejdb::index_mode::drop_all));
 
     jbson::document bsq1;
@@ -312,7 +331,8 @@ TEST_F(EjdbTest2, TestQuery3) {
     jbson::document bshints;
     ASSERT_NO_THROW(bshints = R"({ "$orderby": { "name": -1 } })"_json_doc);
 
-    auto q1 = jb.create_query(bsq1, ec).set_hints(bshints);
+    ejdb::query q1;
+    ASSERT_NO_THROW(q1 = jb.create_query(bsq1, ec).set_hints(bshints));
     static_assert(std::is_same<decltype(q1), ejdb::query>::value, "");
     ASSERT_TRUE(static_cast<bool>(q1));
 
@@ -344,6 +364,7 @@ TEST_F(EjdbTest2, TestQuery3) {
 TEST_F(EjdbTest2, TestQuery4) {
     auto contacts = jb.create_collection("contacts", ec);
     ASSERT_TRUE(static_cast<bool>(contacts));
+    ASSERT_FALSE(ec);
     EXPECT_TRUE(contacts.set_index("name", ejdb::index_mode::drop_all));
 
     jbson::document bsq1;
@@ -353,7 +374,8 @@ TEST_F(EjdbTest2, TestQuery4) {
     jbson::document bshints;
     ASSERT_NO_THROW(bshints = R"({ "$orderby": { "name": -1 } })"_json_doc);
 
-    auto q1 = jb.create_query(bsq1, ec).set_hints(bshints);
+    ejdb::query q1;
+    ASSERT_NO_THROW(q1 = jb.create_query(bsq1, ec).set_hints(bshints));
     static_assert(std::is_same<decltype(q1), ejdb::query>::value, "");
     ASSERT_TRUE(static_cast<bool>(q1));
 
@@ -382,176 +404,121 @@ TEST_F(EjdbTest2, TestQuery4) {
     ASSERT_EQ(q1res.end(), doc_it);
 }
 
-// void testQuery5() {
+TEST_F(EjdbTest2, TestQuery5) {
+    auto contacts = jb.create_collection("contacts", ec);
+    ASSERT_TRUE(static_cast<bool>(contacts));
+    ASSERT_FALSE(ec);
 
-//    EJCOLL *contacts = ejdbcreatecoll(jb, "contacts", NULL);
-//    CU_ASSERT_PTR_NOT_NULL_FATAL(contacts);
-//    bson bsq1;
-//    bson_init_as_query(&bsq1);
-//    bson_append_string(&bsq1, "labels", "red");
-//    bson_finish(&bsq1);
-//    CU_ASSERT_FALSE_FATAL(bsq1.err);
+    jbson::document bsq1;
+    ASSERT_NO_THROW(bsq1 = R"({ "labels": "red" })"_json_doc);
 
-//    EJQ *q1 = ejdbcreatequery(jb, &bsq1, NULL, 0, NULL);
-//    CU_ASSERT_PTR_NOT_NULL_FATAL(q1);
+    ejdb::query q1;
+    ASSERT_NO_THROW(q1 = jb.create_query(bsq1, ec));
+    ASSERT_TRUE(static_cast<bool>(q1));
 
-//    uint32_t count = 0;
-//    TCXSTR *log = tcxstrnew();
-//    TCLIST *q1res = ejdbqryexecute(contacts, q1, &count, 0, log);
-//    CU_ASSERT_PTR_NOT_NULL(strstr(TCXSTRPTR(log), "COUNT ONLY: NO"));
-//    CU_ASSERT_PTR_NOT_NULL(strstr(TCXSTRPTR(log), "MAIN IDX: 'NONE'"));
-//    CU_ASSERT_PTR_NOT_NULL(strstr(TCXSTRPTR(log), "ORDER FIELDS: 0"));
-//    CU_ASSERT_PTR_NOT_NULL(strstr(TCXSTRPTR(log), "ACTIVE CONDITIONS: 1"));
-//    CU_ASSERT_PTR_NOT_NULL(strstr(TCXSTRPTR(log), "FETCH ALL: NO"));
-//    CU_ASSERT_PTR_NOT_NULL(strstr(TCXSTRPTR(log), "FINAL SORTING: NO"));
-//    CU_ASSERT_PTR_NOT_NULL(strstr(TCXSTRPTR(log), "RUN FULLSCAN"));
-//    CU_ASSERT_PTR_NOT_NULL(strstr(TCXSTRPTR(log), "RS SIZE: 2"));
-//    CU_ASSERT_EQUAL(count, 2);
-//    CU_ASSERT_TRUE(TCLISTNUM(q1res) == 2);
+    auto q1res = contacts.execute_query(q1);
+    ASSERT_EQ(2u, q1res.size());
+}
 
-//    bson_destroy(&bsq1);
-//    tclistdel(q1res);
-//    tcxstrdel(log);
-//    ejdbquerydel(q1);
-//}
+TEST_F(EjdbTest2, TestQuery6) {
+    auto contacts = jb.create_collection("contacts", ec);
+    ASSERT_TRUE(static_cast<bool>(contacts));
+    ASSERT_FALSE(ec);
+    EXPECT_TRUE(contacts.set_index("labels", ejdb::index_mode::array));
 
-// void testQuery6() {
-//    EJCOLL *contacts = ejdbcreatecoll(jb, "contacts", NULL);
-//    CU_ASSERT_PTR_NOT_NULL_FATAL(contacts);
-//    CU_ASSERT_TRUE(ejdbsetindex(contacts, "labels", JBIDXARR));
+    jbson::document bsq1;
+    ASSERT_NO_THROW(bsq1 = R"({ "labels": "red" })"_json_doc);
 
-//    bson bsq1;
-//    bson_init_as_query(&bsq1);
-//    bson_append_string(&bsq1, "labels", "red");
-//    bson_finish(&bsq1);
-//    CU_ASSERT_FALSE_FATAL(bsq1.err);
+    ejdb::query q1;
+    ASSERT_NO_THROW(q1 = jb.create_query(bsq1, ec).set_hints(R"({ "$orderby": { "name": 1 } })"_json_doc));
+    ASSERT_TRUE(static_cast<bool>(q1));
 
-//    bson bshints;
-//    bson_init_as_query(&bshints);
-//    bson_append_start_object(&bshints, "$orderby");
-//    bson_append_int(&bshints, "name", 1); //ASC order on name
-//    bson_append_finish_object(&bshints);
-//    bson_finish(&bshints);
-//    CU_ASSERT_FALSE_FATAL(bshints.err);
+    auto q1res = contacts.execute_query(q1);
+    ASSERT_EQ(2u, q1res.size());
 
-//    EJQ *q1 = ejdbcreatequery(jb, &bsq1, NULL, 0, &bshints);
-//    CU_ASSERT_PTR_NOT_NULL_FATAL(q1);
+    auto doc_it = q1res.begin();
+    ASSERT_NE(q1res.end(), doc_it);
+    auto el_it = doc_it->find("name");
+    ASSERT_NE(doc_it->end(), el_it);
+    EXPECT_EQ("John Travolta", el_it->value<std::string>());
+    auto val = path(*doc_it, "address", "zip");
+    ASSERT_TRUE(static_cast<bool>(val));
+    EXPECT_EQ("4499996", val->value<std::string>());
 
-//    uint32_t count = 0;
-//    TCXSTR *log = tcxstrnew();
-//    TCLIST *q1res = ejdbqryexecute(contacts, q1, &count, 0, log);
-//    //fprintf(stderr, "%s", TCXSTRPTR(log));
+    doc_it++;
+    ASSERT_NE(q1res.end(), doc_it);
+    el_it = doc_it->find("name");
+    ASSERT_NE(doc_it->end(), el_it);
+    EXPECT_EQ("Адаманский", el_it->value<std::string>());
+    val = path(*doc_it, "address", "zip");
+    ASSERT_TRUE(static_cast<bool>(val));
+    EXPECT_EQ("630090", val->value<std::string>());
 
-//    CU_ASSERT_PTR_NOT_NULL(strstr(TCXSTRPTR(log), "COUNT ONLY: NO"));
-//    CU_ASSERT_PTR_NOT_NULL(strstr(TCXSTRPTR(log), "MAIN IDX: 'alabels'"));
-//    CU_ASSERT_PTR_NOT_NULL(strstr(TCXSTRPTR(log), "ORDER FIELDS: 1"));
-//    CU_ASSERT_PTR_NOT_NULL(strstr(TCXSTRPTR(log), "ACTIVE CONDITIONS: 1"));
-//    CU_ASSERT_PTR_NOT_NULL(strstr(TCXSTRPTR(log), "FETCH ALL: YES"));
-//    CU_ASSERT_PTR_NOT_NULL(strstr(TCXSTRPTR(log), "MAIN IDX TCOP: 5"));
-//    CU_ASSERT_PTR_NOT_NULL(strstr(TCXSTRPTR(log), "token occurrence: \"red\" 2"));
-//    CU_ASSERT_PTR_NOT_NULL(strstr(TCXSTRPTR(log), "FINAL SORTING: YES"));
-//    CU_ASSERT_PTR_NOT_NULL(strstr(TCXSTRPTR(log), "RS SIZE: 2"));
-//    CU_ASSERT_EQUAL(count, 2);
-//    CU_ASSERT_TRUE(TCLISTNUM(q1res) == 2);
+    doc_it++;
+    ASSERT_EQ(q1res.end(), doc_it);
+}
 
-//    for (int i = 0; i < TCLISTNUM(q1res); ++i) {
-//        if (i == 0) {
-//            CU_ASSERT_FALSE(bson_compare_string("John Travolta", TCLISTVALPTR(q1res, i), "name"));
-//            CU_ASSERT_FALSE(bson_compare_string("4499996", TCLISTVALPTR(q1res, i), "address.zip"));
-//        } else if (i == 1) {
-//            CU_ASSERT_FALSE(bson_compare_string("Адаманский", TCLISTVALPTR(q1res, i), "name"));
-//            CU_ASSERT_FALSE(bson_compare_string("630090", TCLISTVALPTR(q1res, i), "address.zip"));
-//        } else {
-//            CU_ASSERT_TRUE(false);
-//        }
-//    }
+TEST_F(EjdbTest2, TestQuery7) {
+    auto contacts = jb.create_collection("contacts", ec);
+    ASSERT_TRUE(static_cast<bool>(contacts));
+    ASSERT_FALSE(ec);
 
-//    bson_destroy(&bsq1);
-//    bson_destroy(&bshints);
-//    tclistdel(q1res);
-//    tcxstrdel(log);
-//    ejdbquerydel(q1);
-//}
+    jbson::document bsq1;
+    ASSERT_NO_THROW(bsq1 = R"({ "labels": "with gap, label" })"_json_doc);
 
-// void testQuery7() {
-//    EJCOLL *contacts = ejdbcreatecoll(jb, "contacts", NULL);
-//    CU_ASSERT_PTR_NOT_NULL_FATAL(contacts);
+    ejdb::query q1;
+    ASSERT_NO_THROW(q1 = jb.create_query(bsq1, ec).set_hints(R"({ "$orderby": { "name": 1 } })"_json_doc));
+    ASSERT_TRUE(static_cast<bool>(q1));
 
-//    bson bsq1;
-//    bson_init_as_query(&bsq1);
-//    bson_append_string(&bsq1, "labels", "with gap, label");
-//    bson_finish(&bsq1);
-//    CU_ASSERT_FALSE_FATAL(bsq1.err);
+    auto q1res = contacts.execute_query(q1);
+    ASSERT_EQ(1u, q1res.size());
 
-//    bson bshints;
-//    bson_init_as_query(&bshints);
-//    bson_append_start_object(&bshints, "$orderby");
-//    bson_append_int(&bshints, "name", 1); //ASC order on name
-//    bson_append_finish_object(&bshints);
-//    bson_finish(&bshints);
-//    CU_ASSERT_FALSE_FATAL(bshints.err);
+    auto doc_it = q1res.begin();
+    ASSERT_NE(q1res.end(), doc_it);
+    auto el_it = doc_it->find("name");
+    ASSERT_NE(doc_it->end(), el_it);
+    EXPECT_EQ("Адаманский", el_it->value<std::string>());
 
-//    EJQ *q1 = ejdbcreatequery(jb, &bsq1, NULL, 0, &bshints);
-//    CU_ASSERT_PTR_NOT_NULL_FATAL(q1);
+    doc_it++;
+    ASSERT_EQ(q1res.end(), doc_it);
+}
 
-//    uint32_t count = 0;
-//    TCXSTR *log = tcxstrnew();
-//    TCLIST *q1res = ejdbqryexecute(contacts, q1, &count, 0, log);
-//    //fprintf(stderr, "%s", TCXSTRPTR(log));
+TEST_F(EjdbTest2, TestQuery8) {
+    auto contacts = jb.create_collection("contacts", ec);
+    ASSERT_TRUE(static_cast<bool>(contacts));
+    ASSERT_FALSE(ec);
 
-//    CU_ASSERT_PTR_NOT_NULL(strstr(TCXSTRPTR(log), "COUNT ONLY: NO"));
-//    CU_ASSERT_PTR_NOT_NULL(strstr(TCXSTRPTR(log), "MAIN IDX: 'alabels'"));
-//    CU_ASSERT_PTR_NOT_NULL(strstr(TCXSTRPTR(log), "ORDER FIELDS: 1"));
-//    CU_ASSERT_PTR_NOT_NULL(strstr(TCXSTRPTR(log), "ACTIVE CONDITIONS: 1"));
-//    CU_ASSERT_PTR_NOT_NULL(strstr(TCXSTRPTR(log), "FETCH ALL: YES"));
-//    CU_ASSERT_PTR_NOT_NULL(strstr(TCXSTRPTR(log), "MAIN IDX TCOP: 5"));
-//    CU_ASSERT_PTR_NOT_NULL(strstr(TCXSTRPTR(log), "token occurrence: \"with gap, label\" 1"));
-//    CU_ASSERT_PTR_NOT_NULL(strstr(TCXSTRPTR(log), "FINAL SORTING: YES"));
-//    CU_ASSERT_PTR_NOT_NULL(strstr(TCXSTRPTR(log), "RS SIZE: 1"));
-//    CU_ASSERT_EQUAL(count, 1);
-//    CU_ASSERT_TRUE(TCLISTNUM(q1res) == 1);
+    jbson::document bsq1;
+    ASSERT_NO_THROW(bsq1 = R"({ "labels": {"$in" : ["yellow", "green"]} })"_json_doc);
 
-//    for (int i = 0; i < TCLISTNUM(q1res); ++i) {
-//        if (i == 0) {
-//            CU_ASSERT_FALSE(bson_compare_string("Адаманский", TCLISTVALPTR(q1res, i), "name"));
-//        } else {
-//            CU_ASSERT_TRUE(false);
-//        }
-//    }
+    ejdb::query q1;
+    ASSERT_NO_THROW(q1 = jb.create_query(bsq1, ec).set_hints(R"({ "$orderby": { "name": 1 } })"_json_doc));
+    ASSERT_TRUE(static_cast<bool>(q1));
 
-//    bson_destroy(&bsq1);
-//    bson_destroy(&bshints);
-//    tclistdel(q1res);
-//    tcxstrdel(log);
-//    ejdbquerydel(q1);
-//}
+    auto q1res = contacts.execute_query(q1);
+    ASSERT_EQ(2u, q1res.size());
 
-// void testQuery8() {
-//    EJCOLL *contacts = ejdbcreatecoll(jb, "contacts", NULL);
-//    CU_ASSERT_PTR_NOT_NULL_FATAL(contacts);
+    auto doc_it = q1res.begin();
+    ASSERT_NE(q1res.end(), doc_it);
+    auto el_it = doc_it->find("name");
+    ASSERT_NE(doc_it->end(), el_it);
+    EXPECT_EQ("John Travolta", el_it->value<std::string>());
+    auto val = path(*doc_it, "labels", "0");
+    ASSERT_TRUE(static_cast<bool>(val));
+    EXPECT_EQ("yellow", val->value<std::string>());
 
-//    //"labels" : {"$in" : ["yellow", "green"]}
-//    bson bsq1;
-//    bson_init_as_query(&bsq1);
-//    bson_append_start_object(&bsq1, "labels");
-//    bson_append_start_array(&bsq1, "$in");
-//    bson_append_string(&bsq1, "0", "green");
-//    bson_append_string(&bsq1, "1", "yellow");
-//    bson_append_finish_array(&bsq1);
-//    bson_append_finish_object(&bsq1);
-//    bson_finish(&bsq1);
-//    CU_ASSERT_FALSE_FATAL(bsq1.err);
+    doc_it++;
+    ASSERT_NE(q1res.end(), doc_it);
+    el_it = doc_it->find("name");
+    ASSERT_NE(doc_it->end(), el_it);
+    EXPECT_EQ("Адаманский", el_it->value<std::string>());
+    val = path(*doc_it, "labels", "1");
+    ASSERT_TRUE(static_cast<bool>(val));
+    EXPECT_EQ("green", val->value<std::string>());
 
-//    bson bshints;
-//    bson_init_as_query(&bshints);
-//    bson_append_start_object(&bshints, "$orderby");
-//    bson_append_int(&bshints, "name", 1); //ASC order on name
-//    bson_append_finish_object(&bshints);
-//    bson_finish(&bshints);
-//    CU_ASSERT_FALSE_FATAL(bshints.err);
-
-//    EJQ *q1 = ejdbcreatequery(jb, &bsq1, NULL, 0, &bshints);
-//    CU_ASSERT_PTR_NOT_NULL_FATAL(q1);
+    doc_it++;
+    ASSERT_EQ(q1res.end(), doc_it);
+}
 
 //    uint32_t count = 0;
 //    TCXSTR *log = tcxstrnew();
@@ -648,127 +615,90 @@ TEST_F(EjdbTest2, TestQuery4) {
 //    ejdbquerydel(q1);
 //}
 
-// void testQuery9() {
-//    EJCOLL *contacts = ejdbcreatecoll(jb, "contacts", NULL);
-//    CU_ASSERT_PTR_NOT_NULL_FATAL(contacts);
-//    CU_ASSERT_TRUE(ejdbsetindex(contacts, "labels", JBIDXDROPALL));
+TEST_F(EjdbTest2, TestQuery9) {
+    auto contacts = jb.create_collection("contacts", ec);
+    ASSERT_TRUE(static_cast<bool>(contacts));
+    ASSERT_FALSE(ec);
+    EXPECT_TRUE(contacts.set_index("labels", ejdb::index_mode::drop_all));
 
-//    bson bsq1;
-//    bson_init_as_query(&bsq1);
-//    bson_append_string(&bsq1, "labels", "red");
-//    bson_finish(&bsq1);
-//    CU_ASSERT_FALSE_FATAL(bsq1.err);
+    jbson::document bsq1;
+    ASSERT_NO_THROW(bsq1 = R"({ "labels": "red" })"_json_doc);
 
-//    bson bshints;
-//    bson_init_as_query(&bshints);
-//    bson_append_start_object(&bshints, "$orderby");
-//    bson_append_int(&bshints, "name", 1); //ASC order on name
-//    bson_append_finish_object(&bshints);
-//    bson_finish(&bshints);
-//    CU_ASSERT_FALSE_FATAL(bshints.err);
+    ejdb::query q1;
+    ASSERT_NO_THROW(q1 = jb.create_query(bsq1, ec).set_hints(R"({ "$orderby": { "name": 1 } })"_json_doc));
+    ASSERT_TRUE(static_cast<bool>(q1));
 
-//    EJQ *q1 = ejdbcreatequery(jb, &bsq1, NULL, 0, &bshints);
-//    CU_ASSERT_PTR_NOT_NULL_FATAL(q1);
+    auto q1res = contacts.execute_query(q1);
+    ASSERT_EQ(2u, q1res.size());
 
-//    uint32_t count = 0;
-//    TCXSTR *log = tcxstrnew();
-//    TCLIST *q1res = ejdbqryexecute(contacts, q1, &count, 0, log);
+    auto doc_it = q1res.begin();
+    ASSERT_NE(q1res.end(), doc_it);
+    auto el_it = doc_it->find("name");
+    ASSERT_NE(doc_it->end(), el_it);
+    EXPECT_EQ("John Travolta", el_it->value<std::string>());
+    auto val = path(*doc_it, "address", "zip");
+    ASSERT_TRUE(static_cast<bool>(val));
+    EXPECT_EQ("4499996", val->value<std::string>());
 
-//    CU_ASSERT_PTR_NOT_NULL(strstr(TCXSTRPTR(log), "COUNT ONLY: NO"));
-//    CU_ASSERT_PTR_NOT_NULL(strstr(TCXSTRPTR(log), "MAIN IDX: 'NONE'"));
-//    CU_ASSERT_PTR_NOT_NULL(strstr(TCXSTRPTR(log), "ORDER FIELDS: 1"));
-//    CU_ASSERT_PTR_NOT_NULL(strstr(TCXSTRPTR(log), "ACTIVE CONDITIONS: 1"));
-//    CU_ASSERT_PTR_NOT_NULL(strstr(TCXSTRPTR(log), "FETCH ALL: YES"));
-//    CU_ASSERT_PTR_NULL(strstr(TCXSTRPTR(log), "MAIN IDX TCOP"));
-//    CU_ASSERT_PTR_NOT_NULL(strstr(TCXSTRPTR(log), "RUN FULLSCAN"));
-//    CU_ASSERT_PTR_NOT_NULL(strstr(TCXSTRPTR(log), "FINAL SORTING: YES"));
-//    CU_ASSERT_PTR_NOT_NULL(strstr(TCXSTRPTR(log), "RS SIZE: 2"));
-//    CU_ASSERT_EQUAL(count, 2);
-//    CU_ASSERT_TRUE(TCLISTNUM(q1res) == 2);
+    doc_it++;
+    ASSERT_NE(q1res.end(), doc_it);
+    el_it = doc_it->find("name");
+    ASSERT_NE(doc_it->end(), el_it);
+    EXPECT_EQ("Адаманский", el_it->value<std::string>());
+    val = path(*doc_it, "address", "zip");
+    ASSERT_TRUE(static_cast<bool>(val));
+    EXPECT_EQ("630090", val->value<std::string>());
 
-//    for (int i = 0; i < TCLISTNUM(q1res); ++i) {
-//        if (i == 0) {
-//            CU_ASSERT_FALSE(bson_compare_string("John Travolta", TCLISTVALPTR(q1res, i), "name"));
-//            CU_ASSERT_FALSE(bson_compare_string("4499996", TCLISTVALPTR(q1res, i), "address.zip"));
-//        } else if (i == 1) {
-//            CU_ASSERT_FALSE(bson_compare_string("Адаманский", TCLISTVALPTR(q1res, i), "name"));
-//            CU_ASSERT_FALSE(bson_compare_string("630090", TCLISTVALPTR(q1res, i), "address.zip"));
-//        } else {
-//            CU_ASSERT_TRUE(false);
-//        }
-//    }
+    doc_it++;
+    ASSERT_EQ(q1res.end(), doc_it);
+}
 
-//    bson_destroy(&bsq1);
-//    bson_destroy(&bshints);
-//    tclistdel(q1res);
-//    tcxstrdel(log);
-//    ejdbquerydel(q1);
-//}
+TEST_F(EjdbTest2, TestQuery10) {
+    auto contacts = jb.create_collection("contacts", ec);
+    ASSERT_TRUE(static_cast<bool>(contacts));
+    ASSERT_FALSE(ec);
+    EXPECT_TRUE(contacts.set_index("address.street", ejdb::index_mode::string));
 
-// void testQuery10() {
-//    EJCOLL *contacts = ejdbcreatecoll(jb, "contacts", NULL);
-//    CU_ASSERT_PTR_NOT_NULL_FATAL(contacts);
-//    CU_ASSERT_TRUE(ejdbsetindex(contacts, "address.street", JBIDXSTR));
+    jbson::document bsq1;
+    ASSERT_NO_THROW(bsq1 = R"({ "address.street" : {"$in" : ["Pirogova", "Beverly Hills"] } })"_json_doc);
 
-//    //"address.street" : {"$in" : ["Pirogova", "Beverly Hills"]}
-//    bson bsq1;
-//    bson_init_as_query(&bsq1);
-//    bson_append_start_object(&bsq1, "address.street");
-//    bson_append_start_array(&bsq1, "$in");
-//    bson_append_string(&bsq1, "0", "Pirogova");
-//    bson_append_string(&bsq1, "1", "Beverly Hills");
-//    bson_append_finish_array(&bsq1);
-//    bson_append_finish_object(&bsq1);
-//    bson_finish(&bsq1);
-//    CU_ASSERT_FALSE_FATAL(bsq1.err);
+    ejdb::query q1;
+    ASSERT_NO_THROW(q1 = jb.create_query(bsq1, ec).set_hints(R"({ "$orderby": { "name": 1 } })"_json_doc));
+    ASSERT_TRUE(static_cast<bool>(q1));
 
-//    bson bshints;
-//    bson_init_as_query(&bshints);
-//    bson_append_start_object(&bshints, "$orderby");
-//    bson_append_int(&bshints, "name", 1); //ASC order on name
-//    bson_append_finish_object(&bshints);
-//    bson_finish(&bshints);
-//    CU_ASSERT_FALSE_FATAL(bshints.err);
+    auto q1res = contacts.execute_query(q1);
+    ASSERT_EQ(3u, q1res.size());
 
-//    EJQ *q1 = ejdbcreatequery(jb, &bsq1, NULL, 0, &bshints);
-//    CU_ASSERT_PTR_NOT_NULL_FATAL(q1);
+    auto doc_it = q1res.begin();
+    ASSERT_NE(q1res.end(), doc_it);
+    auto el_it = doc_it->find("name");
+    ASSERT_NE(doc_it->end(), el_it);
+    EXPECT_EQ("John Travolta", el_it->value<std::string>());
+    auto val = path(*doc_it, "address", "street");
+    ASSERT_TRUE(static_cast<bool>(val));
+    EXPECT_EQ("Beverly Hills", val->value<std::string>());
 
-//    uint32_t count = 0;
-//    TCXSTR *log = tcxstrnew();
-//    TCLIST *q1res = ejdbqryexecute(contacts, q1, &count, 0, log);
+    doc_it++;
+    ASSERT_NE(q1res.end(), doc_it);
+    el_it = doc_it->find("name");
+    ASSERT_NE(doc_it->end(), el_it);
+    EXPECT_EQ("Адаманский", el_it->value<std::string>());
+    val = path(*doc_it, "address", "street");
+    ASSERT_TRUE(static_cast<bool>(val));
+    EXPECT_EQ("Pirogova", val->value<std::string>());
 
-//    CU_ASSERT_PTR_NOT_NULL(strstr(TCXSTRPTR(log), "COUNT ONLY: NO"));
-//    CU_ASSERT_PTR_NOT_NULL(strstr(TCXSTRPTR(log), "MAIN IDX: 'saddress.street'"));
-//    CU_ASSERT_PTR_NOT_NULL(strstr(TCXSTRPTR(log), "ORDER FIELDS: 1"));
-//    CU_ASSERT_PTR_NOT_NULL(strstr(TCXSTRPTR(log), "ACTIVE CONDITIONS: 1"));
-//    CU_ASSERT_PTR_NOT_NULL(strstr(TCXSTRPTR(log), "FETCH ALL: YES"));
-//    CU_ASSERT_PTR_NOT_NULL(strstr(TCXSTRPTR(log), "MAIN IDX TCOP: 6"));
-//    CU_ASSERT_PTR_NULL(strstr(TCXSTRPTR(log), "RUN FULLSCAN"));
-//    CU_ASSERT_PTR_NOT_NULL(strstr(TCXSTRPTR(log), "FINAL SORTING: YES"));
-//    CU_ASSERT_PTR_NOT_NULL(strstr(TCXSTRPTR(log), "RS SIZE: 3"));
-//    CU_ASSERT_EQUAL(count, 3);
-//    CU_ASSERT_TRUE(TCLISTNUM(q1res) == 3);
+    doc_it++;
+    ASSERT_NE(q1res.end(), doc_it);
+    el_it = doc_it->find("name");
+    ASSERT_NE(doc_it->end(), el_it);
+    EXPECT_EQ("Антонов", el_it->value<std::string>());
+    val = path(*doc_it, "address", "street");
+    ASSERT_TRUE(static_cast<bool>(val));
+    EXPECT_EQ("Pirogova", val->value<std::string>());
 
-//    for (int i = 0; i < TCLISTNUM(q1res); ++i) {
-//        if (i == 0) {
-//            CU_ASSERT_FALSE(bson_compare_string("John Travolta", TCLISTVALPTR(q1res, i), "name"));
-//            CU_ASSERT_FALSE(bson_compare_string("Beverly Hills", TCLISTVALPTR(q1res, i), "address.street"));
-//        } else if (i == 1) {
-//            CU_ASSERT_FALSE(bson_compare_string("Адаманский", TCLISTVALPTR(q1res, i), "name"));
-//            CU_ASSERT_FALSE(bson_compare_string("Pirogova", TCLISTVALPTR(q1res, i), "address.street"));
-//        } else if (i == 2) {
-//            CU_ASSERT_FALSE(bson_compare_string("Антонов", TCLISTVALPTR(q1res, i), "name"));
-//            CU_ASSERT_FALSE(bson_compare_string("Pirogova", TCLISTVALPTR(q1res, i), "address.street"));
-//        } else {
-//            CU_ASSERT_TRUE(false);
-//        }
-//    }
-//    bson_destroy(&bsq1);
-//    bson_destroy(&bshints);
-//    tclistdel(q1res);
-//    tcxstrdel(log);
-//    ejdbquerydel(q1);
-//}
+    doc_it++;
+    ASSERT_EQ(q1res.end(), doc_it);
+}
 
 // void testQuery11() {
 //    EJCOLL *contacts = ejdbcreatecoll(jb, "contacts", NULL);
