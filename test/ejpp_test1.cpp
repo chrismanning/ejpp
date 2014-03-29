@@ -32,11 +32,11 @@ using namespace jbson;
 
 struct EjdbTest1 : ::testing::Test {
     void SetUp() override {
-        ASSERT_TRUE(static_cast<bool>(jb));
         std::error_code ec;
         auto r = jb.open("dbt1", ejdb::db_mode::write|ejdb::db_mode::create|ejdb::db_mode::truncate, ec);
         ASSERT_TRUE(r);
         ASSERT_FALSE(ec);
+        ASSERT_TRUE(static_cast<bool>(jb));
     }
     void TearDown() override {
         std::error_code ec;
@@ -48,7 +48,7 @@ struct EjdbTest1 : ::testing::Test {
         ASSERT_FALSE(ec);
     }
 
-    ejdb::ejdb jb;
+    ejdb::db jb;
 };
 
 TEST_F(EjdbTest1, TestSaveLoad) {

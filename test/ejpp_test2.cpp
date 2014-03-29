@@ -23,11 +23,11 @@ using namespace jbson::literal;
 
 struct EjdbTest2 : ::testing::Test {
     void SetUp() override {
-        ASSERT_TRUE(static_cast<bool>(jb));
         std::error_code ec;
         auto r = jb.open("dbt2", ejdb::db_mode::read | ejdb::db_mode::write | ejdb::db_mode::create, ec);
         ASSERT_TRUE(r);
         ASSERT_FALSE(ec);
+        ASSERT_TRUE(static_cast<bool>(jb));
     }
     void TearDown() override {
         jb.sync(ec);
@@ -37,7 +37,7 @@ struct EjdbTest2 : ::testing::Test {
         ASSERT_FALSE(ec);
     }
 
-    ejdb::ejdb jb;
+    ejdb::db jb;
     std::error_code ec;
 };
 
@@ -139,11 +139,16 @@ TEST_F(EjdbTest2, TestSetIndex1) {
     ASSERT_TRUE(static_cast<bool>(ccoll));
     ASSERT_FALSE(ec);
 
-    EXPECT_TRUE(ccoll.set_index("ab.c.d", ejdb::index_mode::string));
-    EXPECT_TRUE(ccoll.set_index("ab.c.d", ejdb::index_mode::string | ejdb::index_mode::number));
-    EXPECT_TRUE(ccoll.set_index("ab.c.d", ejdb::index_mode::drop_all));
-    EXPECT_TRUE(ccoll.set_index("address.zip", ejdb::index_mode::string));
-    EXPECT_TRUE(ccoll.set_index("name", ejdb::index_mode::string));
+    EXPECT_TRUE(ccoll.set_index("ab.c.d", ejdb::index_mode::string, ec));
+    ASSERT_FALSE(ec);
+    EXPECT_TRUE(ccoll.set_index("ab.c.d", ejdb::index_mode::string | ejdb::index_mode::number, ec));
+    ASSERT_FALSE(ec);
+    EXPECT_TRUE(ccoll.set_index("ab.c.d", ejdb::index_mode::drop_all, ec));
+    ASSERT_FALSE(ec);
+    EXPECT_TRUE(ccoll.set_index("address.zip", ejdb::index_mode::string, ec));
+    ASSERT_FALSE(ec);
+    EXPECT_TRUE(ccoll.set_index("name", ejdb::index_mode::string, ec));
+    ASSERT_FALSE(ec);
 
     // Insert new record with active index
     // Record 4
@@ -322,7 +327,8 @@ TEST_F(EjdbTest2, TestQuery3) {
     auto contacts = jb.create_collection("contacts", ec);
     ASSERT_TRUE(static_cast<bool>(contacts));
     ASSERT_FALSE(ec);
-    EXPECT_TRUE(contacts.set_index("address.zip", ejdb::index_mode::drop_all));
+    EXPECT_TRUE(contacts.set_index("address.zip", ejdb::index_mode::drop_all, ec));
+    ASSERT_FALSE(ec);
 
     jbson::document bsq1;
 
@@ -365,7 +371,8 @@ TEST_F(EjdbTest2, TestQuery4) {
     auto contacts = jb.create_collection("contacts", ec);
     ASSERT_TRUE(static_cast<bool>(contacts));
     ASSERT_FALSE(ec);
-    EXPECT_TRUE(contacts.set_index("name", ejdb::index_mode::drop_all));
+    EXPECT_TRUE(contacts.set_index("name", ejdb::index_mode::drop_all, ec));
+    ASSERT_FALSE(ec);
 
     jbson::document bsq1;
 
@@ -424,7 +431,8 @@ TEST_F(EjdbTest2, TestQuery6) {
     auto contacts = jb.create_collection("contacts", ec);
     ASSERT_TRUE(static_cast<bool>(contacts));
     ASSERT_FALSE(ec);
-    EXPECT_TRUE(contacts.set_index("labels", ejdb::index_mode::array));
+    EXPECT_TRUE(contacts.set_index("labels", ejdb::index_mode::array, ec));
+    ASSERT_FALSE(ec);
 
     jbson::document bsq1;
     ASSERT_NO_THROW(bsq1 = R"({ "labels": "red" })"_json_doc);
@@ -619,7 +627,8 @@ TEST_F(EjdbTest2, TestQuery9) {
     auto contacts = jb.create_collection("contacts", ec);
     ASSERT_TRUE(static_cast<bool>(contacts));
     ASSERT_FALSE(ec);
-    EXPECT_TRUE(contacts.set_index("labels", ejdb::index_mode::drop_all));
+    EXPECT_TRUE(contacts.set_index("labels", ejdb::index_mode::drop_all, ec));
+    ASSERT_FALSE(ec);
 
     jbson::document bsq1;
     ASSERT_NO_THROW(bsq1 = R"({ "labels": "red" })"_json_doc);
@@ -657,7 +666,8 @@ TEST_F(EjdbTest2, TestQuery10) {
     auto contacts = jb.create_collection("contacts", ec);
     ASSERT_TRUE(static_cast<bool>(contacts));
     ASSERT_FALSE(ec);
-    EXPECT_TRUE(contacts.set_index("address.street", ejdb::index_mode::string));
+    EXPECT_TRUE(contacts.set_index("address.street", ejdb::index_mode::string, ec));
+    ASSERT_FALSE(ec);
 
     jbson::document bsq1;
     ASSERT_NO_THROW(bsq1 = R"({ "address.street" : {"$in" : ["Pirogova", "Beverly Hills"] } })"_json_doc);

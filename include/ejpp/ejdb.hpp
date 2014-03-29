@@ -40,9 +40,6 @@ namespace ejdb {
 struct collection;
 struct query;
 
-class error_category;
-inline std::error_code make_error_code(int ecode);
-
 struct db_mode final {
     enum {                     /** Database open modes */
            read = 1 << 0,      /**< Open as a reader. */
@@ -68,11 +65,12 @@ struct index_mode final {
     };
 };
 
-struct ejdb final {
-    ejdb();
+struct db final {
+    db() noexcept = default;
 
     explicit operator bool() const noexcept;
     std::error_code error() const noexcept;
+    static std::error_code error(std::weak_ptr<EJDB>) noexcept;
 
     bool open(const std::string& path, int mode, std::error_code& ec) noexcept;
     bool is_open() const noexcept;
@@ -81,50 +79,16 @@ struct ejdb final {
     collection get_collection(const std::string& name, std::error_code& ec) const noexcept;
     collection create_collection(const std::string& name, std::error_code& ec) noexcept;
     bool remove_collection(const std::string& name, bool unlink_file, std::error_code& ec) noexcept;
-    const std::deque<collection> get_collections() const noexcept;
+    const std::vector<collection> get_collections() const noexcept;
 
     query create_query(const jbson::document& doc, std::error_code& ec) noexcept;
 
     bool sync(std::error_code& ec) noexcept;
 
-    boost::optional<jbson::document> metadata() noexcept;
+    boost::optional<jbson::document> metadata(std::error_code& ec) noexcept;
 
   private:
     std::shared_ptr<EJDB> m_db;
-};
-
-struct query final {
-    query() noexcept = default;
-    ~query() noexcept;
-
-    query(query&&) noexcept = default;
-    query& operator=(query&&)&noexcept = default;
-
-    enum search_mode {
-        /*< Query search mode flags */
-        count_only = 1,
-        first_only = 1 << 1
-    };
-
-    explicit operator bool() const noexcept;
-
-    query& operator|=(const jbson::document&)&noexcept;
-    query& set_hints(const jbson::document&)&noexcept;
-
-    query&& operator|=(const jbson::document&)&&noexcept;
-    query&& set_hints(const jbson::document&)&&noexcept;
-
-  private:
-    friend struct ejdb;
-    friend struct collection;
-    query(std::weak_ptr<EJDB> m_db, EJQ* m_qry) noexcept;
-
-    std::weak_ptr<EJDB> m_db;
-
-    struct eqry_deleter {
-        void operator()(EJQ* ptr) const;
-    };
-    std::unique_ptr<EJQ, eqry_deleter> m_qry;
 };
 
 struct collection final {
@@ -138,7 +102,7 @@ struct collection final {
     boost::optional<jbson::document> load_document(std::array<char, 12> oid, std::error_code& ec) const noexcept;
     bool remove_document(std::array<char, 12>, std::error_code& ec) noexcept;
 
-    bool set_index(const std::string& ipath, int flags) noexcept;
+    bool set_index(const std::string& ipath, int flags, std::error_code& ec) noexcept;
     std::vector<jbson::document> execute_query(const query&, int flags = 0) noexcept;
 
     std::vector<jbson::document> get_all() noexcept;
@@ -148,11 +112,55 @@ struct collection final {
     boost::string_ref name() const noexcept;
 
   private:
-    friend struct ejdb;
+    friend struct db;
     collection(std::weak_ptr<EJDB> m_db, EJCOLL* m_coll) noexcept;
 
     std::weak_ptr<EJDB> m_db;
     EJCOLL* m_coll{nullptr};
+};
+
+struct query final {
+    query() noexcept = default;
+    ~query() noexcept;
+
+    query(query&&) noexcept = default;
+    query& operator=(query&&)&noexcept = default;
+    query&& operator=(query&&)&&noexcept;
+
+    enum search_mode {
+        /*< Query search mode flags */
+        count_only = 1,
+        first_only = 1 << 1
+    };
+
+    explicit operator bool() const noexcept;
+
+    // $and
+    query& operator&=(const jbson::document&)&noexcept;
+    query&& operator&=(const jbson::document&)&&noexcept;
+    query& operator&=(query)&noexcept;
+    query&& operator&=(query)&&noexcept;
+
+    // $or
+    query& operator|=(const jbson::document&)&noexcept;
+    query&& operator|=(const jbson::document&)&&noexcept;
+    query& operator|=(query)&noexcept;
+    query&& operator|=(query)&&noexcept;
+
+    query& set_hints(const jbson::document&)&noexcept;
+    query&& set_hints(const jbson::document&)&&noexcept;
+
+  private:
+    friend struct db;
+    friend struct collection;
+    query(std::weak_ptr<EJDB> m_db, EJQ* m_qry) noexcept;
+
+    std::weak_ptr<EJDB> m_db;
+
+    struct eqry_deleter {
+        void operator()(EJQ* ptr) const;
+    };
+    std::unique_ptr<EJQ, eqry_deleter> m_qry;
 };
 
 } // namespace ejdb

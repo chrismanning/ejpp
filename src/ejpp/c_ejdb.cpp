@@ -50,9 +50,8 @@ bool isopen(EJDB* jb) { return ejdbisopen(jb); }
 
 EJCOLL* getcoll(EJDB* jb, const char* colname) { return ejdbgetcoll(jb, colname); }
 
-std::deque<EJCOLL*> getcolls(EJDB* jb) {
-    std::deque<EJCOLL*> colls{jb->cdbs, jb->cdbs + jb->cdbsnum};
-    return std::move(colls);
+std::vector<EJCOLL*> getcolls(EJDB* jb) {
+    return {jb->cdbs, jb->cdbs + jb->cdbsnum};
 }
 
 EJCOLL* createcoll(EJDB* jb, const char* colname, void* opts) {

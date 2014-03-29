@@ -64,7 +64,7 @@ bool isopen(EJDB* jb);
 
 EJCOLL* getcoll(EJDB* jb, const char* colname);
 
-std::deque<EJCOLL*> getcolls(EJDB* jb);
+std::vector<EJCOLL*> getcolls(EJDB* jb);
 
 EJCOLL* createcoll(EJDB* jb, const char* colname, void* opts);
 
