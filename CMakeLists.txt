@@ -91,6 +91,7 @@ set(GTEST_LIBRARY_DIR ${binary_dir})
 set(GTEST_LIBRARIES "-L${GTEST_LIBRARY_DIR} -lgtest")
 
 add_library(${PROJECT_NAME}_test_main OBJECT test/test_main.cpp)
+add_dependencies(${PROJECT_NAME}_test_main gtest_${PROJECT_NAME})
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
