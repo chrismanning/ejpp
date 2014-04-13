@@ -17,6 +17,7 @@
 
 #include <ejpp/ejdb.hpp>
 #include <jbson/json_reader.hpp>
+#include <jbson/builder.hpp>
 using namespace jbson::literal;
 
 #include <gtest/gtest.h>
