@@ -65,6 +65,40 @@ struct index_mode final {
     };
 };
 
+enum class errc {                                     /** Error codes */
+                  invalid_collection_name = 9000,     /**< Invalid collection name. */
+                  invalid_bson = 9001,                /**< Invalid bson object. */
+                  invalid_bson_oid = 9002,            /**< Invalid bson object id. */
+                  invalid_query_control_field = 9003, /**< Invalid query control field starting with '$'. */
+                  query_field_require_array =
+                      9004,                /**< $strand, $stror, $in, $nin, $bt keys requires not empty array value. */
+                  invalid_metadata = 9005, /**< Inconsistent database metadata. */
+                  invalid_field_path = 9006,               /**< Invalid field path value. */
+                  invalid_query_regex = 9007,              /**< Invalid query regexp value. */
+                  query_result_sort_error = 9008,          /**< Result set sorting error. */
+                  query_error = 9009,                      /**< Query generic error. */
+                  query_update_failed = 9010,              /**< Updating failed. */
+                  query_elemmatch_limit = 9011,            /**< Only one $elemMatch allowed in the fieldpath. */
+                  query_cannot_mix_include_exclude = 9012, /**< $fields hint cannot mix include and exclude fields */
+                  query_invalid_action = 9013,             /**< action key in $do block can only be one of: $join */
+                  too_many_collections = 9014, /**< Exceeded the maximum number of collections per database */
+                  import_export_error = 9015,  /**< EJDB export/import error */
+                  json_parse_failed = 9016,    /**< JSON parsing failed */
+                  bson_too_large = 9017,       /**< BSON size is too big */
+                  invalid_command = 9018       /**< Invalid ejdb command specified */
+};
+
+std::error_code make_error_code(errc ecode);
+
+} // namespace ejdb
+
+namespace std {
+    template <>
+    struct is_error_code_enum<ejdb::errc> : public true_type {};
+}
+
+namespace ejdb {
+
 struct db final {
     db() noexcept = default;
 
@@ -97,8 +131,7 @@ struct collection final {
     explicit operator bool() const noexcept;
 
     boost::optional<std::array<char, 12>> save_document(const jbson::document& data, std::error_code& ec);
-    boost::optional<std::array<char, 12>> save_document(const jbson::document& data, bool merge,
-                                                        std::error_code& ec);
+    boost::optional<std::array<char, 12>> save_document(const jbson::document& data, bool merge, std::error_code& ec);
     boost::optional<jbson::document> load_document(std::array<char, 12> oid, std::error_code& ec) const;
     bool remove_document(std::array<char, 12>, std::error_code& ec) noexcept;
 
@@ -138,14 +171,14 @@ struct query final {
     // $and
     query& operator&=(const jbson::document&)&;
     query&& operator&=(const jbson::document&)&&;
-    query& operator&=(query)&noexcept;
-    query&& operator&=(query)&&noexcept;
+    query& operator&=(query) & noexcept;
+    query&& operator&=(query) && noexcept;
 
     // $or
     query& operator|=(const jbson::document&)&;
     query&& operator|=(const jbson::document&)&&;
-    query& operator|=(query)&noexcept;
-    query&& operator|=(query)&&noexcept;
+    query& operator|=(query) & noexcept;
+    query&& operator|=(query) && noexcept;
 
     query& set_hints(const jbson::document&)&;
     query&& set_hints(const jbson::document&)&&;

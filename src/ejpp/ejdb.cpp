@@ -34,8 +34,6 @@ namespace ejdb {
 
 using namespace jbson::literal;
 
-static std::error_code make_error_code(int ecode);
-
 struct ejdb_deleter {
     void operator()(EJDB* ptr) const { c_ejdb::del(ptr); }
 };
@@ -47,14 +45,14 @@ db::operator bool() const noexcept { return static_cast<bool>(m_db); }
 std::error_code db::error() const noexcept {
     if(!m_db)
         return std::make_error_code(std::errc::bad_address);
-    return make_error_code(c_ejdb::ecode(m_db.get()));
+    return static_cast<errc>(c_ejdb::ecode(m_db.get()));
 }
 
 std::error_code db::error(std::weak_ptr<EJDB> db) noexcept {
     auto ptr = db.lock();
     if(!ptr)
         return std::make_error_code(std::errc::bad_address);
-    return make_error_code(c_ejdb::ecode(ptr.get()));
+    return static_cast<errc>(c_ejdb::ecode(ptr.get()));
 }
 
 bool db::open(const std::string& path, int mode, std::error_code& ec) noexcept {
@@ -65,9 +63,7 @@ bool db::open(const std::string& path, int mode, std::error_code& ec) noexcept {
     return r;
 }
 
-bool db::is_open() const noexcept {
-    return m_db && c_ejdb::isopen(m_db.get());
-}
+bool db::is_open() const noexcept { return m_db && c_ejdb::isopen(m_db.get()); }
 
 bool db::close(std::error_code& ec) noexcept {
     const auto r = m_db && c_ejdb::closedb(m_db.get());
@@ -151,12 +147,9 @@ boost::optional<jbson::document> db::metadata(std::error_code& ec) {
 
 collection::collection(std::weak_ptr<EJDB> db, EJCOLL* coll) noexcept : m_db(db), m_coll(coll) {}
 
-collection::operator bool() const noexcept {
-    return !m_db.expired() && m_coll != nullptr;
-}
+collection::operator bool() const noexcept { return !m_db.expired() && m_coll != nullptr; }
 
-boost::optional<std::array<char, 12>> collection::save_document(const jbson::document& data,
-                                                                std::error_code& ec) {
+boost::optional<std::array<char, 12>> collection::save_document(const jbson::document& data, std::error_code& ec) {
     return save_document(data, false, ec);
 }
 
@@ -328,9 +321,9 @@ class error_category : public std::error_category {
     std::string message(int ecode) const noexcept override { return c_ejdb::errmsg(ecode); }
 };
 
-static std::error_code make_error_code(int ecode) {
+std::error_code make_error_code(errc ecode) {
     static const ::ejdb::error_category ecat{};
-    return std::error_code{ecode, ecat};
+    return std::error_code{static_cast<int>(ecode), ecat};
 }
 
 } // namespace ejdb
