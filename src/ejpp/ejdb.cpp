@@ -25,14 +25,12 @@
 #include <boost/range/adaptor/transformed.hpp>
 
 #include <jbson/document.hpp>
-#include <jbson/json_reader.hpp>
+#include <jbson/builder.hpp>
 
 #include <ejpp/c_ejdb.hpp>
 #include <ejpp/ejdb.hpp>
 
 namespace ejdb {
-
-using namespace jbson::literal;
 
 struct ejdb_deleter {
     void operator()(EJDB* ptr) const { c_ejdb::del(ptr); }
@@ -234,7 +232,7 @@ std::vector<jbson::document> collection::get_all() {
     auto db = m_db.lock();
     if(!db)
         return {};
-    auto vec = "{}"_json_doc.data();
+    auto vec = jbson::document(jbson::builder()).data();
     auto q = query{m_db, c_ejdb::createquery(db.get(), vec.data())};
     return execute_query(q);
 }
