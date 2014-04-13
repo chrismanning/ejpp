@@ -85,7 +85,7 @@ struct db final {
 
     bool sync(std::error_code& ec) noexcept;
 
-    boost::optional<jbson::document> metadata(std::error_code& ec) noexcept;
+    boost::optional<jbson::document> metadata(std::error_code& ec);
 
   private:
     std::shared_ptr<EJDB> m_db;
@@ -96,16 +96,16 @@ struct collection final {
 
     explicit operator bool() const noexcept;
 
-    boost::optional<std::array<char, 12>> save_document(const jbson::document& data, std::error_code& ec) noexcept;
+    boost::optional<std::array<char, 12>> save_document(const jbson::document& data, std::error_code& ec);
     boost::optional<std::array<char, 12>> save_document(const jbson::document& data, bool merge,
-                                                        std::error_code& ec) noexcept;
-    boost::optional<jbson::document> load_document(std::array<char, 12> oid, std::error_code& ec) const noexcept;
+                                                        std::error_code& ec);
+    boost::optional<jbson::document> load_document(std::array<char, 12> oid, std::error_code& ec) const;
     bool remove_document(std::array<char, 12>, std::error_code& ec) noexcept;
 
     bool set_index(const std::string& ipath, int flags, std::error_code& ec) noexcept;
-    std::vector<jbson::document> execute_query(const query&, int flags = 0) noexcept;
+    std::vector<jbson::document> execute_query(const query&, int flags = 0);
 
-    std::vector<jbson::document> get_all() noexcept;
+    std::vector<jbson::document> get_all();
 
     bool sync(std::error_code& ec) noexcept;
 
@@ -136,19 +136,19 @@ struct query final {
     explicit operator bool() const noexcept;
 
     // $and
-    query& operator&=(const jbson::document&)&noexcept;
-    query&& operator&=(const jbson::document&)&&noexcept;
+    query& operator&=(const jbson::document&)&;
+    query&& operator&=(const jbson::document&)&&;
     query& operator&=(query)&noexcept;
     query&& operator&=(query)&&noexcept;
 
     // $or
-    query& operator|=(const jbson::document&)&noexcept;
-    query&& operator|=(const jbson::document&)&&noexcept;
+    query& operator|=(const jbson::document&)&;
+    query&& operator|=(const jbson::document&)&&;
     query& operator|=(query)&noexcept;
     query&& operator|=(query)&&noexcept;
 
-    query& set_hints(const jbson::document&)&noexcept;
-    query&& set_hints(const jbson::document&)&&noexcept;
+    query& set_hints(const jbson::document&)&;
+    query&& set_hints(const jbson::document&)&&;
 
   private:
     friend struct db;

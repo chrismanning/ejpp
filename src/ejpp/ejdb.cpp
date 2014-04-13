@@ -110,7 +110,7 @@ const std::vector<collection> db::get_collections() const noexcept {
     if(!m_db)
         return {};
     auto colls = c_ejdb::getcolls(m_db.get());
-    auto range = boost::adaptors::transform(colls, [this](EJCOLL* c) {
+    auto range = boost::adaptors::transform(colls, [this](EJCOLL* c) -> collection {
         return collection{m_db, c};
     });
     return {range.begin(), range.end()};
@@ -121,16 +121,12 @@ query db::create_query(const jbson::document& doc, std::error_code& ec) noexcept
         ec = error();
         return {};
     }
-    try {
-        const auto r = c_ejdb::createquery(m_db.get(), doc.data().data());
-        if(!r)
-            ec = error();
-        return {m_db, r};
-    }
-    catch(jbson::jbson_error&) {
-        ec = make_error_code(9001);
+    const auto r = c_ejdb::createquery(m_db.get(), doc.data().data());
+    if(!r) {
+        ec = error();
         return query{};
     }
+    return query{m_db, r};
 }
 
 bool db::sync(std::error_code& ec) noexcept {
@@ -140,7 +136,7 @@ bool db::sync(std::error_code& ec) noexcept {
     return r;
 }
 
-boost::optional<jbson::document> db::metadata(std::error_code& ec) noexcept {
+boost::optional<jbson::document> db::metadata(std::error_code& ec) {
     if(!m_db) {
         ec = error();
         return boost::none;
@@ -160,12 +156,12 @@ collection::operator bool() const noexcept {
 }
 
 boost::optional<std::array<char, 12>> collection::save_document(const jbson::document& data,
-                                                                std::error_code& ec) noexcept {
+                                                                std::error_code& ec) {
     return save_document(data, false, ec);
 }
 
 boost::optional<std::array<char, 12>> collection::save_document(const jbson::document& doc, bool merge,
-                                                                std::error_code& ec) noexcept {
+                                                                std::error_code& ec) {
     if(m_coll == nullptr) {
         ec = std::make_error_code(std::errc::bad_address);
         return boost::none;
@@ -180,8 +176,7 @@ boost::optional<std::array<char, 12>> collection::save_document(const jbson::doc
     return oid;
 }
 
-boost::optional<jbson::document> collection::load_document(std::array<char, 12> oid, std::error_code& ec) const
-    noexcept {
+boost::optional<jbson::document> collection::load_document(std::array<char, 12> oid, std::error_code& ec) const {
     if(m_coll == nullptr) {
         ec = std::make_error_code(std::errc::bad_address);
         return boost::none;
@@ -217,7 +212,7 @@ bool collection::set_index(const std::string& ipath, int flags, std::error_code&
     return r;
 }
 
-std::vector<jbson::document> collection::execute_query(const query& qry, int sm) noexcept {
+std::vector<jbson::document> collection::execute_query(const query& qry, int sm) {
     if(m_coll == nullptr || !qry)
         return {};
     assert(qry.m_qry);
@@ -242,7 +237,7 @@ std::vector<jbson::document> collection::execute_query(const query& qry, int sm)
     return std::move(r);
 }
 
-std::vector<jbson::document> collection::get_all() noexcept {
+std::vector<jbson::document> collection::get_all() {
     auto db = m_db.lock();
     if(!db)
         return {};
@@ -272,7 +267,7 @@ query::query(std::weak_ptr<EJDB> db, EJQ* qry) noexcept : m_db(db), m_qry(qry) {
 
 query::~query() noexcept {}
 
-query& query::operator|=(const jbson::document& obj) & noexcept {
+query& query::operator|=(const jbson::document& obj) & {
     assert(m_qry);
     auto db = m_db.lock();
     if(!db)
@@ -285,7 +280,7 @@ query& query::operator|=(const jbson::document& obj) & noexcept {
     return *this;
 }
 
-query&& query::operator|=(const jbson::document& obj) && noexcept {
+query&& query::operator|=(const jbson::document& obj) && {
     assert(m_qry);
     auto db = m_db.lock();
     if(!db)
@@ -298,7 +293,7 @@ query&& query::operator|=(const jbson::document& obj) && noexcept {
     return std::move(*this);
 }
 
-query& query::set_hints(const jbson::document& obj) & noexcept {
+query& query::set_hints(const jbson::document& obj) & {
     assert(m_qry);
     auto db = m_db.lock();
     if(!db)
@@ -310,7 +305,7 @@ query& query::set_hints(const jbson::document& obj) & noexcept {
     return *this;
 }
 
-query&& query::set_hints(const jbson::document& obj) && noexcept {
+query&& query::set_hints(const jbson::document& obj) && {
     assert(m_qry);
     auto db = m_db.lock();
     if(!db)
