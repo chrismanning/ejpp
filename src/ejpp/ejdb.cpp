@@ -256,8 +256,6 @@ boost::string_ref collection::name() const noexcept {
 
 query::query(std::weak_ptr<EJDB> db, EJQ* qry) noexcept : m_db(db), m_qry(qry) {}
 
-query::~query() noexcept {}
-
 query& query::operator|=(const jbson::document& obj) & {
     assert(m_qry);
     auto db = m_db.lock();

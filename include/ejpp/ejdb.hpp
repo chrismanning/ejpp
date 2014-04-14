@@ -180,11 +180,9 @@ struct collection final {
 
 struct query final {
     query() noexcept = default;
-    ~query() noexcept;
 
     query(query&&) noexcept = default;
     query& operator=(query&&)&noexcept = default;
-    query&& operator=(query&&)&&noexcept;
 
     explicit operator bool() const noexcept;
 
