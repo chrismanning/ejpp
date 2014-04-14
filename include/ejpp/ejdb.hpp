@@ -40,61 +40,86 @@ namespace ejdb {
 struct collection;
 struct query;
 
-struct db_mode final {
-    enum {                     /** Database open modes */
-           read = 1 << 0,      /**< Open as a reader. */
-           write = 1 << 1,     /**< Open as a writer. */
-           create = 1 << 2,    /**< Create if db file not exists. */
-           truncate = 1 << 3,  /**< Truncate db on open. */
-           nolock = 1 << 4,    /**< Open without locking. */
-           noblock = 1 << 5,   /**< Lock without blocking. */
-           trans_sync = 1 << 6 /**< Synchronize every transaction. */
-    };
+/** Database open modes */
+enum class db_mode {
+    read = 1 << 0,      /**< Open as a reader. */
+    write = 1 << 1,     /**< Open as a writer. */
+    create = 1 << 2,    /**< Create if db file not exists. */
+    truncate = 1 << 3,  /**< Truncate db on open. */
+    nolock = 1 << 4,    /**< Open without locking. */
+    noblock = 1 << 5,   /**< Lock without blocking. */
+    trans_sync = 1 << 6 /**< Synchronize every transaction. */
 };
 
-struct index_mode final {
-    enum {                    /** Index modes, index types. */
-           drop = 1 << 0,     /**< Drop index. */
-           drop_all = 1 << 1, /**< Drop index for all types. */
-           optimize = 1 << 2, /**< Optimize indexes. */
-           rebuild = 1 << 3,  /**< Rebuild index. */
-           number = 1 << 4,   /**< Number index. */
-           string = 1 << 5,   /**< String index.*/
-           array = 1 << 6,    /**< Array token index. */
-           istring = 1 << 7   /**< Case insensitive string index */
-    };
+constexpr inline db_mode operator|(db_mode lhs, db_mode rhs) noexcept {
+    return (db_mode)((std::underlying_type_t<db_mode>)lhs | (std::underlying_type_t<db_mode>)rhs);
+}
+
+constexpr inline db_mode& operator|=(db_mode& lhs, db_mode rhs) noexcept { return lhs = lhs | rhs; }
+
+/** Index modes, index types. */
+enum class index_mode {
+    drop = 1 << 0,     /**< Drop index. */
+    drop_all = 1 << 1, /**< Drop index for all types. */
+    optimize = 1 << 2, /**< Optimize indexes. */
+    rebuild = 1 << 3,  /**< Rebuild index. */
+    number = 1 << 4,   /**< Number index. */
+    string = 1 << 5,   /**< String index.*/
+    array = 1 << 6,    /**< Array token index. */
+    istring = 1 << 7   /**< Case insensitive string index */
 };
 
-enum class errc {                                     /** Error codes */
-                  invalid_collection_name = 9000,     /**< Invalid collection name. */
-                  invalid_bson = 9001,                /**< Invalid bson object. */
-                  invalid_bson_oid = 9002,            /**< Invalid bson object id. */
-                  invalid_query_control_field = 9003, /**< Invalid query control field starting with '$'. */
-                  query_field_require_array =
-                      9004,                /**< $strand, $stror, $in, $nin, $bt keys requires not empty array value. */
-                  invalid_metadata = 9005, /**< Inconsistent database metadata. */
-                  invalid_field_path = 9006,               /**< Invalid field path value. */
-                  invalid_query_regex = 9007,              /**< Invalid query regexp value. */
-                  query_result_sort_error = 9008,          /**< Result set sorting error. */
-                  query_error = 9009,                      /**< Query generic error. */
-                  query_update_failed = 9010,              /**< Updating failed. */
-                  query_elemmatch_limit = 9011,            /**< Only one $elemMatch allowed in the fieldpath. */
-                  query_cannot_mix_include_exclude = 9012, /**< $fields hint cannot mix include and exclude fields */
-                  query_invalid_action = 9013,             /**< action key in $do block can only be one of: $join */
-                  too_many_collections = 9014, /**< Exceeded the maximum number of collections per database */
-                  import_export_error = 9015,  /**< EJDB export/import error */
-                  json_parse_failed = 9016,    /**< JSON parsing failed */
-                  bson_too_large = 9017,       /**< BSON size is too big */
-                  invalid_command = 9018       /**< Invalid ejdb command specified */
+constexpr inline index_mode operator|(index_mode lhs, index_mode rhs) noexcept {
+    return (index_mode)((std::underlying_type_t<index_mode>)lhs | (std::underlying_type_t<index_mode>)rhs);
+}
+
+constexpr inline index_mode& operator|=(index_mode& lhs, index_mode rhs) noexcept { return lhs = lhs | rhs; }
+
+/*< Query search mode flags */
+enum class query_search_mode {
+    normal = 0, /**< Default search mode */
+    count_only = 1, /**< Query only count(*) */
+    first_only = 1 << 1 /**< Fetch first record only */
 };
 
-std::error_code make_error_code(errc ecode);
+constexpr inline query_search_mode operator|(query_search_mode lhs, query_search_mode rhs) noexcept {
+    return (query_search_mode)((std::underlying_type_t<query_search_mode>)lhs |
+                               (std::underlying_type_t<query_search_mode>)rhs);
+}
+
+constexpr inline query_search_mode& operator|=(query_search_mode& lhs, query_search_mode rhs) noexcept {
+    return lhs = lhs | rhs;
+}
+
+/** Error codes */
+enum class errc {
+    invalid_collection_name = 9000,     /**< Invalid collection name. */
+    invalid_bson = 9001,                /**< Invalid bson object. */
+    invalid_bson_oid = 9002,            /**< Invalid bson object id. */
+    invalid_query_control_field = 9003, /**< Invalid query control field starting with '$'. */
+    query_field_require_array = 9004,   /**< $strand, $stror, $in, $nin, $bt keys requires not empty array value. */
+    invalid_metadata = 9005,            /**< Inconsistent database metadata. */
+    invalid_field_path = 9006,          /**< Invalid field path value. */
+    invalid_query_regex = 9007,         /**< Invalid query regexp value. */
+    query_result_sort_error = 9008,     /**< Result set sorting error. */
+    query_error = 9009,                 /**< Query generic error. */
+    query_update_failed = 9010,         /**< Updating failed. */
+    query_elemmatch_limit = 9011,       /**< Only one $elemMatch allowed in the fieldpath. */
+    query_cannot_mix_include_exclude = 9012, /**< $fields hint cannot mix include and exclude fields */
+    query_invalid_action = 9013,             /**< action key in $do block can only be one of: $join */
+    too_many_collections = 9014,             /**< Exceeded the maximum number of collections per database */
+    import_export_error = 9015,              /**< EJDB export/import error */
+    json_parse_failed = 9016,                /**< JSON parsing failed */
+    bson_too_large = 9017,                   /**< BSON size is too big */
+    invalid_command = 9018                   /**< Invalid ejdb command specified */
+};
+
+std::error_code make_error_code(errc ecode) noexcept;
 
 } // namespace ejdb
 
 namespace std {
-    template <>
-    struct is_error_code_enum<ejdb::errc> : public true_type {};
+template <> struct is_error_code_enum<ejdb::errc> : public true_type {};
 }
 
 namespace ejdb {
@@ -106,7 +131,7 @@ struct db final {
     std::error_code error() const noexcept;
     static std::error_code error(std::weak_ptr<EJDB>) noexcept;
 
-    bool open(const std::string& path, int mode, std::error_code& ec) noexcept;
+    bool open(const std::string& path, db_mode mode, std::error_code& ec) noexcept;
     bool is_open() const noexcept;
     bool close(std::error_code& ec) noexcept;
 
@@ -115,7 +140,7 @@ struct db final {
     bool remove_collection(const std::string& name, bool unlink_file, std::error_code& ec) noexcept;
     const std::vector<collection> get_collections() const noexcept;
 
-    query create_query(const jbson::document& doc, std::error_code& ec) noexcept;
+    query create_query(const jbson::document& doc, std::error_code& ec);
 
     bool sync(std::error_code& ec) noexcept;
 
@@ -135,8 +160,9 @@ struct collection final {
     boost::optional<jbson::document> load_document(std::array<char, 12> oid, std::error_code& ec) const;
     bool remove_document(std::array<char, 12>, std::error_code& ec) noexcept;
 
-    bool set_index(const std::string& ipath, int flags, std::error_code& ec) noexcept;
-    std::vector<jbson::document> execute_query(const query&, int flags = 0);
+    bool set_index(const std::string& ipath, index_mode flags, std::error_code& ec) noexcept;
+
+    std::vector<jbson::document> execute_query(const query&, query_search_mode flags = query_search_mode::normal);
 
     std::vector<jbson::document> get_all();
 
@@ -159,12 +185,6 @@ struct query final {
     query(query&&) noexcept = default;
     query& operator=(query&&)&noexcept = default;
     query&& operator=(query&&)&&noexcept;
-
-    enum search_mode {
-        /*< Query search mode flags */
-        count_only = 1,
-        first_only = 1 << 1
-    };
 
     explicit operator bool() const noexcept;
 
@@ -191,7 +211,7 @@ struct query final {
     std::weak_ptr<EJDB> m_db;
 
     struct eqry_deleter {
-        void operator()(EJQ* ptr) const;
+        void operator()(EJQ* ptr) const noexcept;
     };
     std::unique_ptr<EJQ, eqry_deleter> m_qry;
 };

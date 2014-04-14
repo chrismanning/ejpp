@@ -33,10 +33,10 @@
 namespace ejdb {
 
 struct ejdb_deleter {
-    void operator()(EJDB* ptr) const { c_ejdb::del(ptr); }
+    void operator()(EJDB* ptr) const noexcept { c_ejdb::del(ptr); }
 };
 
-void query::eqry_deleter::operator()(EJQ* ptr) const { c_ejdb::querydel(ptr); }
+void query::eqry_deleter::operator()(EJQ* ptr) const noexcept { c_ejdb::querydel(ptr); }
 
 db::operator bool() const noexcept { return static_cast<bool>(m_db); }
 
@@ -53,9 +53,9 @@ std::error_code db::error(std::weak_ptr<EJDB> db) noexcept {
     return static_cast<errc>(c_ejdb::ecode(ptr.get()));
 }
 
-bool db::open(const std::string& path, int mode, std::error_code& ec) noexcept {
+bool db::open(const std::string& path, db_mode mode, std::error_code& ec) noexcept {
     m_db = {c_ejdb::newdb(), ejdb_deleter()};
-    const auto r = m_db && c_ejdb::open(m_db.get(), path.c_str(), mode);
+    const auto r = m_db && c_ejdb::open(m_db.get(), path.c_str(), (std::underlying_type_t<db_mode>)mode);
     if(!r)
         ec = error();
     return r;
@@ -110,7 +110,7 @@ const std::vector<collection> db::get_collections() const noexcept {
     return {range.begin(), range.end()};
 }
 
-query db::create_query(const jbson::document& doc, std::error_code& ec) noexcept {
+query db::create_query(const jbson::document& doc, std::error_code& ec) {
     if(!m_db) {
         ec = error();
         return {};
@@ -192,23 +192,23 @@ bool collection::remove_document(std::array<char, 12> oid, std::error_code& ec) 
     return r;
 }
 
-bool collection::set_index(const std::string& ipath, int flags, std::error_code& ec) noexcept {
+bool collection::set_index(const std::string& ipath, index_mode flags, std::error_code& ec) noexcept {
     if(m_coll == nullptr) {
         ec = std::make_error_code(std::errc::bad_address);
         return false;
     }
-    const auto r = c_ejdb::setindex(m_coll, ipath.c_str(), flags);
+    const auto r = c_ejdb::setindex(m_coll, ipath.c_str(), (std::underlying_type_t<index_mode>)flags);
     if(!r)
         ec = db::error(m_db);
     return r;
 }
 
-std::vector<jbson::document> collection::execute_query(const query& qry, int sm) {
+std::vector<jbson::document> collection::execute_query(const query& qry, query_search_mode sm) {
     if(m_coll == nullptr || !qry)
         return {};
     assert(qry.m_qry);
     uint32_t s{0};
-    const auto list = c_ejdb::qryexecute(m_coll, qry.m_qry.get(), &s, sm);
+    const auto list = c_ejdb::qryexecute(m_coll, qry.m_qry.get(), &s, (std::underlying_type_t<query_search_mode>)sm);
     if(list == nullptr)
         return {};
     assert(s == static_cast<decltype(s)>(c_ejdb::qresultnum(list)));
@@ -271,18 +271,7 @@ query& query::operator|=(const jbson::document& obj) & {
     return *this;
 }
 
-query&& query::operator|=(const jbson::document& obj) && {
-    assert(m_qry);
-    auto db = m_db.lock();
-    if(!db)
-        return std::move(*this);
-
-    auto q = c_ejdb::queryaddor(db.get(), m_qry.get(), obj.data().data());
-    if(q != m_qry.get())
-        m_qry.reset(q);
-
-    return std::move(*this);
-}
+query&& query::operator|=(const jbson::document& obj) && { return std::move(*this |= obj); }
 
 query& query::set_hints(const jbson::document& obj) & {
     assert(m_qry);
@@ -296,17 +285,7 @@ query& query::set_hints(const jbson::document& obj) & {
     return *this;
 }
 
-query&& query::set_hints(const jbson::document& obj) && {
-    assert(m_qry);
-    auto db = m_db.lock();
-    if(!db)
-        return std::move(*this);
-    auto q = c_ejdb::queryhints(db.get(), m_qry.get(), obj.data().data());
-    if(q != m_qry.get())
-        m_qry.reset(q);
-
-    return std::move(*this);
-}
+query&& query::set_hints(const jbson::document& obj) && { return std::move(set_hints(obj)); }
 
 query::operator bool() const noexcept { return !m_db.expired() && m_qry != nullptr; }
 
@@ -319,7 +298,7 @@ class error_category : public std::error_category {
     std::string message(int ecode) const noexcept override { return c_ejdb::errmsg(ecode); }
 };
 
-std::error_code make_error_code(errc ecode) {
+std::error_code make_error_code(errc ecode) noexcept {
     static const ::ejdb::error_category ecat{};
     return std::error_code{static_cast<int>(ecode), ecat};
 }
