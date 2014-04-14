@@ -203,12 +203,12 @@ bool collection::set_index(const std::string& ipath, index_mode flags, std::erro
     return r;
 }
 
-std::vector<jbson::document> collection::execute_query(const query& qry, query_search_mode sm) {
+template <> std::vector<jbson::document> collection::execute_query<query_search_mode::normal>(const query& qry) {
     if(m_coll == nullptr || !qry)
         return {};
     assert(qry.m_qry);
-    uint32_t s{0};
-    const auto list = c_ejdb::qryexecute(m_coll, qry.m_qry.get(), &s, (std::underlying_type_t<query_search_mode>)sm);
+    uint32_t s{0u};
+    const auto list = c_ejdb::qryexecute(m_coll, qry.m_qry.get(), &s, 0);
     if(list == nullptr)
         return {};
     assert(s == static_cast<decltype(s)>(c_ejdb::qresultnum(list)));
@@ -227,6 +227,58 @@ std::vector<jbson::document> collection::execute_query(const query& qry, query_s
     c_ejdb::qresultdispose(list);
     return std::move(r);
 }
+template std::vector<jbson::document> collection::execute_query<query_search_mode::normal>(const query&);
+
+template <> uint32_t collection::execute_query<query_search_mode::count_only>(const query& qry) {
+    if(m_coll == nullptr || !qry)
+        return 0;
+    assert(qry.m_qry);
+    uint32_t s{0u};
+    const auto list = c_ejdb::qryexecute(m_coll, qry.m_qry.get(), &s,
+                                         (std::underlying_type_t<query_search_mode>)query_search_mode::count_only);
+    if(list != nullptr)
+        c_ejdb::qresultdispose(list);
+    return s;
+}
+template uint32_t collection::execute_query<query_search_mode::count_only>(const query&);
+
+template <>
+boost::optional<jbson::document> collection::execute_query<query_search_mode::first_only>(const query& qry) {
+    if(m_coll == nullptr || !qry)
+        return boost::none;
+    assert(qry.m_qry);
+    uint32_t s{0u};
+    const auto list = c_ejdb::qryexecute(m_coll, qry.m_qry.get(), &s,
+                                         (std::underlying_type_t<query_search_mode>)query_search_mode::first_only);
+    if(list == nullptr || s == 0)
+        return boost::none;
+    assert(s == static_cast<decltype(s)>(c_ejdb::qresultnum(list)));
+    assert(s == 1);
+
+    int ns{0};
+    auto data = reinterpret_cast<const char*>(c_ejdb::qresultbsondata(list, 0, &ns));
+    auto doc = jbson::document(data, data + ns);
+    c_ejdb::qresultdispose(list);
+
+    return std::move(doc);
+}
+template boost::optional<jbson::document> collection::execute_query<query_search_mode::first_only>(const query&);
+
+template <>
+uint32_t collection::execute_query<query_search_mode::count_only | query_search_mode::first_only>(const query& qry) {
+    if(m_coll == nullptr || !qry)
+        return 0;
+    assert(qry.m_qry);
+    uint32_t s{0u};
+    const auto list = c_ejdb::qryexecute(
+        m_coll, qry.m_qry.get(), &s,
+        (std::underlying_type_t<query_search_mode>)(query_search_mode::count_only | query_search_mode::first_only));
+    if(list != nullptr)
+        c_ejdb::qresultdispose(list);
+    return s;
+}
+template uint32_t
+collection::execute_query<query_search_mode::count_only | query_search_mode::first_only>(const query&);
 
 std::vector<jbson::document> collection::get_all() {
     auto db = m_db.lock();

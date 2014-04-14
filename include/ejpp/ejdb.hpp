@@ -77,8 +77,8 @@ constexpr inline index_mode& operator|=(index_mode& lhs, index_mode rhs) noexcep
 
 /*< Query search mode flags */
 enum class query_search_mode {
-    normal = 0, /**< Default search mode */
-    count_only = 1, /**< Query only count(*) */
+    normal = 0,         /**< Default search mode */
+    count_only = 1,     /**< Query only count(*) */
     first_only = 1 << 1 /**< Fetch first record only */
 };
 
@@ -89,6 +89,15 @@ constexpr inline query_search_mode operator|(query_search_mode lhs, query_search
 
 constexpr inline query_search_mode& operator|=(query_search_mode& lhs, query_search_mode rhs) noexcept {
     return lhs = lhs | rhs;
+}
+
+constexpr inline query_search_mode operator&(query_search_mode lhs, query_search_mode rhs) noexcept {
+    return (query_search_mode)((std::underlying_type_t<query_search_mode>)lhs &
+                               (std::underlying_type_t<query_search_mode>)rhs);
+}
+
+constexpr inline query_search_mode& operator&=(query_search_mode& lhs, query_search_mode rhs) noexcept {
+    return lhs = lhs & rhs;
 }
 
 /** Error codes */
@@ -150,6 +159,15 @@ struct db final {
     std::shared_ptr<EJDB> m_db;
 };
 
+namespace detail {
+
+template <query_search_mode flags>
+using query_return_type =
+    std::conditional_t<(flags& query_search_mode::count_only) == query_search_mode::count_only, uint32_t,
+                       std::conditional_t<(flags& query_search_mode::first_only) == query_search_mode::first_only,
+                                          boost::optional<jbson::document>, std::vector<jbson::document>>>;
+}
+
 struct collection final {
     collection() noexcept = default;
 
@@ -162,7 +180,8 @@ struct collection final {
 
     bool set_index(const std::string& ipath, index_mode flags, std::error_code& ec) noexcept;
 
-    std::vector<jbson::document> execute_query(const query&, query_search_mode flags = query_search_mode::normal);
+    template <query_search_mode flags = query_search_mode::normal>
+    detail::query_return_type<flags> execute_query(const query&);
 
     std::vector<jbson::document> get_all();
 
@@ -177,6 +196,20 @@ struct collection final {
     std::weak_ptr<EJDB> m_db;
     EJCOLL* m_coll{nullptr};
 };
+
+template <> std::vector<jbson::document> collection::execute_query<query_search_mode::normal>(const query& qry);
+extern template std::vector<jbson::document> collection::execute_query<query_search_mode::normal>(const query&);
+
+template <> uint32_t collection::execute_query<query_search_mode::count_only>(const query& qry);
+extern template uint32_t collection::execute_query<query_search_mode::count_only>(const query&);
+
+template <> boost::optional<jbson::document> collection::execute_query<query_search_mode::first_only>(const query& qry);
+extern template boost::optional<jbson::document> collection::execute_query<query_search_mode::first_only>(const query&);
+
+template <>
+uint32_t collection::execute_query<query_search_mode::count_only | query_search_mode::first_only>(const query& qry);
+extern template uint32_t
+collection::execute_query<query_search_mode::count_only | query_search_mode::first_only>(const query&);
 
 struct query final {
     query() noexcept = default;
