@@ -28,6 +28,7 @@
 #include <cassert>
 #include <deque>
 
+#include <boost/config.hpp>
 #include <boost/optional/optional_fwd.hpp>
 
 #include <jbson/document.hpp>
@@ -35,6 +36,18 @@
 struct EJDB;
 struct EJCOLL;
 struct EJQ;
+
+#ifndef EJPP_EXPORTS
+#define EJPP_EXPORT BOOST_SYMBOL_IMPORT
+#else
+#define EJPP_EXPORT BOOST_SYMBOL_EXPORT
+#endif
+
+#if defined(BOOST_GCC) || defined(BOOST_CLANG)
+#define EJPP_LOCAL __attribute__((__visibility__("hidden")))
+#else
+#define EJPP_LOCAL
+#endif
 
 namespace ejdb {
 struct collection;
@@ -75,7 +88,7 @@ constexpr inline index_mode operator|(index_mode lhs, index_mode rhs) noexcept {
 
 constexpr inline index_mode& operator|=(index_mode& lhs, index_mode rhs) noexcept { return lhs = lhs | rhs; }
 
-/*< Query search mode flags */
+/** Query search mode flags */
 enum class query_search_mode {
     normal = 0,         /**< Default search mode */
     count_only = 1,     /**< Query only count(*) */
@@ -133,7 +146,7 @@ template <> struct is_error_code_enum<ejdb::errc> : public true_type {};
 
 namespace ejdb {
 
-struct db final {
+struct EJPP_EXPORT db final {
     db() noexcept = default;
 
     explicit operator bool() const noexcept;
@@ -168,7 +181,7 @@ using query_return_type =
                                           boost::optional<jbson::document>, std::vector<jbson::document>>>;
 }
 
-struct collection final {
+struct EJPP_EXPORT collection final {
     collection() noexcept = default;
 
     explicit operator bool() const noexcept;
@@ -191,27 +204,33 @@ struct collection final {
 
   private:
     friend struct db;
-    collection(std::weak_ptr<EJDB> m_db, EJCOLL* m_coll) noexcept;
+    EJPP_LOCAL collection(std::weak_ptr<EJDB> m_db, EJCOLL* m_coll) noexcept;
 
     std::weak_ptr<EJDB> m_db;
     EJCOLL* m_coll{nullptr};
 };
 
-template <> std::vector<jbson::document> collection::execute_query<query_search_mode::normal>(const query& qry);
-extern template std::vector<jbson::document> collection::execute_query<query_search_mode::normal>(const query&);
-
-template <> uint32_t collection::execute_query<query_search_mode::count_only>(const query& qry);
-extern template uint32_t collection::execute_query<query_search_mode::count_only>(const query&);
-
-template <> boost::optional<jbson::document> collection::execute_query<query_search_mode::first_only>(const query& qry);
-extern template boost::optional<jbson::document> collection::execute_query<query_search_mode::first_only>(const query&);
+template <>
+EJPP_EXPORT std::vector<jbson::document> collection::execute_query<query_search_mode::normal>(const query& qry);
+extern template
+std::vector<jbson::document> collection::execute_query<query_search_mode::normal>(const query&);
 
 template <>
-uint32_t collection::execute_query<query_search_mode::count_only | query_search_mode::first_only>(const query& qry);
-extern template uint32_t
-collection::execute_query<query_search_mode::count_only | query_search_mode::first_only>(const query&);
+EJPP_EXPORT uint32_t collection::execute_query<query_search_mode::count_only>(const query& qry);
+extern template
+uint32_t collection::execute_query<query_search_mode::count_only>(const query&);
 
-struct query final {
+template <>
+EJPP_EXPORT boost::optional<jbson::document> collection::execute_query<query_search_mode::first_only>(const query& qry);
+extern template
+boost::optional<jbson::document> collection::execute_query<query_search_mode::first_only>(const query&);
+
+template <>
+EJPP_EXPORT uint32_t collection::execute_query<query_search_mode::count_only | query_search_mode::first_only>(const query& qry);
+extern template
+uint32_t collection::execute_query<query_search_mode::count_only | query_search_mode::first_only>(const query&);
+
+struct EJPP_EXPORT query final {
     query() noexcept = default;
 
     query(query&&) noexcept = default;
@@ -237,7 +256,7 @@ struct query final {
   private:
     friend struct db;
     friend struct collection;
-    query(std::weak_ptr<EJDB> m_db, EJQ* m_qry) noexcept;
+    EJPP_LOCAL query(std::weak_ptr<EJDB> m_db, EJQ* m_qry) noexcept;
 
     std::weak_ptr<EJDB> m_db;
 

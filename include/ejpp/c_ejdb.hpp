@@ -24,7 +24,6 @@
 
 #include <tcejdb/tcutil.h>
 #include <boost/utility/string_ref_fwd.hpp>
-#include <deque>
 #include <vector>
 
 extern "C" {
