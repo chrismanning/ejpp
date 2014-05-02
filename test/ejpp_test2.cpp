@@ -292,15 +292,26 @@ TEST_F(EjdbTest2, TestQuery2) {
     ASSERT_NO_THROW(bsq1 = R"({ "address.zip": "630090" })"_json_doc);
 
     jbson::document bshints;
+    ASSERT_ANY_THROW(bshints = R"({ "$orderby": { "name": -1 } )"_json_doc);
     ASSERT_NO_THROW(bshints = R"({ "$orderby": { "name": -1 } })"_json_doc);
 
     ejdb::query q1;
+    ASSERT_FALSE(static_cast<bool>(q1));
     ASSERT_NO_THROW(q1 = jb.create_query(bsq1, ec).set_hints(bshints));
     static_assert(std::is_same<decltype(q1), ejdb::query>::value, "");
     ASSERT_TRUE(static_cast<bool>(q1));
 
     auto q1res = contacts.execute_query(q1);
     ASSERT_EQ(2u, q1res.size());
+    EXPECT_NO_THROW(ASSERT_EQ(2u, contacts.execute_query<ejdb::query_search_mode::count_only>(q1)));
+    EXPECT_NO_THROW(ASSERT_EQ(1u, contacts.execute_query<ejdb::query_search_mode::count_only|
+                              ejdb::query_search_mode::first_only>(q1)));
+    EXPECT_NO_THROW(ASSERT_EQ(2u, contacts.execute_query<ejdb::query_search_mode::count_only>(q1)));
+
+    EXPECT_NO_THROW(q1res = contacts.execute_query(q1));
+    ASSERT_EQ(2u, q1res.size());
+
+    EXPECT_NO_THROW(ASSERT_NE(boost::none, contacts.execute_query<ejdb::query_search_mode::first_only>(q1)));
 
     auto doc_it = q1res.begin();
     ASSERT_NE(q1res.end(), doc_it);
