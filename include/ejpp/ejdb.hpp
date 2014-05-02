@@ -43,25 +43,31 @@ struct EJQ;
 #define EJPP_EXPORT BOOST_SYMBOL_EXPORT
 #endif
 
+#ifndef EJPP_LOCAL
 #if defined(BOOST_GCC) || defined(BOOST_CLANG)
 #define EJPP_LOCAL __attribute__((__visibility__("hidden")))
 #else
 #define EJPP_LOCAL
 #endif
+#endif
 
+/*!
+ * \brief Contains the main EJPP classes, etc.
+ * \namespace ejdb
+ */
 namespace ejdb {
 struct collection;
 struct query;
 
-/** Database open modes */
+//! Database open modes
 enum class db_mode {
-    read = 1 << 0,      /**< Open as a reader. */
-    write = 1 << 1,     /**< Open as a writer. */
-    create = 1 << 2,    /**< Create if db file not exists. */
-    truncate = 1 << 3,  /**< Truncate db on open. */
-    nolock = 1 << 4,    /**< Open without locking. */
-    noblock = 1 << 5,   /**< Lock without blocking. */
-    trans_sync = 1 << 6 /**< Synchronize every transaction. */
+    read = 1 << 0,      //!< Open as a reader.
+    write = 1 << 1,     //!< Open as a writer.
+    create = 1 << 2,    //!< Create if db file not exists.
+    truncate = 1 << 3,  //!< Truncate db on open.
+    nolock = 1 << 4,    //!< Open without locking.
+    noblock = 1 << 5,   //!< Lock without blocking.
+    trans_sync = 1 << 6 //!< Synchronize every transaction.
 };
 
 constexpr inline db_mode operator|(db_mode lhs, db_mode rhs) noexcept {
@@ -70,16 +76,16 @@ constexpr inline db_mode operator|(db_mode lhs, db_mode rhs) noexcept {
 
 constexpr inline db_mode& operator|=(db_mode& lhs, db_mode rhs) noexcept { return lhs = lhs | rhs; }
 
-/** Index modes, index types. */
+//! Index modes, index types.
 enum class index_mode {
-    drop = 1 << 0,     /**< Drop index. */
-    drop_all = 1 << 1, /**< Drop index for all types. */
-    optimize = 1 << 2, /**< Optimize indexes. */
-    rebuild = 1 << 3,  /**< Rebuild index. */
-    number = 1 << 4,   /**< Number index. */
-    string = 1 << 5,   /**< String index.*/
-    array = 1 << 6,    /**< Array token index. */
-    istring = 1 << 7   /**< Case insensitive string index */
+    drop = 1 << 0,     //!< Drop index.
+    drop_all = 1 << 1, //!< Drop index for all types.
+    optimize = 1 << 2, //!< Optimize indexes.
+    rebuild = 1 << 3,  //!< Rebuild index.
+    number = 1 << 4,   //!< Number index.
+    string = 1 << 5,   //!< String index.
+    array = 1 << 6,    //!< Array token index.
+    istring = 1 << 7   //!< Case insensitive string index.
 };
 
 constexpr inline index_mode operator|(index_mode lhs, index_mode rhs) noexcept {

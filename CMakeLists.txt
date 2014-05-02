@@ -7,6 +7,9 @@ option(EJPP_ENABLE_TESTING "Enable ejpp testing" ON)
 option(EJPP_SANITIZE_ADDRESS "Use -fsanitize=address where available" OFF)
 option(EJPP_LEAK_CHECKER "Enable memory leak checking where available" OFF)
 
+set(EJPP_DOC_OUTPUT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/doc/out" CACHE FILEPATH
+"Directory to output generated documentation")
+
 if(${EJPP_ENABLE_TESTING})
 enable_testing()
 endif()
@@ -113,3 +116,13 @@ install(TARGETS ejpp ejpp-static
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib)
 install(DIRECTORY include/ejpp DESTINATION include/ejpp)
+
+find_package(Doxygen)
+
+if(DOXYGEN_FOUND)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
+add_custom_target(doc
+    ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
+    COMMENT "Generating API documentation with Doxygen" VERBATIM
+)
+endif(DOXYGEN_FOUND)

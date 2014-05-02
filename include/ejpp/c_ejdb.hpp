@@ -41,6 +41,10 @@ typedef TCLIST* EJQRESULT;
 
 } // extern "C"
 
+/*!
+ * \brief Contains wrappers for EJDB's C functions. Unpollutes the global namespace.
+ * \namespace c_ejdb
+ */
 namespace c_ejdb {
 
 const char* version();
