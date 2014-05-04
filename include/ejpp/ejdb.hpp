@@ -297,9 +297,6 @@ struct EJPP_EXPORT query final {
     //! Default constructor. Results in an invalid query, not associated with a db.
     query() noexcept = default;
 
-    query(query&&) noexcept = default;
-    query& operator=(query&&)&noexcept = default;
-
     //! Returns whether the associated ejdb::db and represented EJDB query are both valid.
     explicit operator bool() const noexcept;
 
