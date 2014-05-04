@@ -43,6 +43,7 @@
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
 <div id="nav-path" class="navpath">
@@ -60,47 +61,53 @@
 <div class="title">ejdb::query Struct Reference<span class="mlabels"><span class="mlabel">final</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Class representing an EJDB query.  
+ <a href="structejdb_1_1query.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="ejdb_8hpp_source.html">ejdb.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a3998cc97513e4266813e5ea575ac3dab"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3998cc97513e4266813e5ea575ac3dab"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>query</b> (<a class="el" href="structejdb_1_1query.html">query</a> &amp;&amp;) noexcept=default</td></tr>
-<tr class="separator:a3998cc97513e4266813e5ea575ac3dab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2fbd7548b60482f51932204902e50270"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2fbd7548b60482f51932204902e50270"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1query.html#a2fbd7548b60482f51932204902e50270">query</a> () noexcept=default</td></tr>
+<tr class="memdesc:a2fbd7548b60482f51932204902e50270"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor. Results in an invalid query, not associated with a db. <br /></td></tr>
+<tr class="separator:a2fbd7548b60482f51932204902e50270"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afc0b0eb88a60e05241a153a5fb560a21"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afc0b0eb88a60e05241a153a5fb560a21"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>operator bool</b> () const noexcept</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1query.html#afc0b0eb88a60e05241a153a5fb560a21">operator bool</a> () const noexcept</td></tr>
+<tr class="memdesc:afc0b0eb88a60e05241a153a5fb560a21"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether the associated <a class="el" href="structejdb_1_1db.html" title="Main point of access to EJDB. ">ejdb::db</a> and represented EJDB query are both valid. <br /></td></tr>
 <tr class="separator:afc0b0eb88a60e05241a153a5fb560a21"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2f9937411ff04cbe85898b0fb977e5cb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2f9937411ff04cbe85898b0fb977e5cb"></a>
-<a class="el" href="structejdb_1_1query.html">query</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&amp;=</b> (const jbson::document &amp;)&amp;</td></tr>
+<tr class="memitem:a2f9937411ff04cbe85898b0fb977e5cb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structejdb_1_1query.html">query</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1query.html#a2f9937411ff04cbe85898b0fb977e5cb">operator&amp;=</a> (const jbson::document &amp;)&amp;</td></tr>
+<tr class="memdesc:a2f9937411ff04cbe85898b0fb977e5cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">In-place <code>$and</code> operator.  <a href="#a2f9937411ff04cbe85898b0fb977e5cb">More...</a><br /></td></tr>
 <tr class="separator:a2f9937411ff04cbe85898b0fb977e5cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a19e3b687a4e1d1de21cda402577b2bcd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a19e3b687a4e1d1de21cda402577b2bcd"></a>
-<a class="el" href="structejdb_1_1query.html">query</a> &amp;&amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&amp;=</b> (const jbson::document &amp;)&amp;&amp;</td></tr>
+<tr class="memitem:a19e3b687a4e1d1de21cda402577b2bcd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structejdb_1_1query.html">query</a> &amp;&amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1query.html#a19e3b687a4e1d1de21cda402577b2bcd">operator&amp;=</a> (const jbson::document &amp;)&amp;&amp;</td></tr>
+<tr class="memdesc:a19e3b687a4e1d1de21cda402577b2bcd"><td class="mdescLeft">&#160;</td><td class="mdescRight">In-place <code>$and</code> operator.  <a href="#a19e3b687a4e1d1de21cda402577b2bcd">More...</a><br /></td></tr>
 <tr class="separator:a19e3b687a4e1d1de21cda402577b2bcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab5670991f31eace8fe64da942dd86ed4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab5670991f31eace8fe64da942dd86ed4"></a>
-<a class="el" href="structejdb_1_1query.html">query</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&amp;=</b> (<a class="el" href="structejdb_1_1query.html">query</a>)&amp;noexcept</td></tr>
+<tr class="memitem:ab5670991f31eace8fe64da942dd86ed4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structejdb_1_1query.html">query</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1query.html#ab5670991f31eace8fe64da942dd86ed4">operator&amp;=</a> (<a class="el" href="structejdb_1_1query.html">query</a>)&amp;noexcept</td></tr>
+<tr class="memdesc:ab5670991f31eace8fe64da942dd86ed4"><td class="mdescLeft">&#160;</td><td class="mdescRight">In-place <code>$and</code> operator.  <a href="#ab5670991f31eace8fe64da942dd86ed4">More...</a><br /></td></tr>
 <tr class="separator:ab5670991f31eace8fe64da942dd86ed4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa8f561aef3a5d2e72a2281a148df541a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa8f561aef3a5d2e72a2281a148df541a"></a>
-<a class="el" href="structejdb_1_1query.html">query</a> &amp;&amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&amp;=</b> (<a class="el" href="structejdb_1_1query.html">query</a>)&amp;&amp;noexcept</td></tr>
+<tr class="memitem:aa8f561aef3a5d2e72a2281a148df541a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structejdb_1_1query.html">query</a> &amp;&amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1query.html#aa8f561aef3a5d2e72a2281a148df541a">operator&amp;=</a> (<a class="el" href="structejdb_1_1query.html">query</a>)&amp;&amp;noexcept</td></tr>
+<tr class="memdesc:aa8f561aef3a5d2e72a2281a148df541a"><td class="mdescLeft">&#160;</td><td class="mdescRight">In-place <code>$and</code> operator.  <a href="#aa8f561aef3a5d2e72a2281a148df541a">More...</a><br /></td></tr>
 <tr class="separator:aa8f561aef3a5d2e72a2281a148df541a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a90b54d400cc70b029f2e5c08eb99454f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a90b54d400cc70b029f2e5c08eb99454f"></a>
-<a class="el" href="structejdb_1_1query.html">query</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="structejdb_1_1query.html">query</a> &amp;&amp;)&amp;noexcept=default</td></tr>
-<tr class="separator:a90b54d400cc70b029f2e5c08eb99454f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae487e11a04dd18adca1e6e32dd291dbd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae487e11a04dd18adca1e6e32dd291dbd"></a>
-<a class="el" href="structejdb_1_1query.html">query</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator|=</b> (const jbson::document &amp;)&amp;</td></tr>
+<a class="el" href="structejdb_1_1query.html">query</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1query.html#ae487e11a04dd18adca1e6e32dd291dbd">operator|=</a> (const jbson::document &amp;)&amp;</td></tr>
+<tr class="memdesc:ae487e11a04dd18adca1e6e32dd291dbd"><td class="mdescLeft">&#160;</td><td class="mdescRight">In-place <code>$or</code> operator with BSON document as operand. <br /></td></tr>
 <tr class="separator:ae487e11a04dd18adca1e6e32dd291dbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a39cd87bc41cfd5e1cfd2cc85471e67dd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a39cd87bc41cfd5e1cfd2cc85471e67dd"></a>
-<a class="el" href="structejdb_1_1query.html">query</a> &amp;&amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator|=</b> (const jbson::document &amp;)&amp;&amp;</td></tr>
+<a class="el" href="structejdb_1_1query.html">query</a> &amp;&amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1query.html#a39cd87bc41cfd5e1cfd2cc85471e67dd">operator|=</a> (const jbson::document &amp;)&amp;&amp;</td></tr>
+<tr class="memdesc:a39cd87bc41cfd5e1cfd2cc85471e67dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">In-place <code>$or</code> operator with BSON document as operand. Rvalue overload. <br /></td></tr>
 <tr class="separator:a39cd87bc41cfd5e1cfd2cc85471e67dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a166920c41ebdbc2a232aa0af0bf8ca8f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a166920c41ebdbc2a232aa0af0bf8ca8f"></a>
-<a class="el" href="structejdb_1_1query.html">query</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator|=</b> (<a class="el" href="structejdb_1_1query.html">query</a>)&amp;noexcept</td></tr>
+<tr class="memitem:a166920c41ebdbc2a232aa0af0bf8ca8f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structejdb_1_1query.html">query</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1query.html#a166920c41ebdbc2a232aa0af0bf8ca8f">operator|=</a> (<a class="el" href="structejdb_1_1query.html">query</a>)&amp;noexcept</td></tr>
+<tr class="memdesc:a166920c41ebdbc2a232aa0af0bf8ca8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">In-place <code>$or</code> operator with <a class="el" href="structejdb_1_1query.html" title="Class representing an EJDB query. ">ejdb::query</a> as operand.  <a href="#a166920c41ebdbc2a232aa0af0bf8ca8f">More...</a><br /></td></tr>
 <tr class="separator:a166920c41ebdbc2a232aa0af0bf8ca8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6ea06a1e7f7758a0a3e74b1744d2c9c6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6ea06a1e7f7758a0a3e74b1744d2c9c6"></a>
-<a class="el" href="structejdb_1_1query.html">query</a> &amp;&amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator|=</b> (<a class="el" href="structejdb_1_1query.html">query</a>)&amp;&amp;noexcept</td></tr>
+<tr class="memitem:a6ea06a1e7f7758a0a3e74b1744d2c9c6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structejdb_1_1query.html">query</a> &amp;&amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1query.html#a6ea06a1e7f7758a0a3e74b1744d2c9c6">operator|=</a> (<a class="el" href="structejdb_1_1query.html">query</a>)&amp;&amp;noexcept</td></tr>
+<tr class="memdesc:a6ea06a1e7f7758a0a3e74b1744d2c9c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">In-place <code>$or</code> operator with <a class="el" href="structejdb_1_1query.html" title="Class representing an EJDB query. ">ejdb::query</a> as operand. Rvalue overload.  <a href="#a6ea06a1e7f7758a0a3e74b1744d2c9c6">More...</a><br /></td></tr>
 <tr class="separator:a6ea06a1e7f7758a0a3e74b1744d2c9c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad64f1038d1e5afe0e1c8d9f9756afa56"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad64f1038d1e5afe0e1c8d9f9756afa56"></a>
-<a class="el" href="structejdb_1_1query.html">query</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>set_hints</b> (const jbson::document &amp;)&amp;</td></tr>
+<tr class="memitem:ad64f1038d1e5afe0e1c8d9f9756afa56"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structejdb_1_1query.html">query</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1query.html#ad64f1038d1e5afe0e1c8d9f9756afa56">set_hints</a> (const jbson::document &amp;)&amp;</td></tr>
+<tr class="memdesc:ad64f1038d1e5afe0e1c8d9f9756afa56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets hints for a query.  <a href="#ad64f1038d1e5afe0e1c8d9f9756afa56">More...</a><br /></td></tr>
 <tr class="separator:ad64f1038d1e5afe0e1c8d9f9756afa56"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac0fa541cc055cbe290d80c31a2a8cedd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac0fa541cc055cbe290d80c31a2a8cedd"></a>
-<a class="el" href="structejdb_1_1query.html">query</a> &amp;&amp;&#160;</td><td class="memItemRight" valign="bottom"><b>set_hints</b> (const jbson::document &amp;)&amp;&amp;</td></tr>
+<tr class="memitem:ac0fa541cc055cbe290d80c31a2a8cedd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structejdb_1_1query.html">query</a> &amp;&amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1query.html#ac0fa541cc055cbe290d80c31a2a8cedd">set_hints</a> (const jbson::document &amp;)&amp;&amp;</td></tr>
+<tr class="memdesc:ac0fa541cc055cbe290d80c31a2a8cedd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets hints for a query.  <a href="#ac0fa541cc055cbe290d80c31a2a8cedd">More...</a><br /></td></tr>
 <tr class="separator:ac0fa541cc055cbe290d80c31a2a8cedd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
@@ -112,6 +119,227 @@ struct&#160;</td><td class="memItemRight" valign="bottom"><b>collection</b></td>
 struct&#160;</td><td class="memItemRight" valign="bottom"><b>db</b></td></tr>
 <tr class="separator:a20802d5948a90a4e0528d7ac9384ba36"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Class representing an EJDB query. </p>
+<p>Valid queries can only be created via <a class="el" href="structejdb_1_1db.html#a9b5e3e9c46a9e4a325433703676a53c8" title="Create a query from a BSON document. ">ejdb::db::create_query</a>.</p>
+<p>Should the parent <a class="el" href="structejdb_1_1db.html" title="Main point of access to EJDB. ">ejdb::db</a> object expire before the query, all operations performed on or with the query will fail, with any <code>std::error_code</code>s set to <code>std::errc::bad_address</code> (<code>EFAULT</code>). The parent <a class="el" href="structejdb_1_1db.html" title="Main point of access to EJDB. ">ejdb::db</a> object is guaranteed to stay alive for the duration of an operation. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a2f9937411ff04cbe85898b0fb977e5cb"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structejdb_1_1query.html">query</a>&amp; ejdb::query::operator&amp;= </td>
+          <td>(</td>
+          <td class="paramtype">const jbson::document &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>In-place <code>$and</code> operator. </p>
+<dl class="section warning"><dt>Warning</dt><dd>Unimplemented. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a19e3b687a4e1d1de21cda402577b2bcd"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structejdb_1_1query.html">query</a>&amp;&amp; ejdb::query::operator&amp;= </td>
+          <td>(</td>
+          <td class="paramtype">const jbson::document &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>In-place <code>$and</code> operator. </p>
+<dl class="section warning"><dt>Warning</dt><dd>Unimplemented. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ab5670991f31eace8fe64da942dd86ed4"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structejdb_1_1query.html">query</a>&amp; ejdb::query::operator&amp;= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structejdb_1_1query.html">query</a>&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>In-place <code>$and</code> operator. </p>
+<dl class="section warning"><dt>Warning</dt><dd>Unimplemented. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="aa8f561aef3a5d2e72a2281a148df541a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structejdb_1_1query.html">query</a>&amp;&amp; ejdb::query::operator&amp;= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structejdb_1_1query.html">query</a>&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>In-place <code>$and</code> operator. </p>
+<dl class="section warning"><dt>Warning</dt><dd>Unimplemented. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a166920c41ebdbc2a232aa0af0bf8ca8f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structejdb_1_1query.html">query</a>&amp; ejdb::query::operator|= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structejdb_1_1query.html">query</a>&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>In-place <code>$or</code> operator with <a class="el" href="structejdb_1_1query.html" title="Class representing an EJDB query. ">ejdb::query</a> as operand. </p>
+<dl class="section warning"><dt>Warning</dt><dd>Unimplemented. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a6ea06a1e7f7758a0a3e74b1744d2c9c6"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structejdb_1_1query.html">query</a>&amp;&amp; ejdb::query::operator|= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structejdb_1_1query.html">query</a>&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>In-place <code>$or</code> operator with <a class="el" href="structejdb_1_1query.html" title="Class representing an EJDB query. ">ejdb::query</a> as operand. Rvalue overload. </p>
+<dl class="section warning"><dt>Warning</dt><dd>Unimplemented. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ad64f1038d1e5afe0e1c8d9f9756afa56"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structejdb_1_1query.html">query</a> &amp;&amp; ejdb::query::set_hints </td>
+          <td>(</td>
+          <td class="paramtype">const jbson::document &amp;&#160;</td>
+          <td class="paramname"><em>obj</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets hints for a query. </p>
+<p>EJDB's hints documentation follows.</p>
+<p>Available hints:</p><ul>
+<li>$max Maximum number in the result set</li>
+<li>$skip Number of skipped results in the result set</li>
+<li>$orderby Sorting order of query fields.</li>
+<li>$fields Set subset of fetched fields If a field presented in $orderby clause it will be forced to include in resulting records. Example: <div class="fragment"><div class="line">{</div>
+<div class="line">    <span class="stringliteral">&quot;$orderby&quot;</span> : { <span class="comment">//ORDER BY field1 ASC, field2 DESC</span></div>
+<div class="line">        <span class="stringliteral">&quot;field1&quot;</span> : 1,</div>
+<div class="line">        <span class="stringliteral">&quot;field2&quot;</span> : -1</div>
+<div class="line">    },</div>
+<div class="line">    <span class="stringliteral">&quot;$fields&quot;</span> : { <span class="comment">//SELECT ONLY {_id, field1, field2}</span></div>
+<div class="line">        <span class="stringliteral">&quot;field1&quot;</span> : 1,</div>
+<div class="line">        <span class="stringliteral">&quot;field2&quot;</span> : 1</div>
+<div class="line">    }</div>
+<div class="line">}</div>
+</div><!-- fragment --> </li>
+</ul>
+
+</div>
+</div>
+<a class="anchor" id="ac0fa541cc055cbe290d80c31a2a8cedd"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structejdb_1_1query.html">query</a>&amp;&amp; ejdb::query::set_hints </td>
+          <td>(</td>
+          <td class="paramtype">const jbson::document &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets hints for a query. </p>
+<p>EJDB's hints documentation follows.</p>
+<p>Available hints:</p><ul>
+<li>$max Maximum number in the result set</li>
+<li>$skip Number of skipped results in the result set</li>
+<li>$orderby Sorting order of query fields.</li>
+<li>$fields Set subset of fetched fields If a field presented in $orderby clause it will be forced to include in resulting records. Example: <div class="fragment"><div class="line">{</div>
+<div class="line">    <span class="stringliteral">&quot;$orderby&quot;</span> : { <span class="comment">//ORDER BY field1 ASC, field2 DESC</span></div>
+<div class="line">        <span class="stringliteral">&quot;field1&quot;</span> : 1,</div>
+<div class="line">        <span class="stringliteral">&quot;field2&quot;</span> : -1</div>
+<div class="line">    },</div>
+<div class="line">    <span class="stringliteral">&quot;$fields&quot;</span> : { <span class="comment">//SELECT ONLY {_id, field1, field2}</span></div>
+<div class="line">        <span class="stringliteral">&quot;field1&quot;</span> : 1,</div>
+<div class="line">        <span class="stringliteral">&quot;field2&quot;</span> : 1</div>
+<div class="line">    }</div>
+<div class="line">}</div>
+</div><!-- fragment --> </li>
+</ul>
+
+</div>
+</div>
 <hr/>The documentation for this struct was generated from the following files:<ul>
 <li>/home/chris/projects/ejpp/include/ejpp/<a class="el" href="ejdb_8hpp_source.html">ejdb.hpp</a></li>
 <li>/home/chris/projects/ejpp/src/ejpp/ejdb.cpp</li>

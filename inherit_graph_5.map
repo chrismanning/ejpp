@@ -1,3 +1,3 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node3" href="$structstd_1_1is__error__code__enum_3_01ejdb_1_1errc_01_4.html" title="std::is_error_code\l_enum\&lt; ejdb::errc \&gt;" alt="" coords="131,5,274,46"/>
+<area shape="rect" id="node3" href="$structstd_1_1is__error__code__enum_3_01ejdb_1_1errc_01_4.html" title="Allows for implicit conversion from ejdb::errc to std::error_code. " alt="" coords="131,5,274,46"/>
 </map>

@@ -48,6 +48,7 @@
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#namespaces">Namespaces</a> &#124;
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
@@ -59,17 +60,28 @@
 <p>Contains the main EJPP classes, etc.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:namespaceejdb_1_1detail"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceejdb_1_1detail.html">detail</a></td></tr>
+<tr class="memdesc:namespaceejdb_1_1detail"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implementation details. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1collection.html">collection</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class representing an EJDB collection.  <a href="structejdb_1_1collection.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1db.html">db</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main point of access to EJDB.  <a href="structejdb_1_1db.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1ejdb__deleter.html">ejdb_deleter</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Functor allowing for the deletion of opaque <code>EJDB</code> pointers.  <a href="structejdb_1_1ejdb__deleter.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classejdb_1_1error__category.html">error_category</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The category type used for all EJDB errors.  <a href="classejdb_1_1error__category.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1query.html">query</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class representing an EJDB query.  <a href="structejdb_1_1query.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
@@ -88,31 +100,63 @@ Enumerations</h2></td></tr>
 <tr class="memdesc:ad82ea1eca5597c7e71118e54011644d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Database open modes.  <a href="namespaceejdb.html#ad82ea1eca5597c7e71118e54011644d3">More...</a><br /></td></tr>
 <tr class="separator:ad82ea1eca5597c7e71118e54011644d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5de9a90fce54dd08fdf9287fe1a0c8ea"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8ea">errc</a> { <br />
-&#160;&#160;<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaafa5623d95d6e2f8c0d73467a79fc6acb">errc::invalid_collection_name</a> = 9000, 
+&#160;&#160;<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaa260ca9dd8a4577fc00b7bd5810298076">errc::success</a>, 
+<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaa86e503f33c56a1a9896da3f5a4d40403">errc::thread_error</a>, 
+<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaaf1203e404fb6b2467cd1884faa2c71c2">errc::invalid_operation</a>, 
+<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaa4cbd4f831bcb7891ccf9a70c3957cf49">errc::file_not_found</a>, 
+<br />
+&#160;&#160;<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaa83a13725c24a86e31111b6fbfdbabcdf">errc::no_permission</a>, 
+<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaafc8f22cac190da43071ba331e304d3c4">errc::invalid_tc_metadata</a>, 
+<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaafe8489fac44dd8b26746d9bcd0fc40f8">errc::invalid_record_header</a>, 
+<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaaed2346b504e406a82802d94ebb59c7cc">errc::open_error</a>, 
+<br />
+&#160;&#160;<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaa557910ddbbe68c949bbfc2bcd3988e94">errc::close_error</a>, 
+<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaa1a79d42c48948feb8cd3b85fe3706652">errc::trunc_error</a>, 
+<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaa7d3aec07609acb9fe7d1d8b569f5b829">errc::sync_error</a>, 
+<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaa3b6bc77750b5e35db4914155a10317a1">errc::stat_error</a>, 
+<br />
+&#160;&#160;<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaa56b1fc752bf0202cbf389b8dac9694ed">errc::seek_error</a>, 
+<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaac1ca8a1d20d289789a6de0474c94d9ad">errc::read_error</a>, 
+<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaad43a3548b8a5332ab6e748c0174cfa75">errc::write_error</a>, 
+<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaa79771f67ac80e9cef74bf45efa43f11c">errc::mmap_error</a>, 
+<br />
+&#160;&#160;<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaa754722288f0db10b86ab7764274e4d75">errc::lock_error</a>, 
+<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaa6da43d6d6b87f76c355fc8a3e3172c9a">errc::unlink_error</a>, 
+<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaa42a463a5db7b03813d5884d9562c6858">errc::rename_error</a>, 
+<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaa1070c7dc07beea81162e55d950e40b3a">errc::mkdir_error</a>, 
+<br />
+&#160;&#160;<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaad2e234a52a9eff112b747c45b88ea1ff">errc::rmdir_error</a>, 
+<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaa18ccf61d533b600bbf5a963359223fe4">errc::keep</a>, 
+<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaa5d2ec1ba3faa763fa21b349d0e94e0ad">errc::no_record_found</a>, 
+<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaa88beb006455b8b1e736bbcde24478603">errc::illegal_transaction_state</a>, 
+<br />
+&#160;&#160;<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaa02c081f895e26a667ab809d28570e0bf">errc::miscellaneous</a> = 9999, 
+<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaafa5623d95d6e2f8c0d73467a79fc6acb">errc::invalid_collection_name</a> = 9000, 
 <a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaa1c47945d80675a835b6a6067eaee749f">errc::invalid_bson</a> = 9001, 
 <a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaa4524a54bff0f0b28c91dffaa2d33eef0">errc::invalid_bson_oid</a> = 9002, 
-<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaa81f5d7ceb78fedbc8f5ccc4c0cf3fc71">errc::invalid_query_control_field</a> = 9003, 
 <br />
-&#160;&#160;<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaa0e9f5b2ff7e86b54d9a684db5874a0b4">errc::query_field_require_array</a> = 9004, 
+&#160;&#160;<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaa81f5d7ceb78fedbc8f5ccc4c0cf3fc71">errc::invalid_query_control_field</a> = 9003, 
+<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaa0e9f5b2ff7e86b54d9a684db5874a0b4">errc::query_field_require_array</a> = 9004, 
 <a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaacd653cb02dff27e58cf3db7a5c42c6e9">errc::invalid_metadata</a> = 9005, 
 <a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaabed3a560919493d2215ea64282cdab9a">errc::invalid_field_path</a> = 9006, 
-<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaa318e335e80bf17b9f30f8b9c74df0de3">errc::invalid_query_regex</a> = 9007, 
 <br />
-&#160;&#160;<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaad88f183dc24074474da6df996c556c88">errc::query_result_sort_error</a> = 9008, 
+&#160;&#160;<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaa318e335e80bf17b9f30f8b9c74df0de3">errc::invalid_query_regex</a> = 9007, 
+<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaad88f183dc24074474da6df996c556c88">errc::query_result_sort_error</a> = 9008, 
 <a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaa15bfb5a3e24f5529a323ef3db9f27d98">errc::query_error</a> = 9009, 
 <a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaa69a49b335fd58920606fe65100394388">errc::query_update_failed</a> = 9010, 
-<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaa1be0e051260ad48ca88e8757cb752691">errc::query_elemmatch_limit</a> = 9011, 
 <br />
-&#160;&#160;<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaa0e10f52ca9b1060eb466ca7a9fb9b6c6">errc::query_cannot_mix_include_exclude</a> = 9012, 
+&#160;&#160;<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaa1be0e051260ad48ca88e8757cb752691">errc::query_elemmatch_limit</a> = 9011, 
+<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaa0e10f52ca9b1060eb466ca7a9fb9b6c6">errc::query_cannot_mix_include_exclude</a> = 9012, 
 <a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaaabf0be1eb8f6e5393afc2bdcdbcd31f5">errc::query_invalid_action</a> = 9013, 
 <a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaac8a1f02833e4878330e2d95da175d38e">errc::too_many_collections</a> = 9014, 
-<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaa0a7160a29a94b44d472b2ead1414e30d">errc::import_export_error</a> = 9015, 
 <br />
-&#160;&#160;<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaa1e1fb14909563e7b80e458378aed4283">errc::json_parse_failed</a> = 9016, 
+&#160;&#160;<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaa0a7160a29a94b44d472b2ead1414e30d">errc::import_export_error</a> = 9015, 
+<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaa1e1fb14909563e7b80e458378aed4283">errc::json_parse_failed</a> = 9016, 
 <a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaa9c77cf54b9e9f4671cb5e32f012f9fb1">errc::bson_too_large</a> = 9017, 
 <a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaa349b2532edc16f6a522f84ea73fb3686">errc::invalid_command</a> = 9018
 <br />
  }</td></tr>
+<tr class="memdesc:a5de9a90fce54dd08fdf9287fe1a0c8ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Error codes. Tokyo Cabinet errors up to errc::miscellaneous.  <a href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8ea">More...</a><br /></td></tr>
 <tr class="separator:a5de9a90fce54dd08fdf9287fe1a0c8ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad717f714fc1b88575d9f2131b5ae8694"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694">index_mode</a> { <br />
 &#160;&#160;<a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694a6e9d25362c485bc3c90c818dfac5dc49">index_mode::drop</a> = 1 &lt;&lt; 0, 
@@ -132,52 +176,62 @@ Enumerations</h2></td></tr>
 <a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75ab2794163428de72debe5efeca32f33f8">query_search_mode::count_only</a> = 1, 
 <a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75aa7190158c163d646ef94aa64518ad4e3">query_search_mode::first_only</a> = 1 &lt;&lt; 1
  }</td></tr>
+<tr class="memdesc:aceb78f5b01de913fbdc2656029276a75"><td class="mdescLeft">&#160;</td><td class="mdescRight">Query search mode flags.  <a href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75">More...</a><br /></td></tr>
 <tr class="separator:aceb78f5b01de913fbdc2656029276a75"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a15b35ff3f962bc126db332740b0afb64"><td class="memTemplParams" colspan="2"><a class="anchor" id="a15b35ff3f962bc126db332740b0afb64"></a>
-template&lt;&gt; </td></tr>
-<tr class="memitem:a15b35ff3f962bc126db332740b0afb64"><td class="memTemplItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memTemplItemRight" valign="bottom"><b>collection::execute_query&lt; query_search_mode::count_only &gt;</b> (const <a class="el" href="structejdb_1_1query.html">query</a> &amp;qry)</td></tr>
+<tr class="memitem:a15b35ff3f962bc126db332740b0afb64"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
+<tr class="memitem:a15b35ff3f962bc126db332740b0afb64"><td class="memTemplItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceejdb.html#a15b35ff3f962bc126db332740b0afb64">collection::execute_query&lt; query_search_mode::count_only &gt;</a> (const <a class="el" href="structejdb_1_1query.html">query</a> &amp;qry)</td></tr>
+<tr class="memdesc:a15b35ff3f962bc126db332740b0afb64"><td class="mdescLeft">&#160;</td><td class="mdescRight">execute_query&lt;query_search_mode::count_only&gt;. Executes a query in count-only mode.  <a href="#a15b35ff3f962bc126db332740b0afb64">More...</a><br /></td></tr>
 <tr class="separator:a15b35ff3f962bc126db332740b0afb64"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a61b686e9c6538605cab2fa93a22e11ca"><td class="memTemplParams" colspan="2"><a class="anchor" id="a61b686e9c6538605cab2fa93a22e11ca"></a>
-template&lt;&gt; </td></tr>
-<tr class="memitem:a61b686e9c6538605cab2fa93a22e11ca"><td class="memTemplItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memTemplItemRight" valign="bottom"><b>collection::execute_query&lt; query_search_mode::count_only|query_search_mode::first_only &gt;</b> (const <a class="el" href="structejdb_1_1query.html">query</a> &amp;qry)</td></tr>
+<tr class="memitem:a61b686e9c6538605cab2fa93a22e11ca"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
+<tr class="memitem:a61b686e9c6538605cab2fa93a22e11ca"><td class="memTemplItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceejdb.html#a61b686e9c6538605cab2fa93a22e11ca">collection::execute_query&lt; query_search_mode::count_only|query_search_mode::first_only &gt;</a> (const <a class="el" href="structejdb_1_1query.html">query</a> &amp;qry)</td></tr>
+<tr class="memdesc:a61b686e9c6538605cab2fa93a22e11ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">execute_query&lt;<a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75ab2794163428de72debe5efeca32f33f8" title="Query only count(*) ">query_search_mode::count_only</a>|<a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75aa7190158c163d646ef94aa64518ad4e3" title="Fetch first record only. ">query_search_mode::first_only</a>&gt;. Executes a query in count-only mode, but only counts up to one (1).  <a href="#a61b686e9c6538605cab2fa93a22e11ca">More...</a><br /></td></tr>
 <tr class="separator:a61b686e9c6538605cab2fa93a22e11ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a03c906a4a46fa15b9e4bc13a25ddf81a"><td class="memTemplParams" colspan="2"><a class="anchor" id="a03c906a4a46fa15b9e4bc13a25ddf81a"></a>
-template&lt;&gt; </td></tr>
-<tr class="memitem:a03c906a4a46fa15b9e4bc13a25ddf81a"><td class="memTemplItemLeft" align="right" valign="top">boost::optional&lt; jbson::document &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>collection::execute_query&lt; query_search_mode::first_only &gt;</b> (const <a class="el" href="structejdb_1_1query.html">query</a> &amp;qry)</td></tr>
+<tr class="memitem:a03c906a4a46fa15b9e4bc13a25ddf81a"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
+<tr class="memitem:a03c906a4a46fa15b9e4bc13a25ddf81a"><td class="memTemplItemLeft" align="right" valign="top">boost::optional&lt; jbson::document &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceejdb.html#a03c906a4a46fa15b9e4bc13a25ddf81a">collection::execute_query&lt; query_search_mode::first_only &gt;</a> (const <a class="el" href="structejdb_1_1query.html">query</a> &amp;qry)</td></tr>
+<tr class="memdesc:a03c906a4a46fa15b9e4bc13a25ddf81a"><td class="mdescLeft">&#160;</td><td class="mdescRight">execute_query&lt;query_search_mode::first_only&gt;. Executes a query in first-only mode.  <a href="#a03c906a4a46fa15b9e4bc13a25ddf81a">More...</a><br /></td></tr>
 <tr class="separator:a03c906a4a46fa15b9e4bc13a25ddf81a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af20effda01db10529153c7209c5b36c3"><td class="memTemplParams" colspan="2"><a class="anchor" id="af20effda01db10529153c7209c5b36c3"></a>
-template&lt;&gt; </td></tr>
-<tr class="memitem:af20effda01db10529153c7209c5b36c3"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; jbson::document &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>collection::execute_query&lt; query_search_mode::normal &gt;</b> (const <a class="el" href="structejdb_1_1query.html">query</a> &amp;qry)</td></tr>
+<tr class="memitem:af20effda01db10529153c7209c5b36c3"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
+<tr class="memitem:af20effda01db10529153c7209c5b36c3"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; jbson::document &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceejdb.html#af20effda01db10529153c7209c5b36c3">collection::execute_query&lt; query_search_mode::normal &gt;</a> (const <a class="el" href="structejdb_1_1query.html">query</a> &amp;qry)</td></tr>
+<tr class="memdesc:af20effda01db10529153c7209c5b36c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">execute_query&lt;query_search_mode::normal&gt;. Executes a query in normal mode.  <a href="#af20effda01db10529153c7209c5b36c3">More...</a><br /></td></tr>
 <tr class="separator:af20effda01db10529153c7209c5b36c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab8d36636c96d2786646748563d77299a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab8d36636c96d2786646748563d77299a"></a>
-std::error_code&#160;</td><td class="memItemRight" valign="bottom"><b>make_error_code</b> (<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8ea">errc</a> ecode) noexcept</td></tr>
+std::error_code&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceejdb.html#ab8d36636c96d2786646748563d77299a">make_error_code</a> (<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8ea">errc</a> ecode) noexcept</td></tr>
+<tr class="memdesc:ab8d36636c96d2786646748563d77299a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makes an std::error_code from an <a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8ea" title="Error codes. Tokyo Cabinet errors up to errc::miscellaneous. ">ejdb::errc</a>. <br /></td></tr>
 <tr class="separator:ab8d36636c96d2786646748563d77299a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a07dfdafc933d8a6be58fefb9e411a2b8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a07dfdafc933d8a6be58fefb9e411a2b8"></a>
-constexpr <a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75">query_search_mode</a>&#160;</td><td class="memItemRight" valign="bottom"><b>operator&amp;</b> (<a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75">query_search_mode</a> lhs, <a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75">query_search_mode</a> rhs) noexcept</td></tr>
+constexpr <a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75">query_search_mode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceejdb.html#a07dfdafc933d8a6be58fefb9e411a2b8">operator&amp;</a> (<a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75">query_search_mode</a> lhs, <a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75">query_search_mode</a> rhs) noexcept</td></tr>
+<tr class="memdesc:a07dfdafc933d8a6be58fefb9e411a2b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allow bitwise-AND of query_search_mode. <br /></td></tr>
 <tr class="separator:a07dfdafc933d8a6be58fefb9e411a2b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abb9804afda1a52ed3bba91379c92fe3d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abb9804afda1a52ed3bba91379c92fe3d"></a>
-constexpr <a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75">query_search_mode</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&amp;=</b> (<a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75">query_search_mode</a> &amp;lhs, <a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75">query_search_mode</a> rhs) noexcept</td></tr>
+constexpr <a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75">query_search_mode</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceejdb.html#abb9804afda1a52ed3bba91379c92fe3d">operator&amp;=</a> (<a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75">query_search_mode</a> &amp;lhs, <a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75">query_search_mode</a> rhs) noexcept</td></tr>
+<tr class="memdesc:abb9804afda1a52ed3bba91379c92fe3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allow bitwise-AND-assign of query_search_mode. <br /></td></tr>
 <tr class="separator:abb9804afda1a52ed3bba91379c92fe3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6d054ddf5ffe6ddcfc4fe6902094d692"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6d054ddf5ffe6ddcfc4fe6902094d692"></a>
-constexpr <a class="el" href="namespaceejdb.html#ad82ea1eca5597c7e71118e54011644d3">db_mode</a>&#160;</td><td class="memItemRight" valign="bottom"><b>operator|</b> (<a class="el" href="namespaceejdb.html#ad82ea1eca5597c7e71118e54011644d3">db_mode</a> lhs, <a class="el" href="namespaceejdb.html#ad82ea1eca5597c7e71118e54011644d3">db_mode</a> rhs) noexcept</td></tr>
+constexpr <a class="el" href="namespaceejdb.html#ad82ea1eca5597c7e71118e54011644d3">db_mode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceejdb.html#a6d054ddf5ffe6ddcfc4fe6902094d692">operator|</a> (<a class="el" href="namespaceejdb.html#ad82ea1eca5597c7e71118e54011644d3">db_mode</a> lhs, <a class="el" href="namespaceejdb.html#ad82ea1eca5597c7e71118e54011644d3">db_mode</a> rhs) noexcept</td></tr>
+<tr class="memdesc:a6d054ddf5ffe6ddcfc4fe6902094d692"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allow bitwise-OR of db_mode. <br /></td></tr>
 <tr class="separator:a6d054ddf5ffe6ddcfc4fe6902094d692"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a641c7ae76798e5c338d7cb08528addc1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a641c7ae76798e5c338d7cb08528addc1"></a>
-constexpr <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694">index_mode</a>&#160;</td><td class="memItemRight" valign="bottom"><b>operator|</b> (<a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694">index_mode</a> lhs, <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694">index_mode</a> rhs) noexcept</td></tr>
+constexpr <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694">index_mode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceejdb.html#a641c7ae76798e5c338d7cb08528addc1">operator|</a> (<a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694">index_mode</a> lhs, <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694">index_mode</a> rhs) noexcept</td></tr>
+<tr class="memdesc:a641c7ae76798e5c338d7cb08528addc1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allow bitwise-OR of index_mode. <br /></td></tr>
 <tr class="separator:a641c7ae76798e5c338d7cb08528addc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a04906e36be6f1d4b9f28660399e6f173"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a04906e36be6f1d4b9f28660399e6f173"></a>
-constexpr <a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75">query_search_mode</a>&#160;</td><td class="memItemRight" valign="bottom"><b>operator|</b> (<a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75">query_search_mode</a> lhs, <a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75">query_search_mode</a> rhs) noexcept</td></tr>
+constexpr <a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75">query_search_mode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceejdb.html#a04906e36be6f1d4b9f28660399e6f173">operator|</a> (<a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75">query_search_mode</a> lhs, <a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75">query_search_mode</a> rhs) noexcept</td></tr>
+<tr class="memdesc:a04906e36be6f1d4b9f28660399e6f173"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allow bitwise-OR of query_search_mode. <br /></td></tr>
 <tr class="separator:a04906e36be6f1d4b9f28660399e6f173"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af2f8a73ac0f6b79515f5912633eb2f1d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af2f8a73ac0f6b79515f5912633eb2f1d"></a>
-constexpr <a class="el" href="namespaceejdb.html#ad82ea1eca5597c7e71118e54011644d3">db_mode</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator|=</b> (<a class="el" href="namespaceejdb.html#ad82ea1eca5597c7e71118e54011644d3">db_mode</a> &amp;lhs, <a class="el" href="namespaceejdb.html#ad82ea1eca5597c7e71118e54011644d3">db_mode</a> rhs) noexcept</td></tr>
+constexpr <a class="el" href="namespaceejdb.html#ad82ea1eca5597c7e71118e54011644d3">db_mode</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceejdb.html#af2f8a73ac0f6b79515f5912633eb2f1d">operator|=</a> (<a class="el" href="namespaceejdb.html#ad82ea1eca5597c7e71118e54011644d3">db_mode</a> &amp;lhs, <a class="el" href="namespaceejdb.html#ad82ea1eca5597c7e71118e54011644d3">db_mode</a> rhs) noexcept</td></tr>
+<tr class="memdesc:af2f8a73ac0f6b79515f5912633eb2f1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allow bitwise-OR-assign of db_mode. <br /></td></tr>
 <tr class="separator:af2f8a73ac0f6b79515f5912633eb2f1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9fe759779473006253ef6d8e34d5fba1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9fe759779473006253ef6d8e34d5fba1"></a>
-constexpr <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694">index_mode</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator|=</b> (<a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694">index_mode</a> &amp;lhs, <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694">index_mode</a> rhs) noexcept</td></tr>
+constexpr <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694">index_mode</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceejdb.html#a9fe759779473006253ef6d8e34d5fba1">operator|=</a> (<a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694">index_mode</a> &amp;lhs, <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694">index_mode</a> rhs) noexcept</td></tr>
+<tr class="memdesc:a9fe759779473006253ef6d8e34d5fba1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allow bitwise-OR-assign of index_mode. <br /></td></tr>
 <tr class="separator:a9fe759779473006253ef6d8e34d5fba1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5b55fc74f0fd7d706148c893a68164dd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5b55fc74f0fd7d706148c893a68164dd"></a>
-constexpr <a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75">query_search_mode</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator|=</b> (<a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75">query_search_mode</a> &amp;lhs, <a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75">query_search_mode</a> rhs) noexcept</td></tr>
+constexpr <a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75">query_search_mode</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceejdb.html#a5b55fc74f0fd7d706148c893a68164dd">operator|=</a> (<a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75">query_search_mode</a> &amp;lhs, <a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75">query_search_mode</a> rhs) noexcept</td></tr>
+<tr class="memdesc:a5b55fc74f0fd7d706148c893a68164dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allow bitwise-OR-assign of query_search_mode. <br /></td></tr>
 <tr class="separator:a5b55fc74f0fd7d706148c893a68164dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -245,9 +299,85 @@ constexpr <a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Error codes </p>
+
+<p>Error codes. Tokyo Cabinet errors up to <a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8eaa02c081f895e26a667ab809d28570e0bf" title="miscellaneous error ">errc::miscellaneous</a>. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a class="anchor" id="a5de9a90fce54dd08fdf9287fe1a0c8eaafa5623d95d6e2f8c0d73467a79fc6acb"></a>invalid_collection_name&#160;</td><td class="fielddoc">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a class="anchor" id="a5de9a90fce54dd08fdf9287fe1a0c8eaa260ca9dd8a4577fc00b7bd5810298076"></a>success&#160;</td><td class="fielddoc">
+<p>success </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a5de9a90fce54dd08fdf9287fe1a0c8eaa86e503f33c56a1a9896da3f5a4d40403"></a>thread_error&#160;</td><td class="fielddoc">
+<p>threading error </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a5de9a90fce54dd08fdf9287fe1a0c8eaaf1203e404fb6b2467cd1884faa2c71c2"></a>invalid_operation&#160;</td><td class="fielddoc">
+<p>invalid operation </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a5de9a90fce54dd08fdf9287fe1a0c8eaa4cbd4f831bcb7891ccf9a70c3957cf49"></a>file_not_found&#160;</td><td class="fielddoc">
+<p>file not found </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a5de9a90fce54dd08fdf9287fe1a0c8eaa83a13725c24a86e31111b6fbfdbabcdf"></a>no_permission&#160;</td><td class="fielddoc">
+<p>no permission </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a5de9a90fce54dd08fdf9287fe1a0c8eaafc8f22cac190da43071ba331e304d3c4"></a>invalid_tc_metadata&#160;</td><td class="fielddoc">
+<p>invalid meta data </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a5de9a90fce54dd08fdf9287fe1a0c8eaafe8489fac44dd8b26746d9bcd0fc40f8"></a>invalid_record_header&#160;</td><td class="fielddoc">
+<p>invalid record header </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a5de9a90fce54dd08fdf9287fe1a0c8eaaed2346b504e406a82802d94ebb59c7cc"></a>open_error&#160;</td><td class="fielddoc">
+<p>open error </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a5de9a90fce54dd08fdf9287fe1a0c8eaa557910ddbbe68c949bbfc2bcd3988e94"></a>close_error&#160;</td><td class="fielddoc">
+<p>close error </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a5de9a90fce54dd08fdf9287fe1a0c8eaa1a79d42c48948feb8cd3b85fe3706652"></a>trunc_error&#160;</td><td class="fielddoc">
+<p>trunc error </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a5de9a90fce54dd08fdf9287fe1a0c8eaa7d3aec07609acb9fe7d1d8b569f5b829"></a>sync_error&#160;</td><td class="fielddoc">
+<p>sync error </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a5de9a90fce54dd08fdf9287fe1a0c8eaa3b6bc77750b5e35db4914155a10317a1"></a>stat_error&#160;</td><td class="fielddoc">
+<p>stat error </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a5de9a90fce54dd08fdf9287fe1a0c8eaa56b1fc752bf0202cbf389b8dac9694ed"></a>seek_error&#160;</td><td class="fielddoc">
+<p>seek error </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a5de9a90fce54dd08fdf9287fe1a0c8eaac1ca8a1d20d289789a6de0474c94d9ad"></a>read_error&#160;</td><td class="fielddoc">
+<p>read error </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a5de9a90fce54dd08fdf9287fe1a0c8eaad43a3548b8a5332ab6e748c0174cfa75"></a>write_error&#160;</td><td class="fielddoc">
+<p>write error </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a5de9a90fce54dd08fdf9287fe1a0c8eaa79771f67ac80e9cef74bf45efa43f11c"></a>mmap_error&#160;</td><td class="fielddoc">
+<p>mmap error </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a5de9a90fce54dd08fdf9287fe1a0c8eaa754722288f0db10b86ab7764274e4d75"></a>lock_error&#160;</td><td class="fielddoc">
+<p>lock error </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a5de9a90fce54dd08fdf9287fe1a0c8eaa6da43d6d6b87f76c355fc8a3e3172c9a"></a>unlink_error&#160;</td><td class="fielddoc">
+<p>unlink error </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a5de9a90fce54dd08fdf9287fe1a0c8eaa42a463a5db7b03813d5884d9562c6858"></a>rename_error&#160;</td><td class="fielddoc">
+<p>rename error </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a5de9a90fce54dd08fdf9287fe1a0c8eaa1070c7dc07beea81162e55d950e40b3a"></a>mkdir_error&#160;</td><td class="fielddoc">
+<p>mkdir error </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a5de9a90fce54dd08fdf9287fe1a0c8eaad2e234a52a9eff112b747c45b88ea1ff"></a>rmdir_error&#160;</td><td class="fielddoc">
+<p>rmdir error </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a5de9a90fce54dd08fdf9287fe1a0c8eaa18ccf61d533b600bbf5a963359223fe4"></a>keep&#160;</td><td class="fielddoc">
+<p>existing record </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a5de9a90fce54dd08fdf9287fe1a0c8eaa5d2ec1ba3faa763fa21b349d0e94e0ad"></a>no_record_found&#160;</td><td class="fielddoc">
+<p>no record found </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a5de9a90fce54dd08fdf9287fe1a0c8eaa88beb006455b8b1e736bbcde24478603"></a>illegal_transaction_state&#160;</td><td class="fielddoc">
+<p>illegal transaction state </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a5de9a90fce54dd08fdf9287fe1a0c8eaa02c081f895e26a667ab809d28570e0bf"></a>miscellaneous&#160;</td><td class="fielddoc">
+<p>miscellaneous error </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a5de9a90fce54dd08fdf9287fe1a0c8eaafa5623d95d6e2f8c0d73467a79fc6acb"></a>invalid_collection_name&#160;</td><td class="fielddoc">
 <p>Invalid collection name. </p>
 </td></tr>
 <tr><td class="fieldname"><a class="anchor" id="a5de9a90fce54dd08fdf9287fe1a0c8eaa1c47945d80675a835b6a6067eaee749f"></a>invalid_bson&#160;</td><td class="fielddoc">
@@ -284,25 +414,25 @@ constexpr <a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a
 <p>Only one $elemMatch allowed in the fieldpath. </p>
 </td></tr>
 <tr><td class="fieldname"><a class="anchor" id="a5de9a90fce54dd08fdf9287fe1a0c8eaa0e10f52ca9b1060eb466ca7a9fb9b6c6"></a>query_cannot_mix_include_exclude&#160;</td><td class="fielddoc">
-<p>$fields hint cannot mix include and exclude fields </p>
+<p>$fields hint cannot mix include and exclude fields. </p>
 </td></tr>
 <tr><td class="fieldname"><a class="anchor" id="a5de9a90fce54dd08fdf9287fe1a0c8eaaabf0be1eb8f6e5393afc2bdcdbcd31f5"></a>query_invalid_action&#160;</td><td class="fielddoc">
-<p>action key in $do block can only be one of: $join </p>
+<p>action key in $do block can only be one of: $join. </p>
 </td></tr>
 <tr><td class="fieldname"><a class="anchor" id="a5de9a90fce54dd08fdf9287fe1a0c8eaac8a1f02833e4878330e2d95da175d38e"></a>too_many_collections&#160;</td><td class="fielddoc">
-<p>Exceeded the maximum number of collections per database </p>
+<p>Exceeded the maximum number of collections per database. </p>
 </td></tr>
 <tr><td class="fieldname"><a class="anchor" id="a5de9a90fce54dd08fdf9287fe1a0c8eaa0a7160a29a94b44d472b2ead1414e30d"></a>import_export_error&#160;</td><td class="fielddoc">
-<p>EJDB export/import error </p>
+<p>EJDB export/import error. </p>
 </td></tr>
 <tr><td class="fieldname"><a class="anchor" id="a5de9a90fce54dd08fdf9287fe1a0c8eaa1e1fb14909563e7b80e458378aed4283"></a>json_parse_failed&#160;</td><td class="fielddoc">
-<p>JSON parsing failed </p>
+<p>JSON parsing failed. </p>
 </td></tr>
 <tr><td class="fieldname"><a class="anchor" id="a5de9a90fce54dd08fdf9287fe1a0c8eaa9c77cf54b9e9f4671cb5e32f012f9fb1"></a>bson_too_large&#160;</td><td class="fielddoc">
-<p>BSON size is too big </p>
+<p>BSON size is too big. </p>
 </td></tr>
 <tr><td class="fieldname"><a class="anchor" id="a5de9a90fce54dd08fdf9287fe1a0c8eaa349b2532edc16f6a522f84ea73fb3686"></a>invalid_command&#160;</td><td class="fielddoc">
-<p>Invalid ejdb command specified </p>
+<p>Invalid ejdb command specified. </p>
 </td></tr>
 </table>
 
@@ -373,18 +503,104 @@ constexpr <a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Query search mode flags </p>
+
+<p>Query search mode flags. </p>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a class="anchor" id="aceb78f5b01de913fbdc2656029276a75afea087517c26fadd409bd4b9dc642555"></a>normal&#160;</td><td class="fielddoc">
-<p>Default search mode </p>
+<p>Default search mode. </p>
 </td></tr>
 <tr><td class="fieldname"><a class="anchor" id="aceb78f5b01de913fbdc2656029276a75ab2794163428de72debe5efeca32f33f8"></a>count_only&#160;</td><td class="fielddoc">
 <p>Query only count(*) </p>
 </td></tr>
 <tr><td class="fieldname"><a class="anchor" id="aceb78f5b01de913fbdc2656029276a75aa7190158c163d646ef94aa64518ad4e3"></a>first_only&#160;</td><td class="fielddoc">
-<p>Fetch first record only </p>
+<p>Fetch first record only. </p>
 </td></tr>
 </table>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="a15b35ff3f962bc126db332740b0afb64"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t <a class="el" href="structejdb_1_1collection.html#acdd8b716f6efe85502f5dfb9bac3a16e">ejdb::collection::execute_query</a>&lt; <a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75ab2794163428de72debe5efeca32f33f8">query_search_mode::count_only</a> &gt; </td>
+          <td>(</td>
+          <td class="paramtype">const query &amp;&#160;</td>
+          <td class="paramname"><em>qry</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>execute_query&lt;query_search_mode::count_only&gt;. Executes a query in count-only mode. </p>
+<dl class="section return"><dt>Returns</dt><dd>Number of records which match the criteria in <code>qry</code>. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a61b686e9c6538605cab2fa93a22e11ca"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t <a class="el" href="structejdb_1_1collection.html#acdd8b716f6efe85502f5dfb9bac3a16e">ejdb::collection::execute_query</a>&lt; <a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75ab2794163428de72debe5efeca32f33f8">query_search_mode::count_only</a>|<a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75aa7190158c163d646ef94aa64518ad4e3">query_search_mode::first_only</a> &gt; </td>
+          <td>(</td>
+          <td class="paramtype">const query &amp;&#160;</td>
+          <td class="paramname"><em>qry</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>execute_query&lt;<a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75ab2794163428de72debe5efeca32f33f8" title="Query only count(*) ">query_search_mode::count_only</a>|<a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75aa7190158c163d646ef94aa64518ad4e3" title="Fetch first record only. ">query_search_mode::first_only</a>&gt;. Executes a query in count-only mode, but only counts up to one (1). </p>
+<dl class="section return"><dt>Returns</dt><dd>One (1) when at least one documents match the criteria in <code>qry</code>, otherwise zero (0). </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a03c906a4a46fa15b9e4bc13a25ddf81a"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">boost::optional&lt;jbson::document&gt; <a class="el" href="structejdb_1_1collection.html#acdd8b716f6efe85502f5dfb9bac3a16e">ejdb::collection::execute_query</a>&lt; <a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75aa7190158c163d646ef94aa64518ad4e3">query_search_mode::first_only</a> &gt; </td>
+          <td>(</td>
+          <td class="paramtype">const query &amp;&#160;</td>
+          <td class="paramname"><em>qry</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>execute_query&lt;query_search_mode::first_only&gt;. Executes a query in first-only mode. </p>
+<dl class="section return"><dt>Returns</dt><dd>Only the first record which matches the criteria in <code>qry</code>, or boost::none on failure or if none match. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="af20effda01db10529153c7209c5b36c3"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;jbson::document&gt; <a class="el" href="structejdb_1_1collection.html#acdd8b716f6efe85502f5dfb9bac3a16e">ejdb::collection::execute_query</a>&lt; <a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75afea087517c26fadd409bd4b9dc642555">query_search_mode::normal</a> &gt; </td>
+          <td>(</td>
+          <td class="paramtype">const query &amp;&#160;</td>
+          <td class="paramname"><em>qry</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>execute_query&lt;query_search_mode::normal&gt;. Executes a query in normal mode. </p>
+<dl class="section return"><dt>Returns</dt><dd>All records which match the criteria in <code>qry</code>. If collection or <code>qry</code> is invalid, an empty vector is returned. </dd></dl>
 
 </div>
 </div>

@@ -43,6 +43,7 @@
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
 <div id="nav-path" class="navpath">
@@ -59,52 +60,571 @@
 <div class="title">ejdb::db Struct Reference<span class="mlabels"><span class="mlabel">final</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Main point of access to EJDB.  
+ <a href="structejdb_1_1db.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="ejdb_8hpp_source.html">ejdb.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:afa81e91bf5f7be8c66184544fb14c298"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afa81e91bf5f7be8c66184544fb14c298"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>close</b> (std::error_code &amp;ec) noexcept</td></tr>
+<tr class="memitem:a1d2f95953ccee7b622d3af6cc8c3eda6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1d2f95953ccee7b622d3af6cc8c3eda6"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1db.html#a1d2f95953ccee7b622d3af6cc8c3eda6">db</a> () noexcept=default</td></tr>
+<tr class="memdesc:a1d2f95953ccee7b622d3af6cc8c3eda6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor. Result is a null EJDB handle. <br /></td></tr>
+<tr class="separator:a1d2f95953ccee7b622d3af6cc8c3eda6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa81e91bf5f7be8c66184544fb14c298"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1db.html#afa81e91bf5f7be8c66184544fb14c298">close</a> (std::error_code &amp;ec) noexcept</td></tr>
+<tr class="memdesc:afa81e91bf5f7be8c66184544fb14c298"><td class="mdescLeft">&#160;</td><td class="mdescRight">Closes the currently open EJDB database.  <a href="#afa81e91bf5f7be8c66184544fb14c298">More...</a><br /></td></tr>
 <tr class="separator:afa81e91bf5f7be8c66184544fb14c298"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac4c7ad1743f0ee84e38a15cbad0a1d2a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac4c7ad1743f0ee84e38a15cbad0a1d2a"></a>
-<a class="el" href="structejdb_1_1collection.html">collection</a>&#160;</td><td class="memItemRight" valign="bottom"><b>create_collection</b> (const <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> &amp;name, std::error_code &amp;ec) noexcept</td></tr>
+<tr class="memitem:ac4c7ad1743f0ee84e38a15cbad0a1d2a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structejdb_1_1collection.html">collection</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1db.html#ac4c7ad1743f0ee84e38a15cbad0a1d2a">create_collection</a> (const <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> &amp;name, std::error_code &amp;ec) noexcept</td></tr>
+<tr class="memdesc:ac4c7ad1743f0ee84e38a15cbad0a1d2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an existing, or otherwise newly created, collection, named <code>name</code>.  <a href="#ac4c7ad1743f0ee84e38a15cbad0a1d2a">More...</a><br /></td></tr>
 <tr class="separator:ac4c7ad1743f0ee84e38a15cbad0a1d2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b5e3e9c46a9e4a325433703676a53c8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9b5e3e9c46a9e4a325433703676a53c8"></a>
-<a class="el" href="structejdb_1_1query.html">query</a>&#160;</td><td class="memItemRight" valign="bottom"><b>create_query</b> (const jbson::document &amp;doc, std::error_code &amp;ec)</td></tr>
+<tr class="memitem:a9b5e3e9c46a9e4a325433703676a53c8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structejdb_1_1query.html">query</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1db.html#a9b5e3e9c46a9e4a325433703676a53c8">create_query</a> (const jbson::document &amp;doc, std::error_code &amp;ec)</td></tr>
+<tr class="memdesc:a9b5e3e9c46a9e4a325433703676a53c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a query from a BSON document.  <a href="#a9b5e3e9c46a9e4a325433703676a53c8">More...</a><br /></td></tr>
 <tr class="separator:a9b5e3e9c46a9e4a325433703676a53c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af203af6721a1742590e87107c5fc4fc2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af203af6721a1742590e87107c5fc4fc2"></a>
-std::error_code&#160;</td><td class="memItemRight" valign="bottom"><b>error</b> () const noexcept</td></tr>
+<tr class="memitem:af203af6721a1742590e87107c5fc4fc2"><td class="memItemLeft" align="right" valign="top">std::error_code&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1db.html#af203af6721a1742590e87107c5fc4fc2">error</a> () const noexcept</td></tr>
+<tr class="memdesc:af203af6721a1742590e87107c5fc4fc2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns last error that occurred.  <a href="#af203af6721a1742590e87107c5fc4fc2">More...</a><br /></td></tr>
 <tr class="separator:af203af6721a1742590e87107c5fc4fc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac5d878c105596b2247fef3a13e9d0873"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac5d878c105596b2247fef3a13e9d0873"></a>
-<a class="el" href="structejdb_1_1collection.html">collection</a>&#160;</td><td class="memItemRight" valign="bottom"><b>get_collection</b> (const <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> &amp;name, std::error_code &amp;ec) const noexcept</td></tr>
+<tr class="memitem:ac5d878c105596b2247fef3a13e9d0873"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structejdb_1_1collection.html">collection</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1db.html#ac5d878c105596b2247fef3a13e9d0873">get_collection</a> (const <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> &amp;name, std::error_code &amp;ec) const noexcept</td></tr>
+<tr class="memdesc:ac5d878c105596b2247fef3a13e9d0873"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an existing collection named <code>name</code>.  <a href="#ac5d878c105596b2247fef3a13e9d0873">More...</a><br /></td></tr>
 <tr class="separator:ac5d878c105596b2247fef3a13e9d0873"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6c02a23d88a284dac6c86ebe8ff2eadc"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6c02a23d88a284dac6c86ebe8ff2eadc"></a>
-const std::vector&lt; <a class="el" href="structejdb_1_1collection.html">collection</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>get_collections</b> () const noexcept</td></tr>
+const std::vector&lt; <a class="el" href="structejdb_1_1collection.html">collection</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1db.html#a6c02a23d88a284dac6c86ebe8ff2eadc">get_collections</a> () const noexcept</td></tr>
+<tr class="memdesc:a6c02a23d88a284dac6c86ebe8ff2eadc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns all existing collections. <br /></td></tr>
 <tr class="separator:a6c02a23d88a284dac6c86ebe8ff2eadc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a66563bf5a83eb0358797f024249e4bbd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a66563bf5a83eb0358797f024249e4bbd"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>is_open</b> () const noexcept</td></tr>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1db.html#a66563bf5a83eb0358797f024249e4bbd">is_open</a> () const noexcept</td></tr>
+<tr class="memdesc:a66563bf5a83eb0358797f024249e4bbd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether the db object refers to a valid and open EJDB database. <br /></td></tr>
 <tr class="separator:a66563bf5a83eb0358797f024249e4bbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a37b62674fe12dd0832fff19e5926a102"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a37b62674fe12dd0832fff19e5926a102"></a>
-boost::optional&lt; jbson::document &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>metadata</b> (std::error_code &amp;ec)</td></tr>
+<tr class="memitem:a37b62674fe12dd0832fff19e5926a102"><td class="memItemLeft" align="right" valign="top">boost::optional&lt; jbson::document &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1db.html#a37b62674fe12dd0832fff19e5926a102">metadata</a> (std::error_code &amp;ec)</td></tr>
+<tr class="memdesc:a37b62674fe12dd0832fff19e5926a102"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns description of the EJDB database.  <a href="#a37b62674fe12dd0832fff19e5926a102">More...</a><br /></td></tr>
 <tr class="separator:a37b62674fe12dd0832fff19e5926a102"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a42ffe19d151baf6063431ca5546b3089"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a42ffe19d151baf6063431ca5546b3089"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>open</b> (const <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> &amp;path, <a class="el" href="namespaceejdb.html#ad82ea1eca5597c7e71118e54011644d3">db_mode</a> mode, std::error_code &amp;ec) noexcept</td></tr>
+<tr class="memitem:a42ffe19d151baf6063431ca5546b3089"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1db.html#a42ffe19d151baf6063431ca5546b3089">open</a> (const <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> &amp;path, <a class="el" href="namespaceejdb.html#ad82ea1eca5597c7e71118e54011644d3">db_mode</a> mode, std::error_code &amp;ec) noexcept</td></tr>
+<tr class="memdesc:a42ffe19d151baf6063431ca5546b3089"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opens EJDB database at <code>path</code>.  <a href="#a42ffe19d151baf6063431ca5546b3089">More...</a><br /></td></tr>
 <tr class="separator:a42ffe19d151baf6063431ca5546b3089"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a60e21c4be579aa79d03b2829e3b5f62d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a60e21c4be579aa79d03b2829e3b5f62d"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>operator bool</b> () const noexcept</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1db.html#a60e21c4be579aa79d03b2829e3b5f62d">operator bool</a> () const noexcept</td></tr>
+<tr class="memdesc:a60e21c4be579aa79d03b2829e3b5f62d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether a valid EJDB handle is contained within. <br /></td></tr>
 <tr class="separator:a60e21c4be579aa79d03b2829e3b5f62d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4ffe77b6b4feb5a206b9256d5eff9e44"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4ffe77b6b4feb5a206b9256d5eff9e44"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>remove_collection</b> (const <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> &amp;name, bool unlink_file, std::error_code &amp;ec) noexcept</td></tr>
+<tr class="memitem:a4ffe77b6b4feb5a206b9256d5eff9e44"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1db.html#a4ffe77b6b4feb5a206b9256d5eff9e44">remove_collection</a> (const <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> &amp;name, bool unlink_file, std::error_code &amp;ec) noexcept</td></tr>
+<tr class="memdesc:a4ffe77b6b4feb5a206b9256d5eff9e44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a collection named <code>name</code>.  <a href="#a4ffe77b6b4feb5a206b9256d5eff9e44">More...</a><br /></td></tr>
 <tr class="separator:a4ffe77b6b4feb5a206b9256d5eff9e44"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5aa43a80100fea0752d3b280bef69b59"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5aa43a80100fea0752d3b280bef69b59"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>sync</b> (std::error_code &amp;ec) noexcept</td></tr>
+<tr class="memitem:a5aa43a80100fea0752d3b280bef69b59"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1db.html#a5aa43a80100fea0752d3b280bef69b59">sync</a> (std::error_code &amp;ec) noexcept</td></tr>
+<tr class="memdesc:a5aa43a80100fea0752d3b280bef69b59"><td class="mdescLeft">&#160;</td><td class="mdescRight">Synchronise the EJDB database to disk.  <a href="#a5aa43a80100fea0752d3b280bef69b59">More...</a><br /></td></tr>
 <tr class="separator:a5aa43a80100fea0752d3b280bef69b59"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a949837f990dabe6d24d990ef458fe466"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a949837f990dabe6d24d990ef458fe466"></a>
-static std::error_code&#160;</td><td class="memItemRight" valign="bottom"><b>error</b> (std::weak_ptr&lt; EJDB &gt;) noexcept</td></tr>
+<tr class="memitem:a949837f990dabe6d24d990ef458fe466"><td class="memItemLeft" align="right" valign="top">static std::error_code&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1db.html#a949837f990dabe6d24d990ef458fe466">error</a> (std::weak_ptr&lt; EJDB &gt;) noexcept</td></tr>
+<tr class="memdesc:a949837f990dabe6d24d990ef458fe466"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns last error that occurred.  <a href="#a949837f990dabe6d24d990ef458fe466">More...</a><br /></td></tr>
 <tr class="separator:a949837f990dabe6d24d990ef458fe466"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Main point of access to EJDB. </p>
+<p>Uses a shared implementation, i.e. copies of a db object operate on the same EJDB handle. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="afa81e91bf5f7be8c66184544fb14c298"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ejdb::db::close </td>
+          <td>(</td>
+          <td class="paramtype">std::error_code &amp;&#160;</td>
+          <td class="paramname"><em>ec</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Closes the currently open EJDB database. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">ec</td><td>Set to an appropriate error code on failure. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true on success, false on failure. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ac4c7ad1743f0ee84e38a15cbad0a1d2a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structejdb_1_1collection.html">collection</a> ejdb::db::create_collection </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> &amp;&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::error_code &amp;&#160;</td>
+          <td class="paramname"><em>ec</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns an existing, or otherwise newly created, collection, named <code>name</code>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">name</td><td>Name of collection to fetch or create. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">ec</td><td>Set to an appropriate error code on failure. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Valid collection on success, invalid collection on failure. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a9b5e3e9c46a9e4a325433703676a53c8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structejdb_1_1query.html">query</a> ejdb::db::create_query </td>
+          <td>(</td>
+          <td class="paramtype">const jbson::document &amp;&#160;</td>
+          <td class="paramname"><em>doc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::error_code &amp;&#160;</td>
+          <td class="paramname"><em>ec</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Create a query from a BSON document. </p>
+<p>EJDB's query documentation follows.</p>
+<p>EJDB queries inspired by MongoDB (mongodb.org) and follows same philosophy.</p>
+<ul>
+<li>Supported queries:<ul>
+<li>Simple matching of String OR Number OR Array value:<ul>
+<li><div class="fragment"><div class="line">{<span class="stringliteral">&#39;fpath&#39;</span> : <span class="stringliteral">&#39;val&#39;</span>, ...} </div>
+</div><!-- fragment --></li>
+</ul>
+</li>
+<li>$not Negate operation.<ul>
+<li><div class="fragment"><div class="line">{<span class="stringliteral">&#39;fpath&#39;</span> : {<span class="stringliteral">&#39;$not&#39;</span> : val}} <span class="comment">//Field not equal to val </span></div>
+</div><!-- fragment --></li>
+<li><div class="fragment"><div class="line">{<span class="stringliteral">&#39;fpath&#39;</span> : {<span class="stringliteral">&#39;$not&#39;</span> : {<span class="stringliteral">&#39;$begin&#39;</span> : prefix}}} <span class="comment">//Field not begins with val </span></div>
+</div><!-- fragment --></li>
+</ul>
+</li>
+<li>$begin String starts with prefix<ul>
+<li><div class="fragment"><div class="line">{<span class="stringliteral">&#39;fpath&#39;</span> : {<span class="stringliteral">&#39;$begin&#39;</span> : prefix}} </div>
+</div><!-- fragment --></li>
+</ul>
+</li>
+<li>$gt, $gte (&gt;, &gt;=) and $lt, $lte for number types:<ul>
+<li><div class="fragment"><div class="line">{<span class="stringliteral">&#39;fpath&#39;</span> : {<span class="stringliteral">&#39;$gt&#39;</span> : 42}, ...} </div>
+</div><!-- fragment --></li>
+</ul>
+</li>
+<li>$bt Between for number types:<ul>
+<li><div class="fragment"><div class="line">{<span class="stringliteral">&#39;fpath&#39;</span> : {<span class="stringliteral">&#39;$bt&#39;</span> : [num1, num2]}} </div>
+</div><!-- fragment --></li>
+</ul>
+</li>
+<li>$in String OR Number OR Array val matches to value in specified array:<ul>
+<li><div class="fragment"><div class="line">{<span class="stringliteral">&#39;fpath&#39;</span> : {<span class="stringliteral">&#39;$in&#39;</span> : [val1, val2, val3]}} </div>
+</div><!-- fragment --></li>
+</ul>
+</li>
+<li>$nin - Not IN</li>
+<li>$strand String tokens OR String array val matches all tokens in specified array:<ul>
+<li><div class="fragment"><div class="line">{<span class="stringliteral">&#39;fpath&#39;</span> : {<span class="stringliteral">&#39;$strand&#39;</span> : [val1, val2, val3]}} </div>
+</div><!-- fragment --></li>
+</ul>
+</li>
+<li>$stror String tokens OR String array val matches any token in specified array:<ul>
+<li><div class="fragment"><div class="line">{<span class="stringliteral">&#39;fpath&#39;</span> : {<span class="stringliteral">&#39;$stror&#39;</span> : [val1, val2, val3]}} </div>
+</div><!-- fragment --></li>
+</ul>
+</li>
+<li>$exists Field existence matching:<ul>
+<li><div class="fragment"><div class="line">{<span class="stringliteral">&#39;fpath&#39;</span> : {<span class="stringliteral">&#39;$exists&#39;</span> : <span class="keyword">true</span>|<span class="keyword">false</span>}} </div>
+</div><!-- fragment --></li>
+</ul>
+</li>
+<li>$icase Case insensitive string matching:<ul>
+<li><div class="fragment"><div class="line">{<span class="stringliteral">&#39;fpath&#39;</span> : {<span class="stringliteral">&#39;$icase&#39;</span> : <span class="stringliteral">&#39;val1&#39;</span>}} <span class="comment">//icase matching </span></div>
+</div><!-- fragment --> Ignore case matching with '$in' operation:</li>
+<li><div class="fragment"><div class="line">{<span class="stringliteral">&#39;name&#39;</span> : {<span class="stringliteral">&#39;$icase&#39;</span> : {<span class="stringliteral">&#39;$in&#39;</span> : [<span class="stringliteral">&#39;théâtre - театр&#39;</span>, <span class="stringliteral">&#39;hello world&#39;</span>]}}} </div>
+</div><!-- fragment --> For case insensitive matching you can create special index of type: <code>JBIDXISTR</code></li>
+</ul>
+</li>
+<li>$elemMatch The $elemMatch operator matches more than one component within an array element.<ul>
+<li><div class="fragment"><div class="line">{ <span class="stringliteral">&#39;some_array.fpath&#39;</span>: { <span class="stringliteral">&#39;$elemMatch&#39;</span>: { <span class="stringliteral">&#39;value1&#39;</span> : 1, <span class="stringliteral">&#39;value2&#39;</span> : { <span class="stringliteral">&#39;$gt&#39;</span>: 1 } } } } </div>
+</div><!-- fragment --> Restriction: only one $elemMatch allowed in context of one array field.</li>
+</ul>
+</li>
+<li>$and, $or joining:<ul>
+<li><div class="fragment"><div class="line">{..., <span class="stringliteral">&#39;$and&#39;</span> : [subq1, subq2, ...] } </div>
+</div><!-- fragment --></li>
+<li><div class="fragment"><div class="line">{..., <span class="stringliteral">&#39;$or&#39;</span>  : [subq1, subq2, ...] } </div>
+</div><!-- fragment --> Example: <div class="fragment"><div class="line">{<span class="charliteral">&#39;z&#39;</span> : 33, <span class="stringliteral">&#39;$and&#39;</span> : [ {<span class="stringliteral">&#39;$or&#39;</span> : [{<span class="charliteral">&#39;a&#39;</span> : 1}, {<span class="charliteral">&#39;b&#39;</span> : 2}]}, {<span class="stringliteral">&#39;$or&#39;</span> : [{<span class="charliteral">&#39;c&#39;</span> : 5}, {<span class="charliteral">&#39;d&#39;</span> : 7}]} ] }</div>
+</div><!-- fragment --></li>
+</ul>
+</li>
+<li>Mongodb  operator supported. (<a href="http://docs.mongodb.org/manual/reference/projection/positional/#proj._S_">http://docs.mongodb.org/manual/reference/projection/positional/#proj._S_</a>)</li>
+<li>Mongodb positional $ update operator supported. (<a href="http://docs.mongodb.org/manual/reference/operator/positional/">http://docs.mongodb.org/manual/reference/operator/positional/</a>)</li>
+</ul>
+</li>
+<li>Queries can be used to update records:<ul>
+<li>$set Field set operation.<ul>
+<li><div class="fragment"><div class="line">{.., <span class="stringliteral">&#39;$set&#39;</span> : {<span class="stringliteral">&#39;fpath1&#39;</span> : val1, <span class="stringliteral">&#39;fpathN&#39;</span> : valN}} </div>
+</div><!-- fragment --></li>
+</ul>
+</li>
+<li>$upsert Atomic upsert. If matching records are found it will be '$set' operation, otherwise new record will be inserted with fields specified by argment object.<ul>
+<li><div class="fragment"><div class="line">{.., <span class="stringliteral">&#39;$upsert&#39;</span> : {<span class="stringliteral">&#39;fpath1&#39;</span> : val1, <span class="stringliteral">&#39;fpathN&#39;</span> : valN}} </div>
+</div><!-- fragment --></li>
+</ul>
+</li>
+<li>$inc Increment operation. Only number types are supported.<ul>
+<li><div class="fragment"><div class="line">{.., <span class="stringliteral">&#39;$inc&#39;</span> : {<span class="stringliteral">&#39;fpath1&#39;</span> : 5, ...,  <span class="stringliteral">&#39;fpath2&#39;</span> : 2} </div>
+</div><!-- fragment --></li>
+</ul>
+</li>
+<li>$dropall In-place record removal operation.<ul>
+<li><div class="fragment"><div class="line">{.., <span class="stringliteral">&#39;$dropall&#39;</span> : <span class="keyword">true</span>} </div>
+</div><!-- fragment --></li>
+</ul>
+</li>
+<li>$addToSet Atomically adds value to the array only if its not in the array already. If containing array is missing it will be created.<ul>
+<li><div class="fragment"><div class="line">{.., <span class="stringliteral">&#39;$addToSet&#39;</span> : {<span class="stringliteral">&#39;fpath&#39;</span> : val1, <span class="stringliteral">&#39;fpathN&#39;</span> : valN, ...}} </div>
+</div><!-- fragment --></li>
+</ul>
+</li>
+<li>$addToSetAll Batch version if $addToSet<ul>
+<li><div class="fragment"><div class="line">{.., <span class="stringliteral">&#39;$addToSetAll&#39;</span> : {<span class="stringliteral">&#39;fpath&#39;</span> : [values to add, ...], ...}} </div>
+</div><!-- fragment --></li>
+</ul>
+</li>
+<li>$pull Atomically removes all occurrences of value from field, if field is an array.<ul>
+<li><div class="fragment"><div class="line">{.., <span class="stringliteral">&#39;$pull&#39;</span> : {<span class="stringliteral">&#39;fpath&#39;</span> : val1, <span class="stringliteral">&#39;fpathN&#39;</span> : valN, ...}} </div>
+</div><!-- fragment --></li>
+</ul>
+</li>
+<li>$pullAll Batch version of $pull<ul>
+<li><div class="fragment"><div class="line">{.., <span class="stringliteral">&#39;$pullAll&#39;</span> : {<span class="stringliteral">&#39;fpath&#39;</span> : [values to <span class="keyword">remove</span>, ...], ...}} </div>
+</div><!-- fragment --></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Collection joins supported in the following form: <div class="fragment"><div class="line">{..., <span class="stringliteral">&#39;$do&#39;</span> : {<span class="stringliteral">&#39;fpath&#39;</span> : {<span class="stringliteral">&#39;$join&#39;</span> : <span class="stringliteral">&#39;collectionname&#39;</span>}} } </div>
+</div><!-- fragment --> Where 'fpath' value points to object's OIDs from 'collectionname'. Its value can be OID, string representation of OID or array of this pointers.</li>
+</ul>
+<dl class="section note"><dt>Note</dt><dd>It is better to execute update queries with <a class="el" href="structejdb_1_1collection.html#acdd8b716f6efe85502f5dfb9bac3a16e" title="Executes a query on the collection. ">collection::execute_query&lt;query_search_mode::count_only&gt;</a> to avoid unnecessarily fetching data.</dd>
+<dd>
+Negate operations: $not and $nin do not use indexes so they can be slow in comparison to other matching operations.</dd>
+<dd>
+Only one index can be used in search query operation.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">doc</td><td>BSON query object. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">ec</td><td>Set to an appropriate error code on failure. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Valid query on success, invalid query on failure. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="af203af6721a1742590e87107c5fc4fc2"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::error_code ejdb::db::error </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns last error that occurred. </p>
+<dl class="section return"><dt>Returns</dt><dd>std::error_code representing last error, or std::errc::bad_address (EFAULT) if EJDB handle is invalid. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a949837f990dabe6d24d990ef458fe466"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::error_code ejdb::db::error </td>
+          <td>(</td>
+          <td class="paramtype">std::weak_ptr&lt; EJDB &gt;&#160;</td>
+          <td class="paramname"><em>db</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns last error that occurred. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">db</td><td>weak_ptr to an EJDB handle. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>std::error_code representing last error, or std::errc::bad_address (EFAULT) if db refers to destroyed handle. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ac5d878c105596b2247fef3a13e9d0873"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structejdb_1_1collection.html">collection</a> ejdb::db::get_collection </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> &amp;&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::error_code &amp;&#160;</td>
+          <td class="paramname"><em>ec</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns an existing collection named <code>name</code>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">name</td><td>Name of collection to fetch. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">ec</td><td>Set to an appropriate error code on failure. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Valid collection on success, default collection on failure. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a37b62674fe12dd0832fff19e5926a102"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">boost::optional&lt; jbson::document &gt; ejdb::db::metadata </td>
+          <td>(</td>
+          <td class="paramtype">std::error_code &amp;&#160;</td>
+          <td class="paramname"><em>ec</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns description of the EJDB database. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">ec</td><td>Set to an appropriate error code on failure. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Valid BSON document on success, boost::none on failure. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a42ffe19d151baf6063431ca5546b3089"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ejdb::db::open </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> &amp;&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceejdb.html#ad82ea1eca5597c7e71118e54011644d3">db_mode</a>&#160;</td>
+          <td class="paramname"><em>mode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::error_code &amp;&#160;</td>
+          <td class="paramname"><em>ec</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Opens EJDB database at <code>path</code>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">path</td><td>Location on filesystem where an EJDB databaes exists. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">mode</td><td>Bitwise-ORed flags to determine how to open the database. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">ec</td><td>Set to an appropriate error code on failure. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true on success, false on failure. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a4ffe77b6b4feb5a206b9256d5eff9e44"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ejdb::db::remove_collection </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> &amp;&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>unlink_file</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::error_code &amp;&#160;</td>
+          <td class="paramname"><em>ec</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Removes a collection named <code>name</code>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">name</td><td>Name of collection to remove. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">unlink_file</td><td>Whether to remove associated files, i.e. db collection file, indexes, etc. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">ec</td><td>Set to an appropriate error code on failure. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true on success, false on failure. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a5aa43a80100fea0752d3b280bef69b59"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ejdb::db::sync </td>
+          <td>(</td>
+          <td class="paramtype">std::error_code &amp;&#160;</td>
+          <td class="paramname"><em>ec</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Synchronise the EJDB database to disk. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">ec</td><td>Set to an appropriate error code on failure. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true on success, false on failure. </dd></dl>
+
+</div>
+</div>
 <hr/>The documentation for this struct was generated from the following files:<ul>
 <li>/home/chris/projects/ejpp/include/ejpp/<a class="el" href="ejdb_8hpp_source.html">ejdb.hpp</a></li>
 <li>/home/chris/projects/ejpp/src/ejpp/ejdb.cpp</li>

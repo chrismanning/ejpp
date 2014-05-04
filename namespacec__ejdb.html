@@ -60,106 +60,140 @@
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:acdc80da6c240d8eabe4f8320a0404932"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acdc80da6c240d8eabe4f8320a0404932"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>closedb</b> (EJDB *jb)</td></tr>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacec__ejdb.html#acdc80da6c240d8eabe4f8320a0404932">closedb</a> (EJDB *jb)</td></tr>
+<tr class="memdesc:acdc80da6c240d8eabe4f8320a0404932"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns ejdbclose(jb) <br /></td></tr>
 <tr class="separator:acdc80da6c240d8eabe4f8320a0404932"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3b157b1c514803f6697716b4b382bd25"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3b157b1c514803f6697716b4b382bd25"></a>
-boost::string_ref&#160;</td><td class="memItemRight" valign="bottom"><b>collection_name</b> (EJCOLL *coll)</td></tr>
+boost::string_ref&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacec__ejdb.html#a3b157b1c514803f6697716b4b382bd25">collection_name</a> (EJCOLL *coll)</td></tr>
+<tr class="memdesc:a3b157b1c514803f6697716b4b382bd25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns name of a collection. <br /></td></tr>
 <tr class="separator:a3b157b1c514803f6697716b4b382bd25"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a00d6f855d8edf89c16564fd2e43b52a2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a00d6f855d8edf89c16564fd2e43b52a2"></a>
-EJCOLL *&#160;</td><td class="memItemRight" valign="bottom"><b>createcoll</b> (EJDB *jb, const char *colname, void *opts)</td></tr>
+EJCOLL *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacec__ejdb.html#a00d6f855d8edf89c16564fd2e43b52a2">createcoll</a> (EJDB *jb, const char *colname, void *opts)</td></tr>
+<tr class="memdesc:a00d6f855d8edf89c16564fd2e43b52a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns ejdbcreatecoll(jb, colname, opts) <br /></td></tr>
 <tr class="separator:a00d6f855d8edf89c16564fd2e43b52a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a14249cccee7fb67d4b3c25833515a5a0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a14249cccee7fb67d4b3c25833515a5a0"></a>
-EJQ *&#160;</td><td class="memItemRight" valign="bottom"><b>createquery</b> (EJDB *jb, const void *qbsdata)</td></tr>
+EJQ *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacec__ejdb.html#a14249cccee7fb67d4b3c25833515a5a0">createquery</a> (EJDB *jb, const void *qbsdata)</td></tr>
+<tr class="memdesc:a14249cccee7fb67d4b3c25833515a5a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns ejdbcreatequery2(jb, qbsdata) <br /></td></tr>
 <tr class="separator:a14249cccee7fb67d4b3c25833515a5a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa2b999df51f6ed772805e5f84d35691f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa2b999df51f6ed772805e5f84d35691f"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>del</b> (EJDB *jb)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacec__ejdb.html#aa2b999df51f6ed772805e5f84d35691f">del</a> (EJDB *jb)</td></tr>
+<tr class="memdesc:aa2b999df51f6ed772805e5f84d35691f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls ejdbdel(jb) <br /></td></tr>
 <tr class="separator:aa2b999df51f6ed772805e5f84d35691f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a10031319a11393376ab8b800295a9925"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a10031319a11393376ab8b800295a9925"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>ecode</b> (EJDB *jb)</td></tr>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacec__ejdb.html#a10031319a11393376ab8b800295a9925">ecode</a> (EJDB *jb)</td></tr>
+<tr class="memdesc:a10031319a11393376ab8b800295a9925"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns ejdbecode(jb) <br /></td></tr>
 <tr class="separator:a10031319a11393376ab8b800295a9925"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac7edf23681d60c743db7075c5f457d01"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac7edf23681d60c743db7075c5f457d01"></a>
-const char *&#160;</td><td class="memItemRight" valign="bottom"><b>errmsg</b> (int ecode)</td></tr>
+const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacec__ejdb.html#ac7edf23681d60c743db7075c5f457d01">errmsg</a> (int <a class="el" href="namespacec__ejdb.html#a10031319a11393376ab8b800295a9925">ecode</a>)</td></tr>
+<tr class="memdesc:ac7edf23681d60c743db7075c5f457d01"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns ejdberrmsg(ecode) <br /></td></tr>
 <tr class="separator:ac7edf23681d60c743db7075c5f457d01"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa1321c87106f84bcd5b44f311b2f19cd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa1321c87106f84bcd5b44f311b2f19cd"></a>
-EJCOLL *&#160;</td><td class="memItemRight" valign="bottom"><b>getcoll</b> (EJDB *jb, const char *colname)</td></tr>
+EJCOLL *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacec__ejdb.html#aa1321c87106f84bcd5b44f311b2f19cd">getcoll</a> (EJDB *jb, const char *colname)</td></tr>
+<tr class="memdesc:aa1321c87106f84bcd5b44f311b2f19cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns ejdbgetcoll(jb, colname) <br /></td></tr>
 <tr class="separator:aa1321c87106f84bcd5b44f311b2f19cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a85e0de5ac4faa0acbc0346cd498f4f5a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a85e0de5ac4faa0acbc0346cd498f4f5a"></a>
-std::vector&lt; EJCOLL * &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>getcolls</b> (EJDB *jb)</td></tr>
+std::vector&lt; EJCOLL * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacec__ejdb.html#a85e0de5ac4faa0acbc0346cd498f4f5a">getcolls</a> (EJDB *jb)</td></tr>
+<tr class="memdesc:a85e0de5ac4faa0acbc0346cd498f4f5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a transformation of ejdbgetcolls(jb) <br /></td></tr>
 <tr class="separator:a85e0de5ac4faa0acbc0346cd498f4f5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae98c8c65364a6f362505b4e86fe91e05"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae98c8c65364a6f362505b4e86fe91e05"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>isopen</b> (EJDB *jb)</td></tr>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacec__ejdb.html#ae98c8c65364a6f362505b4e86fe91e05">isopen</a> (EJDB *jb)</td></tr>
+<tr class="memdesc:ae98c8c65364a6f362505b4e86fe91e05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns ejdbisopen(jb) <br /></td></tr>
 <tr class="separator:ae98c8c65364a6f362505b4e86fe91e05"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4993e4349148e528af29925d4d752ac2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4993e4349148e528af29925d4d752ac2"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>isvalidoidstr</b> (const char *oid)</td></tr>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacec__ejdb.html#a4993e4349148e528af29925d4d752ac2">isvalidoidstr</a> (const char *oid)</td></tr>
+<tr class="memdesc:a4993e4349148e528af29925d4d752ac2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns ejdbisvalidoidstr(oid) <br /></td></tr>
 <tr class="separator:a4993e4349148e528af29925d4d752ac2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0ef907b6c18ad3608d5f8b98709005af"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0ef907b6c18ad3608d5f8b98709005af"></a>
-std::vector&lt; char &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>loadbson</b> (EJCOLL *coll, const char oid[12])</td></tr>
+std::vector&lt; char &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacec__ejdb.html#a0ef907b6c18ad3608d5f8b98709005af">loadbson</a> (EJCOLL *coll, const char oid[12])</td></tr>
+<tr class="memdesc:a0ef907b6c18ad3608d5f8b98709005af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns transformation of ejdbloadbson(coll, oid) <br /></td></tr>
 <tr class="separator:a0ef907b6c18ad3608d5f8b98709005af"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1190e5b0ff0b0a690ee12105ed7c20fe"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1190e5b0ff0b0a690ee12105ed7c20fe"></a>
-std::vector&lt; char &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>metadb</b> (EJDB *)</td></tr>
-<tr class="separator:a1190e5b0ff0b0a690ee12105ed7c20fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad68da1597141abc2cfd9a3aafeb89224"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad68da1597141abc2cfd9a3aafeb89224"></a>
+std::vector&lt; char &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacec__ejdb.html#ad68da1597141abc2cfd9a3aafeb89224">metadb</a> (EJDB *jb)</td></tr>
+<tr class="memdesc:ad68da1597141abc2cfd9a3aafeb89224"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns transformation of ejdbmeta(jb) <br /></td></tr>
+<tr class="separator:ad68da1597141abc2cfd9a3aafeb89224"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa7618999875f29b7edd0244d98609728"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa7618999875f29b7edd0244d98609728"></a>
-EJDB *&#160;</td><td class="memItemRight" valign="bottom"><b>newdb</b> (void)</td></tr>
+EJDB *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacec__ejdb.html#aa7618999875f29b7edd0244d98609728">newdb</a> (void)</td></tr>
+<tr class="memdesc:aa7618999875f29b7edd0244d98609728"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns ejdbnew() <br /></td></tr>
 <tr class="separator:aa7618999875f29b7edd0244d98609728"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aec3967b6547d35ba75b07cd8be16c4b8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aec3967b6547d35ba75b07cd8be16c4b8"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>open</b> (EJDB *jb, const char *path, int mode)</td></tr>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacec__ejdb.html#aec3967b6547d35ba75b07cd8be16c4b8">open</a> (EJDB *jb, const char *path, int mode)</td></tr>
+<tr class="memdesc:aec3967b6547d35ba75b07cd8be16c4b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns ejdbopen(jb, path, mode) <br /></td></tr>
 <tr class="separator:aec3967b6547d35ba75b07cd8be16c4b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5c83141121e1168400775d6827a9d324"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5c83141121e1168400775d6827a9d324"></a>
-const void *&#160;</td><td class="memItemRight" valign="bottom"><b>qresultbsondata</b> (EJQRESULT qr, int pos, int *size)</td></tr>
+const void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacec__ejdb.html#a5c83141121e1168400775d6827a9d324">qresultbsondata</a> (EJQRESULT qr, int pos, int *size)</td></tr>
+<tr class="memdesc:a5c83141121e1168400775d6827a9d324"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns ejdbqresultbsondata(qr, pos, size) <br /></td></tr>
 <tr class="separator:a5c83141121e1168400775d6827a9d324"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af1d26cbaeddd34f701b1b3502e88c00d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af1d26cbaeddd34f701b1b3502e88c00d"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>qresultdispose</b> (EJQRESULT qr)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacec__ejdb.html#af1d26cbaeddd34f701b1b3502e88c00d">qresultdispose</a> (EJQRESULT qr)</td></tr>
+<tr class="memdesc:af1d26cbaeddd34f701b1b3502e88c00d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls ejdbqresultdispose(qr) <br /></td></tr>
 <tr class="separator:af1d26cbaeddd34f701b1b3502e88c00d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5598b5f9fb809db51a0cf1bcc8db27cc"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5598b5f9fb809db51a0cf1bcc8db27cc"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>qresultnum</b> (EJQRESULT qr)</td></tr>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacec__ejdb.html#a5598b5f9fb809db51a0cf1bcc8db27cc">qresultnum</a> (EJQRESULT qr)</td></tr>
+<tr class="memdesc:a5598b5f9fb809db51a0cf1bcc8db27cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns ejdbqresultnum(qr) <br /></td></tr>
 <tr class="separator:a5598b5f9fb809db51a0cf1bcc8db27cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3896f1f4dee1aafdf02b281f7b3b7b7c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3896f1f4dee1aafdf02b281f7b3b7b7c"></a>
-EJQRESULT&#160;</td><td class="memItemRight" valign="bottom"><b>qryexecute</b> (EJCOLL *jcoll, const EJQ *q, uint32_t *count, int qflags)</td></tr>
+EJQRESULT&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacec__ejdb.html#a3896f1f4dee1aafdf02b281f7b3b7b7c">qryexecute</a> (EJCOLL *jcoll, const EJQ *q, uint32_t *count, int qflags)</td></tr>
+<tr class="memdesc:a3896f1f4dee1aafdf02b281f7b3b7b7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns ejdbqryexecute(jcoll, q, count, qflags, nullptr) <br /></td></tr>
 <tr class="separator:a3896f1f4dee1aafdf02b281f7b3b7b7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af241550144e981a29e89ebef378ed547"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af241550144e981a29e89ebef378ed547"></a>
-EJQ *&#160;</td><td class="memItemRight" valign="bottom"><b>queryaddor</b> (EJDB *jb, EJQ *q, const void *orbsdata)</td></tr>
+EJQ *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacec__ejdb.html#af241550144e981a29e89ebef378ed547">queryaddor</a> (EJDB *jb, EJQ *q, const void *orbsdata)</td></tr>
+<tr class="memdesc:af241550144e981a29e89ebef378ed547"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns ejdbqueryaddor(jb, q, orbsdata) <br /></td></tr>
 <tr class="separator:af241550144e981a29e89ebef378ed547"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4f6123523677e10d6ccf204440bd6e2b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4f6123523677e10d6ccf204440bd6e2b"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>querydel</b> (EJQ *q)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacec__ejdb.html#a4f6123523677e10d6ccf204440bd6e2b">querydel</a> (EJQ *q)</td></tr>
+<tr class="memdesc:a4f6123523677e10d6ccf204440bd6e2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calls ejdbquerydel(q) <br /></td></tr>
 <tr class="separator:a4f6123523677e10d6ccf204440bd6e2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a59ab4c44fda3af91c69e84ba6171eb77"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a59ab4c44fda3af91c69e84ba6171eb77"></a>
-EJQ *&#160;</td><td class="memItemRight" valign="bottom"><b>queryhints</b> (EJDB *jb, EJQ *q, const void *hintsbsdata)</td></tr>
+EJQ *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacec__ejdb.html#a59ab4c44fda3af91c69e84ba6171eb77">queryhints</a> (EJDB *jb, EJQ *q, const void *hintsbsdata)</td></tr>
+<tr class="memdesc:a59ab4c44fda3af91c69e84ba6171eb77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns ejdbqueryhints(jb, q, hintsbsdata) <br /></td></tr>
 <tr class="separator:a59ab4c44fda3af91c69e84ba6171eb77"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7cfb14bb61108a2d6d9d7caae21dabcf"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7cfb14bb61108a2d6d9d7caae21dabcf"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>rmbson</b> (EJCOLL *coll, char oid[12])</td></tr>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacec__ejdb.html#a7cfb14bb61108a2d6d9d7caae21dabcf">rmbson</a> (EJCOLL *coll, char oid[12])</td></tr>
+<tr class="memdesc:a7cfb14bb61108a2d6d9d7caae21dabcf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns ejdbrmbson(coll, oid) <br /></td></tr>
 <tr class="separator:a7cfb14bb61108a2d6d9d7caae21dabcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abdb9ef9ada663710308b46869cfd020c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abdb9ef9ada663710308b46869cfd020c"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>rmcoll</b> (EJDB *jb, const char *colname, bool unlinkfile)</td></tr>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacec__ejdb.html#abdb9ef9ada663710308b46869cfd020c">rmcoll</a> (EJDB *jb, const char *colname, bool unlinkfile)</td></tr>
+<tr class="memdesc:abdb9ef9ada663710308b46869cfd020c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns ejdbrmcoll(jb, collname, unlinkfile) <br /></td></tr>
 <tr class="separator:abdb9ef9ada663710308b46869cfd020c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abcc04763bb213fdb37aa60f8e60a8fc0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abcc04763bb213fdb37aa60f8e60a8fc0"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>savebson</b> (EJCOLL *coll, const void *bsdata, char oid[12])</td></tr>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacec__ejdb.html#abcc04763bb213fdb37aa60f8e60a8fc0">savebson</a> (EJCOLL *coll, const void *bsdata, char oid[12])</td></tr>
+<tr class="memdesc:abcc04763bb213fdb37aa60f8e60a8fc0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns ejdbsavebson3(coll, bsdata, oid, false) <br /></td></tr>
 <tr class="separator:abcc04763bb213fdb37aa60f8e60a8fc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac926b2d7f1782b7963fbcfe67cfd77ac"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac926b2d7f1782b7963fbcfe67cfd77ac"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>savebson2</b> (EJCOLL *jcoll, const void *bsdata, char oid[12], bool merge)</td></tr>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacec__ejdb.html#ac926b2d7f1782b7963fbcfe67cfd77ac">savebson2</a> (EJCOLL *jcoll, const void *bsdata, char oid[12], bool merge)</td></tr>
+<tr class="memdesc:ac926b2d7f1782b7963fbcfe67cfd77ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns ejdbsavebson3(coll, bsdata, oid, merge) <br /></td></tr>
 <tr class="separator:ac926b2d7f1782b7963fbcfe67cfd77ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6faf6a6f20894dc53366610c1f0c833c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6faf6a6f20894dc53366610c1f0c833c"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>setindex</b> (EJCOLL *coll, const char *ipath, int flags)</td></tr>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacec__ejdb.html#a6faf6a6f20894dc53366610c1f0c833c">setindex</a> (EJCOLL *coll, const char *ipath, int flags)</td></tr>
+<tr class="memdesc:a6faf6a6f20894dc53366610c1f0c833c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns ejdbsetindex(coll, ipath, flags. <br /></td></tr>
 <tr class="separator:a6faf6a6f20894dc53366610c1f0c833c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a15eb799113f9a388a2e9fe2dc544c54e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a15eb799113f9a388a2e9fe2dc544c54e"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>syncdb</b> (EJDB *jb)</td></tr>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacec__ejdb.html#a15eb799113f9a388a2e9fe2dc544c54e">syncdb</a> (EJDB *jb)</td></tr>
+<tr class="memdesc:a15eb799113f9a388a2e9fe2dc544c54e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns ejdbsyncdb(jb) <br /></td></tr>
 <tr class="separator:a15eb799113f9a388a2e9fe2dc544c54e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acbf742720f9f41fe54192945dc5e43d2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acbf742720f9f41fe54192945dc5e43d2"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>syncoll</b> (EJCOLL *jcoll)</td></tr>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacec__ejdb.html#acbf742720f9f41fe54192945dc5e43d2">syncoll</a> (EJCOLL *jcoll)</td></tr>
+<tr class="memdesc:acbf742720f9f41fe54192945dc5e43d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns ejdbsyncoll(jcoll) <br /></td></tr>
 <tr class="separator:acbf742720f9f41fe54192945dc5e43d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa2961fafeddbad485f510ebac03a0b9f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa2961fafeddbad485f510ebac03a0b9f"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>tranabort</b> (EJCOLL *coll)</td></tr>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacec__ejdb.html#aa2961fafeddbad485f510ebac03a0b9f">tranabort</a> (EJCOLL *coll)</td></tr>
+<tr class="memdesc:aa2961fafeddbad485f510ebac03a0b9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns ejdbtranabort(coll) <br /></td></tr>
 <tr class="separator:aa2961fafeddbad485f510ebac03a0b9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c80574edb4981b191596c9e1977f67c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7c80574edb4981b191596c9e1977f67c"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>tranbegin</b> (EJCOLL *coll)</td></tr>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacec__ejdb.html#a7c80574edb4981b191596c9e1977f67c">tranbegin</a> (EJCOLL *coll)</td></tr>
+<tr class="memdesc:a7c80574edb4981b191596c9e1977f67c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns ejdbtranbegin(coll) <br /></td></tr>
 <tr class="separator:a7c80574edb4981b191596c9e1977f67c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6a0343fdb3fec0d5c8b37d736e2d2538"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6a0343fdb3fec0d5c8b37d736e2d2538"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>trancommit</b> (EJCOLL *coll)</td></tr>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacec__ejdb.html#a6a0343fdb3fec0d5c8b37d736e2d2538">trancommit</a> (EJCOLL *coll)</td></tr>
+<tr class="memdesc:a6a0343fdb3fec0d5c8b37d736e2d2538"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns ejdbtrancommit(coll) <br /></td></tr>
 <tr class="separator:a6a0343fdb3fec0d5c8b37d736e2d2538"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af3675782dbca9cd435009f1a8dfb0e78"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af3675782dbca9cd435009f1a8dfb0e78"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>transtatus</b> (EJCOLL *jcoll, bool *txactive)</td></tr>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacec__ejdb.html#af3675782dbca9cd435009f1a8dfb0e78">transtatus</a> (EJCOLL *jcoll, bool *txactive)</td></tr>
+<tr class="memdesc:af3675782dbca9cd435009f1a8dfb0e78"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns ejdbtranstatus(jcoll, txactive) <br /></td></tr>
 <tr class="separator:af3675782dbca9cd435009f1a8dfb0e78"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad98830880de41a266cb04fbdabe8fbd9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad98830880de41a266cb04fbdabe8fbd9"></a>
-const char *&#160;</td><td class="memItemRight" valign="bottom"><b>version</b> ()</td></tr>
+const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacec__ejdb.html#ad98830880de41a266cb04fbdabe8fbd9">version</a> ()</td></tr>
+<tr class="memdesc:ad98830880de41a266cb04fbdabe8fbd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns ejdbversion() <br /></td></tr>
 <tr class="separator:ad98830880de41a266cb04fbdabe8fbd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
