@@ -226,14 +226,14 @@ using query_return_type =
 }
 
 /*!
- * \brief Represents an EJDB collection.
+ * \brief Class representing an EJDB collection.
  *
  * Valid collections can only be created via ejdb::db.
  *
  * Holds a weak reference to its parent ejdb::db shared implementation, allowing for safe operations.
  */
 struct EJPP_EXPORT collection final {
-    //! Default constructor. Result is a null collection, not associated with a db.
+    //! Default constructor. Results in an invalid collection, not associated with a db.
     collection() noexcept = default;
 
     //! Returns whether the associated ejdb::db and represented EJDB collection are both valid.
@@ -290,27 +290,40 @@ EJPP_EXPORT boost::optional<jbson::document> collection::execute_query<query_sea
 template <>
 EJPP_EXPORT uint32_t collection::execute_query<query_search_mode::count_only | query_search_mode::first_only>(const query& qry);
 
+/*!
+ * \brief Class representing an EJDB query.
+ */
 struct EJPP_EXPORT query final {
+    //! Default constructor. Results in an invalid query, not associated with a db.
     query() noexcept = default;
 
     query(query&&) noexcept = default;
     query& operator=(query&&)&noexcept = default;
 
+    //! Returns whether the associated ejdb::db and represented EJDB query are both valid.
     explicit operator bool() const noexcept;
 
-    // $and
+    //! In-place `$and` operator. \warning Unimplemented.
     query& operator&=(const jbson::document&)&;
+    //! In-place `$and` operator. \warning Unimplemented.
     query&& operator&=(const jbson::document&)&&;
+    //! In-place `$and` operator. \warning Unimplemented.
     query& operator&=(query) & noexcept;
+    //! In-place `$and` operator. \warning Unimplemented.
     query&& operator&=(query) && noexcept;
 
-    // $or
+    //! In-place `$or` operator with BSON document as operand.
     query& operator|=(const jbson::document&)&;
+    //! In-place `$or` operator with BSON document as operand. Rvalue overload.
     query&& operator|=(const jbson::document&)&&;
+    //! In-place `$or` operator with ejdb::query as operand. \warning Unimplemented.
     query& operator|=(query) & noexcept;
+    //! In-place `$or` operator with ejdb::query as operand. Rvalue overload. \warning Unimplemented.
     query&& operator|=(query) && noexcept;
 
+    //! Sets hints for a query.
     query& set_hints(const jbson::document&)&;
+    //! \copydoc set_hints
     query&& set_hints(const jbson::document&)&&;
 
   private:

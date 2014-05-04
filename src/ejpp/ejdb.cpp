@@ -525,6 +525,29 @@ query& query::operator|=(const jbson::document& obj) & {
 
 query&& query::operator|=(const jbson::document& obj) && { return std::move(*this |= obj); }
 
+/*!
+ * EJDB's hints documentation follows.
+ *
+ *  Available hints:
+ *      - $max Maximum number in the result set
+ *      - $skip Number of skipped results in the result set
+ *      - $orderby Sorting order of query fields.
+ *      - $fields Set subset of fetched fields
+ *          If a field presented in $orderby clause it will be forced to include in resulting records.
+ *          Example:
+ * \code
+        {
+            "$orderby" : { //ORDER BY field1 ASC, field2 DESC
+                "field1" : 1,
+                "field2" : -1
+            },
+            "$fields" : { //SELECT ONLY {_id, field1, field2}
+                "field1" : 1,
+                "field2" : 1
+            }
+        }
+ \endcode
+ */
 query& query::set_hints(const jbson::document& obj) & {
     assert(m_qry);
     auto db = m_db.lock();
