@@ -127,8 +127,35 @@ constexpr inline query_search_mode& operator&=(query_search_mode& lhs, query_sea
     return lhs = lhs & rhs;
 }
 
-//! Error codes
+//! Error codes. Tokyo Cabinet errors up to errc::miscellaneous.
 enum class errc {
+    // Tokyo cabinet error codes
+    success,                   //!< success
+    thread_error,              //!< threading error
+    invalid_operation,         //!< invalid operation
+    file_not_found,            //!< file not found
+    no_permission,             //!< no permission
+    invalid_tc_metadata,       //!< invalid meta data
+    invalid_record_header,     //!< invalid record header
+    open_error,                //!< open error
+    close_error,               //!< close error
+    trunc_error,               //!< trunc error
+    sync_error,                //!< sync error
+    stat_error,                //!< stat error
+    seek_error,                //!< seek error
+    read_error,                //!< read error
+    write_error,               //!< write error
+    mmap_error,                //!< mmap error
+    lock_error,                //!< lock error
+    unlink_error,              //!< unlink error
+    rename_error,              //!< rename error
+    mkdir_error,               //!< mkdir error
+    rmdir_error,               //!< rmdir error
+    keep,                      //!< existing record
+    no_record_found,           //!< no record found
+    illegal_transaction_state, //!< illegal transaction state
+    miscellaneous = 9999,      //!< miscellaneous error
+    // EJDB error codes
     invalid_collection_name = 9000,          //!< Invalid collection name.
     invalid_bson = 9001,                     //!< Invalid bson object.
     invalid_bson_oid = 9002,                 //!< Invalid bson object id.
