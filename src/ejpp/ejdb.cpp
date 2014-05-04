@@ -414,7 +414,6 @@ template <> std::vector<jbson::document> collection::execute_query<query_search_
     c_ejdb::qresultdispose(list);
     return std::move(r);
 }
-template std::vector<jbson::document> collection::execute_query<query_search_mode::normal>(const query&);
 
 /*!
  * \brief execute_query<query_search_mode::count_only>. Executes a query in count-only mode.
@@ -432,7 +431,6 @@ template <> uint32_t collection::execute_query<query_search_mode::count_only>(co
         c_ejdb::qresultdispose(list);
     return s;
 }
-template uint32_t collection::execute_query<query_search_mode::count_only>(const query&);
 
 /*!
  * \brief execute_query<query_search_mode::first_only>. Executes a query in first-only mode.
@@ -459,7 +457,6 @@ boost::optional<jbson::document> collection::execute_query<query_search_mode::fi
 
     return std::move(doc);
 }
-template boost::optional<jbson::document> collection::execute_query<query_search_mode::first_only>(const query&);
 
 /*!
  * \brief execute_query<query_search_mode::count_only\|query_search_mode::first_only>.
@@ -480,8 +477,6 @@ uint32_t collection::execute_query<query_search_mode::count_only | query_search_
         c_ejdb::qresultdispose(list);
     return s;
 }
-template uint32_t
-collection::execute_query<query_search_mode::count_only | query_search_mode::first_only>(const query&);
 
 std::vector<jbson::document> collection::get_all() {
     auto db = m_db.lock();

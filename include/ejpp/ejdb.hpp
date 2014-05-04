@@ -280,23 +280,15 @@ struct EJPP_EXPORT collection final {
 
 template <>
 EJPP_EXPORT std::vector<jbson::document> collection::execute_query<query_search_mode::normal>(const query& qry);
-extern template
-std::vector<jbson::document> collection::execute_query<query_search_mode::normal>(const query&);
 
 template <>
 EJPP_EXPORT uint32_t collection::execute_query<query_search_mode::count_only>(const query& qry);
-extern template
-uint32_t collection::execute_query<query_search_mode::count_only>(const query&);
 
 template <>
 EJPP_EXPORT boost::optional<jbson::document> collection::execute_query<query_search_mode::first_only>(const query& qry);
-extern template
-boost::optional<jbson::document> collection::execute_query<query_search_mode::first_only>(const query&);
 
 template <>
 EJPP_EXPORT uint32_t collection::execute_query<query_search_mode::count_only | query_search_mode::first_only>(const query& qry);
-extern template
-uint32_t collection::execute_query<query_search_mode::count_only | query_search_mode::first_only>(const query&);
 
 struct EJPP_EXPORT query final {
     query() noexcept = default;
