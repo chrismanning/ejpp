@@ -32,7 +32,9 @@
 
 namespace ejdb {
 
+//! Functor allowing for the deletion of opaque `EJDB` pointers.
 struct ejdb_deleter {
+    //! Function call operator.
     void operator()(EJDB* ptr) const noexcept { c_ejdb::del(ptr); }
 };
 
@@ -564,12 +566,16 @@ query&& query::set_hints(const jbson::document& obj) && { return std::move(set_h
 
 query::operator bool() const noexcept { return !m_db.expired() && m_qry != nullptr; }
 
+//! The category type used for all EJDB errors.
 class error_category : public std::error_category {
   public:
+    //! Default constructor.
     constexpr error_category() noexcept = default;
 
+    //! Returns name of category (`"EJDB"`).
     const char* name() const noexcept override { return "EJDB"; }
 
+    //! Returns message associated with \p ecode.
     std::string message(int ecode) const noexcept override { return c_ejdb::errmsg(ecode); }
 };
 
