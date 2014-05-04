@@ -44,7 +44,7 @@ struct EJQ;
 #endif
 
 #ifndef EJPP_LOCAL
-#if defined(BOOST_GCC) || defined(BOOST_CLANG)
+#if defined(__GNUC__)
 #define EJPP_LOCAL __attribute__((__visibility__("hidden")))
 #else
 #define EJPP_LOCAL
