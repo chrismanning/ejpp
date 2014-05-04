@@ -228,9 +228,11 @@ using query_return_type =
 /*!
  * \brief Class representing an EJDB collection.
  *
- * Valid collections can only be created via ejdb::db.
+ * Valid collections can only be created via ejdb::db::create_collection or ejdb::db::get_collection.
  *
- * Holds a weak reference to its parent ejdb::db shared implementation, allowing for safe operations.
+ * Should the parent ejdb::db object expire before the collection, all operations performed on or with the collection
+ * will fail, with any `std::error_code`s set to `std::errc::bad_address` (`EFAULT`).
+ * The parent ejdb::db object is guaranteed to stay alive for the duration of an operation.
  */
 struct EJPP_EXPORT collection final {
     //! Default constructor. Results in an invalid collection, not associated with a db.
@@ -281,17 +283,23 @@ struct EJPP_EXPORT collection final {
 template <>
 EJPP_EXPORT std::vector<jbson::document> collection::execute_query<query_search_mode::normal>(const query& qry);
 
-template <>
-EJPP_EXPORT uint32_t collection::execute_query<query_search_mode::count_only>(const query& qry);
+template <> EJPP_EXPORT uint32_t collection::execute_query<query_search_mode::count_only>(const query& qry);
 
 template <>
 EJPP_EXPORT boost::optional<jbson::document> collection::execute_query<query_search_mode::first_only>(const query& qry);
 
 template <>
-EJPP_EXPORT uint32_t collection::execute_query<query_search_mode::count_only | query_search_mode::first_only>(const query& qry);
+EJPP_EXPORT uint32_t
+collection::execute_query<query_search_mode::count_only | query_search_mode::first_only>(const query& qry);
 
 /*!
  * \brief Class representing an EJDB query.
+ *
+ * Valid queries can only be created via ejdb::db::create_query.
+ *
+ * Should the parent ejdb::db object expire before the query, all operations performed on or with the query will fail,
+ * with any `std::error_code`s set to `std::errc::bad_address` (`EFAULT`).
+ * The parent ejdb::db object is guaranteed to stay alive for the duration of an operation.
  */
 struct EJPP_EXPORT query final {
     //! Default constructor. Results in an invalid query, not associated with a db.

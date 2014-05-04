@@ -396,6 +396,11 @@ template <> std::vector<jbson::document> collection::execute_query<query_search_
     if(m_coll == nullptr || !qry)
         return {};
     assert(qry.m_qry);
+
+    auto db = m_db.lock();
+    if(!db)
+        return {};
+
     uint32_t s{0u};
     const auto list = c_ejdb::qryexecute(m_coll, qry.m_qry.get(), &s, 0);
     if(list == nullptr)
@@ -425,6 +430,11 @@ template <> std::vector<jbson::document> collection::execute_query<query_search_
 template <> uint32_t collection::execute_query<query_search_mode::count_only>(const query& qry) {
     if(m_coll == nullptr || !qry)
         return 0;
+
+    auto db = m_db.lock();
+    if(!db)
+        return 0;
+
     assert(qry.m_qry);
     uint32_t s{0u};
     const auto list = c_ejdb::qryexecute(m_coll, qry.m_qry.get(), &s,
@@ -444,6 +454,11 @@ boost::optional<jbson::document> collection::execute_query<query_search_mode::fi
     if(m_coll == nullptr || !qry)
         return boost::none;
     assert(qry.m_qry);
+
+    auto db = m_db.lock();
+    if(!db)
+        return boost::none;
+
     uint32_t s{0u};
     const auto list = c_ejdb::qryexecute(m_coll, qry.m_qry.get(), &s,
                                          (std::underlying_type_t<query_search_mode>)query_search_mode::first_only);
@@ -471,6 +486,11 @@ uint32_t collection::execute_query<query_search_mode::count_only | query_search_
     if(m_coll == nullptr || !qry)
         return 0;
     assert(qry.m_qry);
+
+    auto db = m_db.lock();
+    if(!db)
+        return 0;
+
     uint32_t s{0u};
     const auto list = c_ejdb::qryexecute(
         m_coll, qry.m_qry.get(), &s,
