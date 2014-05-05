@@ -231,6 +231,8 @@ const std::vector<collection> db::get_collections() const noexcept {
  * \param doc BSON query object.
  * \param[out] ec Set to an appropriate error code on failure.
  * \return Valid query on success, invalid query on failure.
+ *
+ * \throws jbson::invalid_document_size When \p doc is constructed with an invalid BSON document.
  */
 query db::create_query(const jbson::document& doc, std::error_code& ec) {
     if(!m_db) {
@@ -259,6 +261,9 @@ bool db::sync(std::error_code& ec) noexcept {
 /*!
  * \param[out] ec Set to an appropriate error code on failure.
  * \return Valid BSON document on success, boost::none on failure.
+ *
+ * \throws jbson::invalid_document_size When return valid is constructed with an invalid BSON document
+ *          (i.e. when EJDB produces a bad BSON document).
  */
 boost::optional<jbson::document> db::metadata(std::error_code& ec) {
     if(!m_db) {
@@ -282,6 +287,8 @@ collection::operator bool() const noexcept { return !m_db.expired() && m_coll !=
  * \param data BSON document to be saved.
  * \param[out] ec Set to an appropriate error code on failure.
  * \return OID of saved document on success, boost::none on failure.
+ *
+ * \throws jbson::invalid_document_size When \p data is constructed with an invalid BSON document.
  */
 boost::optional<std::array<char, 12>> collection::save_document(const jbson::document& data, std::error_code& ec) {
     return save_document(data, false, ec);
@@ -292,6 +299,8 @@ boost::optional<std::array<char, 12>> collection::save_document(const jbson::doc
  * \param merge Whether or not to merge with an existing, matching document.
  * \param[out] ec Set to an appropriate error code on failure.
  * \return OID of saved document on success, boost::none on failure.
+ *
+ * \throws jbson::invalid_document_size When \p doc is constructed with an invalid BSON document.
  */
 boost::optional<std::array<char, 12>> collection::save_document(const jbson::document& doc, bool merge,
                                                                 std::error_code& ec) {
@@ -313,6 +322,9 @@ boost::optional<std::array<char, 12>> collection::save_document(const jbson::doc
  * \param oid OID of the document to fetch.
  * \param[out] ec Set to an appropriate error code on failure.
  * \return Document corresponding to \p oid on success, boost::none on failure.
+ *
+ * \throws jbson::invalid_document_size When return value is constructed with an invalid BSON document
+ *          (i.e. when EJDB produces a bad BSON document).
  */
 boost::optional<jbson::document> collection::load_document(std::array<char, 12> oid, std::error_code& ec) const {
     if(m_coll == nullptr) {
@@ -391,6 +403,9 @@ bool collection::set_index(const std::string& ipath, index_mode flags, std::erro
  *
  * \return All records which match the criteria in \p qry.
  *         If collection or \p qry is invalid, an empty vector is returned.
+ *
+ * \throws jbson::invalid_document_size When any of the return values are constructed with an invalid BSON document
+ *          (i.e. when EJDB produces a bad BSON document).
  */
 template <> std::vector<jbson::document> collection::execute_query<query_search_mode::normal>(const query& qry) {
     if(m_coll == nullptr || !qry)
@@ -448,6 +463,9 @@ template <> uint32_t collection::execute_query<query_search_mode::count_only>(co
  * \brief execute_query<query_search_mode::first_only>. Executes a query in first-only mode.
  *
  * \return Only the first record which matches the criteria in \p qry, or boost::none on failure or if none match.
+ *
+ * \throws jbson::invalid_document_size When return value is constructed with an invalid BSON document
+ *          (i.e. when EJDB produces a bad BSON document).
  */
 template <>
 boost::optional<jbson::document> collection::execute_query<query_search_mode::first_only>(const query& qry) {
@@ -500,6 +518,10 @@ uint32_t collection::execute_query<query_search_mode::count_only | query_search_
     return s;
 }
 
+/*!
+ * \throws jbson::invalid_document_size When any of the return values are constructed with an invalid BSON document
+ *          (i.e. when EJDB produces a bad BSON document).
+ */
 std::vector<jbson::document> collection::get_all() {
     auto db = m_db.lock();
     if(!db)
@@ -532,6 +554,9 @@ boost::string_ref collection::name() const noexcept {
 
 query::query(std::weak_ptr<EJDB> db, EJQ* qry) noexcept : m_db(db), m_qry(qry) {}
 
+/*!
+ * \throws jbson::invalid_document_size When \p obj is constructed with an invalid BSON document.
+ */
 query& query::operator|=(const jbson::document& obj) & {
     assert(m_qry);
     auto db = m_db.lock();
@@ -545,6 +570,9 @@ query& query::operator|=(const jbson::document& obj) & {
     return *this;
 }
 
+/*!
+ * \throws jbson::invalid_document_size When \p obj is constructed with an invalid BSON document.
+ */
 query&& query::operator|=(const jbson::document& obj) && { return std::move(*this |= obj); }
 
 /*!
