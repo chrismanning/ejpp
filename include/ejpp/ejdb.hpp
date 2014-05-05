@@ -299,12 +299,36 @@ struct EJPP_EXPORT collection final {
     //! Returns the name of the collection.
     boost::string_ref name() const noexcept;
 
+    struct transaction_t;
+
+    transaction_t& transaction() noexcept;
+
   private:
     friend struct db;
     EJPP_LOCAL collection(std::weak_ptr<EJDB> m_db, EJCOLL* m_coll) noexcept;
 
     std::weak_ptr<EJDB> m_db;
     EJCOLL* m_coll{nullptr};
+
+  public:
+    struct transaction_t {
+        bool start() noexcept;
+        bool commit() noexcept;
+        bool abort() noexcept;
+
+        bool in_transaction() const noexcept;
+        explicit operator bool() const noexcept;
+
+      private:
+        explicit transaction_t(collection&) noexcept;
+        friend struct collection;
+        friend struct unique_transaction;
+        collection& m_collection;
+        std::weak_ptr<EJDB> m_db;
+    };
+
+  private:
+    transaction_t m_transaction{*this};
 };
 
 template <>
@@ -369,6 +393,48 @@ struct EJPP_EXPORT query final {
         void operator()(EJQ* ptr) const noexcept;
     };
     std::unique_ptr<EJQ, eqry_deleter> m_qry;
+};
+
+struct defer_transaction_t {};
+struct adopt_transaction_t {};
+struct try_transaction_t {};
+
+constexpr defer_transaction_t defer_transaction{};
+constexpr adopt_transaction_t adopt_transaction{};
+constexpr try_transaction_t try_transaction{};
+
+struct EJPP_EXPORT unique_transaction {
+    explicit unique_transaction(collection::transaction_t& trans);
+
+    unique_transaction(collection::transaction_t& trans, defer_transaction_t) noexcept;
+    unique_transaction(collection::transaction_t& trans, adopt_transaction_t) noexcept;
+    unique_transaction(collection::transaction_t& trans, try_transaction_t) noexcept;
+
+    unique_transaction(const unique_transaction&) = delete;
+    unique_transaction& operator=(const unique_transaction&) = delete;
+
+    unique_transaction(unique_transaction&&) noexcept;
+    unique_transaction& operator=(unique_transaction&&);
+
+    ~unique_transaction();
+
+    void start();
+    void commit();
+    void abort();
+
+    collection::transaction_t* release() noexcept;
+
+    bool owns_transaction() const noexcept;
+    explicit operator bool() const noexcept;
+
+  private:
+    collection::transaction_t* m_trans{nullptr};
+    bool m_owns{false};
+    std::shared_ptr<EJDB> m_db;
+};
+
+struct EJPP_EXPORT transaction_guard : private unique_transaction {
+    explicit transaction_guard(collection::transaction_t& trans);
 };
 
 } // namespace ejdb

@@ -109,7 +109,7 @@ endfunction()
 
 cxx_test(ejpp_test1)
 cxx_test(ejpp_test2)
-#cxx_test(ejpp_test3)
+cxx_test(ejpp_test3)
 #cxx_test(ejpp_test4)
 
 install(TARGETS ejpp ejpp-static

@@ -632,4 +632,131 @@ std::error_code make_error_code(errc ecode) noexcept {
     return std::error_code{static_cast<int>(ecode), ecat};
 }
 
+collection::transaction_t& collection::transaction() noexcept { return m_transaction; }
+
+collection::transaction_t::transaction_t(collection& coll) noexcept : m_collection(coll), m_db(m_collection.m_db) {}
+
+bool collection::transaction_t::start() noexcept {
+    auto db = m_db.lock();
+    return db && c_ejdb::isopen(db.get()) && m_collection && c_ejdb::tranbegin(m_collection.m_coll);
+}
+
+bool collection::transaction_t::abort() noexcept {
+    auto db = m_db.lock();
+    return db && c_ejdb::isopen(db.get()) && m_collection && c_ejdb::tranabort(m_collection.m_coll);
+}
+
+bool collection::transaction_t::commit() noexcept {
+    auto db = m_db.lock();
+    return db && c_ejdb::isopen(db.get()) && m_collection && c_ejdb::trancommit(m_collection.m_coll);
+}
+
+bool collection::transaction_t::in_transaction() const noexcept {
+    auto db = m_db.lock();
+    bool ret{};
+    if(db && c_ejdb::isopen(db.get()) && m_collection && c_ejdb::transtatus(m_collection.m_coll, &ret))
+        return ret;
+    return false;
+}
+
+collection::transaction_t::operator bool() const noexcept { return in_transaction(); }
+
+unique_transaction::unique_transaction(collection::transaction_t& trans)
+    : m_trans(&trans), m_owns(true), m_db(m_trans->m_db) {
+    if(!m_trans->start())
+        throw std::system_error((ejdb::errc)c_ejdb::ecode(m_db.get()), "could not start transaction");
+}
+
+unique_transaction::unique_transaction(collection::transaction_t& trans, defer_transaction_t) noexcept
+    : m_trans(&trans),
+      m_owns(false),
+      m_db(m_trans->m_db) {}
+
+unique_transaction::unique_transaction(collection::transaction_t& trans, adopt_transaction_t) noexcept
+    : m_trans(&trans),
+      m_owns(true),
+      m_db(m_trans->m_db) {}
+
+unique_transaction::unique_transaction(collection::transaction_t& trans, try_transaction_t) noexcept
+    : m_trans(&trans),
+      m_owns(m_trans->start()),
+      m_db(m_trans->m_db) {}
+
+unique_transaction::unique_transaction(unique_transaction&& other) noexcept : m_trans(other.m_trans),
+                                                                              m_owns(other.m_owns),
+                                                                              m_db(std::move(other.m_db)) {
+    other.m_trans = nullptr;
+    other.m_owns = false;
+}
+
+unique_transaction& unique_transaction::operator=(unique_transaction&& other) {
+    if(m_owns)
+        abort();
+    m_trans = other.m_trans;
+    m_owns = other.m_owns;
+    m_db = std::move(other.m_db);
+    other.m_trans = nullptr;
+    other.m_owns = false;
+
+    return *this;
+}
+
+unique_transaction::~unique_transaction() {
+    if(!m_owns)
+        return;
+    bool r{};
+    if(std::uncaught_exception())
+        r = m_trans->abort();
+    else
+        r = m_trans->commit();
+    (void)r;
+    assert(r);
+}
+
+void unique_transaction::start() {
+    if(m_trans == nullptr)
+        throw std::system_error(make_error_code(std::errc::operation_not_permitted), "null transaction");
+    if(m_owns || m_trans->in_transaction())
+        throw std::system_error(ejdb::errc::illegal_transaction_state, "transaction already started");
+
+    m_owns = m_trans->start();
+    if(!m_owns)
+        throw std::system_error((ejdb::errc)c_ejdb::ecode(m_db.get()), "could not start transaction");
+}
+
+void unique_transaction::commit() {
+    if(m_trans == nullptr)
+        throw std::system_error(make_error_code(std::errc::operation_not_permitted), "null transaction");
+    if(!m_owns || !m_trans->in_transaction())
+        throw std::system_error(ejdb::errc::illegal_transaction_state);
+    m_owns = !m_trans->commit();
+    if(m_owns)
+        throw std::system_error((ejdb::errc)c_ejdb::ecode(m_db.get()), "could not commit transaction");
+}
+
+void unique_transaction::abort() {
+    if(m_trans == nullptr)
+        throw std::system_error(make_error_code(std::errc::operation_not_permitted), "null transaction");
+    if(!m_owns || !m_trans->in_transaction())
+        throw std::system_error(ejdb::errc::illegal_transaction_state);
+    m_owns = !m_trans->abort();
+    if(m_owns)
+        throw std::system_error((ejdb::errc)c_ejdb::ecode(m_db.get()), "could not abort transaction");
+}
+
+collection::transaction_t* unique_transaction::release() noexcept {
+    auto ret = m_trans;
+    m_trans = nullptr;
+    m_owns = false;
+    m_db.reset();
+
+    return ret;
+}
+
+bool unique_transaction::owns_transaction() const noexcept { return m_owns && m_trans->in_transaction(); }
+
+ejdb::unique_transaction::operator bool() const noexcept { return owns_transaction(); }
+
+transaction_guard::transaction_guard(collection::transaction_t& trans) : unique_transaction(trans) {}
+
 } // namespace ejdb
