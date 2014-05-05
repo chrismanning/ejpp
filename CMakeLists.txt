@@ -55,7 +55,7 @@ SET_TARGET_PROPERTIES(ejpp-static PROPERTIES OUTPUT_NAME ejpp)
 target_link_libraries(ejpp-static ${EJDB_LIBRARIES})
 
 add_library(ejpp SHARED ${SRC_LIST})
-target_link_libraries(ejpp ${EJDB_LIBRARIES} -Wl,--exclude-libs=ALL)
+target_link_libraries(ejpp ${EJDB_LIBRARIES} -Wl,--exclude-libs=tcejdb)
 set_target_properties(ejpp PROPERTIES COMPILE_DEFINITIONS EJPP_EXPORTS=ejpp_EXPORTS)
 
 get_cmake_property(CACHE_VARS CACHE_VARIABLES)
