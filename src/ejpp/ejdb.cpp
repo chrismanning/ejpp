@@ -636,21 +636,45 @@ collection::transaction_t& collection::transaction() noexcept { return m_transac
 
 collection::transaction_t::transaction_t(collection& coll) noexcept : m_collection(coll), m_db(m_collection.m_db) {}
 
+/*!
+ * Any operation performed on the associated collection after a successful call will be part of the transaction.
+ *
+ * Must be accompanied by a call to transaction_t::commit or transaction_t::abort in order to end a transaction.
+ *
+ * Parent db object may have a related error code (via db::error) on failure.
+ * \return true on success, false on failure.
+ */
 bool collection::transaction_t::start() noexcept {
     auto db = m_db.lock();
     return db && c_ejdb::isopen(db.get()) && m_collection && c_ejdb::tranbegin(m_collection.m_coll);
 }
 
+/*!
+ * Abandons all changes made to the associated collection after a call to transaction_t::start.
+ *
+ * Parent db object may have a related error code (via db::error) on failure.
+ * \return true on success, false on failure.
+ */
 bool collection::transaction_t::abort() noexcept {
     auto db = m_db.lock();
     return db && c_ejdb::isopen(db.get()) && m_collection && c_ejdb::tranabort(m_collection.m_coll);
 }
 
+/*!
+ * Commits all changes made to the associated collection after a call to transaction_t::start.
+ *
+ * Parent db object may have a related error code (via db::error) on failure.
+ * \return true on success, false on failure.
+ */
 bool collection::transaction_t::commit() noexcept {
     auto db = m_db.lock();
     return db && c_ejdb::isopen(db.get()) && m_collection && c_ejdb::trancommit(m_collection.m_coll);
 }
 
+/*!
+ * \return true when parent db is alive, open, and the transaction is in progress,
+ *         i.e. started, but neither committed nor aborted.
+ */
 bool collection::transaction_t::in_transaction() const noexcept {
     auto db = m_db.lock();
     bool ret{};
@@ -661,20 +685,18 @@ bool collection::transaction_t::in_transaction() const noexcept {
 
 collection::transaction_t::operator bool() const noexcept { return in_transaction(); }
 
+/*!
+ * \throws std::system_error with an ejdb::errc when the transaction could not be started.
+ */
 unique_transaction::unique_transaction(collection::transaction_t& trans)
     : m_trans(&trans), m_owns(true), m_db(m_trans->m_db) {
     if(!m_trans->start())
         throw std::system_error((ejdb::errc)c_ejdb::ecode(m_db.get()), "could not start transaction");
 }
 
-unique_transaction::unique_transaction(collection::transaction_t& trans, defer_transaction_t) noexcept
-    : m_trans(&trans),
-      m_owns(false),
-      m_db(m_trans->m_db) {}
-
 unique_transaction::unique_transaction(collection::transaction_t& trans, adopt_transaction_t) noexcept
     : m_trans(&trans),
-      m_owns(true),
+      m_owns(m_trans->in_transaction()),
       m_db(m_trans->m_db) {}
 
 unique_transaction::unique_transaction(collection::transaction_t& trans, try_transaction_t) noexcept
@@ -682,6 +704,12 @@ unique_transaction::unique_transaction(collection::transaction_t& trans, try_tra
       m_owns(m_trans->start()),
       m_db(m_trans->m_db) {}
 
+/*!
+ * \param other unique_transaction to construct from.
+ *
+ * Ensures \p other neither owns nor is associated with a collection::transaction_t,
+ * avoiding erroneous transaction termination.
+ */
 unique_transaction::unique_transaction(unique_transaction&& other) noexcept : m_trans(other.m_trans),
                                                                               m_owns(other.m_owns),
                                                                               m_db(std::move(other.m_db)) {
@@ -689,6 +717,16 @@ unique_transaction::unique_transaction(unique_transaction&& other) noexcept : m_
     other.m_owns = false;
 }
 
+/*!
+ * \param other unique_transaction to assign from.
+ *
+ * Aborts current transaction if one is owned.
+ *
+ * Ensures \p other neither owns nor is associated with a collection::transaction_t,
+ * avoiding erroneous transaction termination.
+ *
+ * \throws whatever abort() may throw.
+ */
 unique_transaction& unique_transaction::operator=(unique_transaction&& other) {
     if(m_owns)
         abort();
@@ -713,6 +751,11 @@ unique_transaction::~unique_transaction() {
     assert(r);
 }
 
+/*!
+ * \throws std::system_error with std::errc::operation_not_permitted when referenced collection::transaction_t is null.
+ * \throws std::system_error with errc::illegal_transaction_state when the transaction has already been started.
+ * \throws std::system_error with an ejdb::errc when the transaction could not be started.
+ */
 void unique_transaction::start() {
     if(m_trans == nullptr)
         throw std::system_error(make_error_code(std::errc::operation_not_permitted), "null transaction");
@@ -724,6 +767,11 @@ void unique_transaction::start() {
         throw std::system_error((ejdb::errc)c_ejdb::ecode(m_db.get()), "could not start transaction");
 }
 
+/*!
+ * \throws std::system_error with std::errc::operation_not_permitted when referenced collection::transaction_t is null.
+ * \throws std::system_error with errc::illegal_transaction_state when the transaction has already been terminated.
+ * \throws std::system_error with an ejdb::errc when the transaction could not be committed.
+ */
 void unique_transaction::commit() {
     if(m_trans == nullptr)
         throw std::system_error(make_error_code(std::errc::operation_not_permitted), "null transaction");
@@ -734,6 +782,11 @@ void unique_transaction::commit() {
         throw std::system_error((ejdb::errc)c_ejdb::ecode(m_db.get()), "could not commit transaction");
 }
 
+/*!
+ * \throws std::system_error with std::errc::operation_not_permitted when referenced collection::transaction_t is null.
+ * \throws std::system_error with errc::illegal_transaction_state when the transaction has already been terminated.
+ * \throws std::system_error with an ejdb::errc when the transaction could not be aborted.
+ */
 void unique_transaction::abort() {
     if(m_trans == nullptr)
         throw std::system_error(make_error_code(std::errc::operation_not_permitted), "null transaction");

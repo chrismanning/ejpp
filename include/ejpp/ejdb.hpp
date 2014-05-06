@@ -301,6 +301,7 @@ struct EJPP_EXPORT collection final {
 
     struct transaction_t;
 
+    //! Returns this collection's transaction_t.
     transaction_t& transaction() noexcept;
 
   private:
@@ -311,16 +312,42 @@ struct EJPP_EXPORT collection final {
     EJCOLL* m_coll{nullptr};
 
   public:
+    /*!
+     * \brief Represents an EJDB transaction.
+     *
+     * A [transaction](http://en.wikipedia.org/wiki/Database_transaction)
+     * is a series of operations that will either be completed all at once or not at all.
+     *
+     * A collection cannot have more than one transaction at a time.
+     * A transaction must be committed or aborted before another can start.
+     * Transactions cannot be nested.
+     *
+     * A transaction has no effect on the lifetimes of a parent db or collection object,
+     * only references to a transaction_t can be obtained by users.
+     *
+     * Although none of the member functions throw, it is not exception-safe to use this class directly for transaction
+     * functionality.
+     */
     struct transaction_t {
+        //! Starts a transaction.
         bool start() noexcept;
+        //! Commits a transaction.
         bool commit() noexcept;
+        //! Aborts a transaction.
         bool abort() noexcept;
 
+        //! Returns whether a transaction is in progress.
         bool in_transaction() const noexcept;
+        //! \copydoc in_transaction
         explicit operator bool() const noexcept;
 
       private:
         explicit transaction_t(collection&) noexcept;
+        transaction_t(transaction_t&&) = default;
+        transaction_t& operator=(transaction_t&&) = default;
+        transaction_t(const transaction_t&) = default;
+        transaction_t& operator=(const transaction_t&) = default;
+
         friend struct collection;
         friend struct unique_transaction;
         collection& m_collection;
@@ -395,46 +422,79 @@ struct EJPP_EXPORT query final {
     std::unique_ptr<EJQ, eqry_deleter> m_qry;
 };
 
-struct defer_transaction_t {};
+//! Tag type for expressing an adopted transaction.
 struct adopt_transaction_t {};
+//! Tag type for expressing a transaction that only tries to start.
 struct try_transaction_t {};
 
-constexpr defer_transaction_t defer_transaction{};
+//! Tag constant for adopting a transaction.
 constexpr adopt_transaction_t adopt_transaction{};
+//! Tag constant for trying to start a transaction.
 constexpr try_transaction_t try_transaction{};
 
+/*!
+ * \brief Defines an exception-safe wrapper around collection::transaction_t with unique ownership.
+ *
+ * Uses [RAII](http://en.wikipedia.com/wiki/Resource_Acquisition_Is_Initialization) to allow safe usage of a
+ * collection::transaction_t in the presence of exceptions.
+ * When a collection::transaction_t is owned, the destructor aborts transaction when an exception is thrown,
+ * otherwise commits.
+ *
+ * The parent db object is guaranteed to remain alive throughout the lifetime of a unique_transaction.
+ *
+ * The parent collection object must stay alive at least as long as a unique_transaction when it owns or contains a
+ * collection::transaction_t.
+ */
 struct EJPP_EXPORT unique_transaction {
+    //! Default constructor. Does not own a collection::transaction_t.
     unique_transaction() noexcept = default;
+    //! Constructs from a collection::transaction_t and starts transaction.
     explicit unique_transaction(collection::transaction_t& trans);
 
-    unique_transaction(collection::transaction_t& trans, defer_transaction_t) noexcept;
+    //! Constructs from a collection::transaction_t and adopts its status.
     unique_transaction(collection::transaction_t& trans, adopt_transaction_t) noexcept;
+    //! Constructs from a collection::transaction_t and attempts to start transaction.
     unique_transaction(collection::transaction_t& trans, try_transaction_t) noexcept;
 
-    unique_transaction(const unique_transaction&) = delete;
-    unique_transaction& operator=(const unique_transaction&) = delete;
-
+    //! Move constructor.
     unique_transaction(unique_transaction&&) noexcept;
+    //! Move assignment.
     unique_transaction& operator=(unique_transaction&&);
 
     ~unique_transaction();
 
+    //! Starts a transaction.
     void start();
+    //! Commits all changes since starting a transaction.
     void commit();
+    //! Aborts all changes since starting a transaction.
     void abort();
 
+    //! Releases ownership of current collection::transaction_t, if any, without terminating its transaction.
     collection::transaction_t* release() noexcept;
 
+    //! Returns whether or not a collection::transaction_t is currently owned and has a transaction in progress.
     bool owns_transaction() const noexcept;
+    //! \copybrief owns_transaction
     explicit operator bool() const noexcept;
 
   private:
+    unique_transaction(const unique_transaction&) = delete;
+    unique_transaction& operator=(const unique_transaction&) = delete;
+
     collection::transaction_t* m_trans{nullptr};
     bool m_owns{false};
     std::shared_ptr<EJDB> m_db;
 };
 
+/*!
+ * \brief Simple collection::transaction_t wrapper for exception safe operation using
+ * [RAII](http://en.wikipedia.com/wiki/Resource_Acquisition_Is_Initialization)
+ *
+ * Destructor aborts transaction when an exception is thrown, otherwise commits.
+ */
 struct EJPP_EXPORT transaction_guard : private unique_transaction {
+    //! Starts on
     explicit transaction_guard(collection::transaction_t& trans);
 };
 

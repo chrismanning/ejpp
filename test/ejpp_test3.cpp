@@ -415,7 +415,7 @@ TEST_F(EjdbTest3, testTransactions1) {
     ASSERT_TRUE(o_doc);
 
     {
-        ejdb::unique_transaction t{coll.transaction(), ejdb::defer_transaction};
+        ejdb::unique_transaction t{coll.transaction(), ejdb::adopt_transaction};
 
         ASSERT_FALSE(t.owns_transaction());
         ASSERT_NO_THROW(t.start());
