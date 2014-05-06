@@ -51,7 +51,8 @@
 <a href="#namespaces">Namespaces</a> &#124;
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">ejdb Namespace Reference</div>  </div>
 </div><!--header-->
@@ -68,6 +69,9 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1adopt__transaction__t.html">adopt_transaction_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tag type for expressing an adopted transaction.  <a href="structejdb_1_1adopt__transaction__t.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1collection.html">collection</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class representing an EJDB collection.  <a href="structejdb_1_1collection.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -82,6 +86,15 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1query.html">query</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class representing an EJDB query.  <a href="structejdb_1_1query.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1transaction__guard.html">transaction_guard</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simple <a class="el" href="structejdb_1_1collection_1_1transaction__t.html" title="Represents an EJDB transaction. ">collection::transaction_t</a> wrapper for exception safe operation using <a href="http://en.wikipedia.com/wiki/Resource_Acquisition_Is_Initialization">RAII</a>  <a href="structejdb_1_1transaction__guard.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1try__transaction__t.html">try_transaction_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tag type for expressing a transaction that only tries to start.  <a href="structejdb_1_1try__transaction__t.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1unique__transaction.html">unique_transaction</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines an exception-safe wrapper around <a class="el" href="structejdb_1_1collection_1_1transaction__t.html" title="Represents an EJDB transaction. ">collection::transaction_t</a> with unique ownership.  <a href="structejdb_1_1unique__transaction.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
@@ -233,6 +246,17 @@ constexpr <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae86
 constexpr <a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75">query_search_mode</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceejdb.html#a5b55fc74f0fd7d706148c893a68164dd">operator|=</a> (<a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75">query_search_mode</a> &amp;lhs, <a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75">query_search_mode</a> rhs) noexcept</td></tr>
 <tr class="memdesc:a5b55fc74f0fd7d706148c893a68164dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allow bitwise-OR-assign of query_search_mode. <br /></td></tr>
 <tr class="separator:a5b55fc74f0fd7d706148c893a68164dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a8e29f54139774bc7ae51e38f4499724b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8e29f54139774bc7ae51e38f4499724b"></a>
+constexpr <a class="el" href="structejdb_1_1adopt__transaction__t.html">adopt_transaction_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceejdb.html#a8e29f54139774bc7ae51e38f4499724b">adopt_transaction</a></td></tr>
+<tr class="memdesc:a8e29f54139774bc7ae51e38f4499724b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tag constant for adopting a transaction. <br /></td></tr>
+<tr class="separator:a8e29f54139774bc7ae51e38f4499724b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74fd554e3b832a9f9a6bb0e914ed8678"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a74fd554e3b832a9f9a6bb0e914ed8678"></a>
+constexpr <a class="el" href="structejdb_1_1try__transaction__t.html">try_transaction_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceejdb.html#a74fd554e3b832a9f9a6bb0e914ed8678">try_transaction</a> {}</td></tr>
+<tr class="memdesc:a74fd554e3b832a9f9a6bb0e914ed8678"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tag constant for trying to start a transaction. <br /></td></tr>
+<tr class="separator:a74fd554e3b832a9f9a6bb0e914ed8678"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Contains the main EJPP classes, etc. </p>
@@ -579,7 +603,13 @@ template&lt;&gt; </div>
 </div><div class="memdoc">
 
 <p>execute_query&lt;query_search_mode::first_only&gt;. Executes a query in first-only mode. </p>
-<dl class="section return"><dt>Returns</dt><dd>Only the first record which matches the criteria in <code>qry</code>, or boost::none on failure or if none match. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Only the first record which matches the criteria in <code>qry</code>, or boost::none on failure or if none match.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">jbson::invalid_document_size</td><td>When return value is constructed with an invalid BSON document (i.e. when EJDB produces a bad BSON document). </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -600,7 +630,13 @@ template&lt;&gt; </div>
 </div><div class="memdoc">
 
 <p>execute_query&lt;query_search_mode::normal&gt;. Executes a query in normal mode. </p>
-<dl class="section return"><dt>Returns</dt><dd>All records which match the criteria in <code>qry</code>. If collection or <code>qry</code> is invalid, an empty vector is returned. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>All records which match the criteria in <code>qry</code>. If collection or <code>qry</code> is invalid, an empty vector is returned.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">jbson::invalid_document_size</td><td>When any of the return values are constructed with an invalid BSON document (i.e. when EJDB produces a bad BSON document). </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

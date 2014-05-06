@@ -54,6 +54,7 @@
   </div>
   <div id="navrow4" class="tabs3">
     <ul class="tablist">
+      <li><a href="#index_a"><span>a</span></a></li>
       <li><a href="#index_c"><span>c</span></a></li>
       <li><a href="#index_d"><span>d</span></a></li>
       <li><a href="#index_e"><span>e</span></a></li>
@@ -65,12 +66,22 @@
       <li><a href="#index_o"><span>o</span></a></li>
       <li><a href="#index_q"><span>q</span></a></li>
       <li><a href="#index_r"><span>r</span></a></li>
-      <li class="current"><a href="#index_s"><span>s</span></a></li>
+      <li><a href="#index_s"><span>s</span></a></li>
+      <li><a href="#index_t"><span>t</span></a></li>
+      <li class="current"><a href="#index_u"><span>u</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
 <div class="contents">
 <div class="textblock">Here is a list of all documented class members with links to the class documentation for each member:</div>
+
+<h3><a class="anchor" id="index_a"></a>- a -</h3><ul>
+<li>abort()
+: <a class="el" href="structejdb_1_1collection_1_1transaction__t.html#a01a96b6be2d0c89408609c81b0173969">ejdb::collection::transaction_t</a>
+, <a class="el" href="structejdb_1_1unique__transaction.html#aab4261f4ffcf12e48cac300c3591839a">ejdb::unique_transaction</a>
+</li>
+</ul>
+
 
 <h3><a class="anchor" id="index_c"></a>- c -</h3><ul>
 <li>close()
@@ -78,6 +89,10 @@
 </li>
 <li>collection()
 : <a class="el" href="structejdb_1_1collection.html#ae69d79b2c745df1370bc88e84948a513">ejdb::collection</a>
+</li>
+<li>commit()
+: <a class="el" href="structejdb_1_1collection_1_1transaction__t.html#a6eb0685da037163fc0cc8536d6bf3f34">ejdb::collection::transaction_t</a>
+, <a class="el" href="structejdb_1_1unique__transaction.html#a21f3584223b39db7951a14835f8a611e">ejdb::unique_transaction</a>
 </li>
 <li>create_collection()
 : <a class="el" href="structejdb_1_1db.html#ac4c7ad1743f0ee84e38a15cbad0a1d2a">ejdb::db</a>
@@ -103,7 +118,7 @@
 : <a class="el" href="classejdb_1_1error__category.html#a94cb5c09501616a4800cdd1534914810">ejdb::error_category</a>
 </li>
 <li>execute_query()
-: <a class="el" href="structejdb_1_1collection.html#acdd8b716f6efe85502f5dfb9bac3a16e">ejdb::collection</a>
+: <a class="el" href="structejdb_1_1collection.html#a9b58698483cfef611ff9937615b5db40">ejdb::collection</a>
 </li>
 </ul>
 
@@ -122,6 +137,9 @@
 
 
 <h3><a class="anchor" id="index_i"></a>- i -</h3><ul>
+<li>in_transaction()
+: <a class="el" href="structejdb_1_1collection_1_1transaction__t.html#a8ba4c3d668b04b57cced2bde4266d8f1">ejdb::collection::transaction_t</a>
+</li>
 <li>is_open()
 : <a class="el" href="structejdb_1_1db.html#a66563bf5a83eb0358797f024249e4bbd">ejdb::db</a>
 </li>
@@ -159,17 +177,25 @@
 </li>
 <li>operator bool()
 : <a class="el" href="structejdb_1_1collection.html#ace26575515f906f3a79d8cc302841406">ejdb::collection</a>
+, <a class="el" href="structejdb_1_1collection_1_1transaction__t.html#a95f2a45f2ad33c6c9f4d844bb67654b0">ejdb::collection::transaction_t</a>
 , <a class="el" href="structejdb_1_1db.html#a60e21c4be579aa79d03b2829e3b5f62d">ejdb::db</a>
 , <a class="el" href="structejdb_1_1query.html#afc0b0eb88a60e05241a153a5fb560a21">ejdb::query</a>
+, <a class="el" href="structejdb_1_1unique__transaction.html#a214d183634b3dfc23b53e16d0cef6de0">ejdb::unique_transaction</a>
 </li>
 <li>operator&amp;=()
-: <a class="el" href="structejdb_1_1query.html#a2f9937411ff04cbe85898b0fb977e5cb">ejdb::query</a>
+: <a class="el" href="structejdb_1_1query.html#aa8f561aef3a5d2e72a2281a148df541a">ejdb::query</a>
 </li>
 <li>operator()()
 : <a class="el" href="structejdb_1_1ejdb__deleter.html#afadfd7dd7f62d14c23ecc4d343f5e3b6">ejdb::ejdb_deleter</a>
 </li>
+<li>operator=()
+: <a class="el" href="structejdb_1_1unique__transaction.html#a59d3c6df6dbd243d104e98882b6ca6c0">ejdb::unique_transaction</a>
+</li>
 <li>operator|=()
-: <a class="el" href="structejdb_1_1query.html#ae487e11a04dd18adca1e6e32dd291dbd">ejdb::query</a>
+: <a class="el" href="structejdb_1_1query.html#a6ea06a1e7f7758a0a3e74b1744d2c9c6">ejdb::query</a>
+</li>
+<li>owns_transaction()
+: <a class="el" href="structejdb_1_1unique__transaction.html#a69590741cf24946ad28cbea6543cf608">ejdb::unique_transaction</a>
 </li>
 </ul>
 
@@ -182,6 +208,9 @@
 
 
 <h3><a class="anchor" id="index_r"></a>- r -</h3><ul>
+<li>release()
+: <a class="el" href="structejdb_1_1unique__transaction.html#a975f411560a39b558c1b7fa65757e130">ejdb::unique_transaction</a>
+</li>
 <li>remove_collection()
 : <a class="el" href="structejdb_1_1db.html#a4ffe77b6b4feb5a206b9256d5eff9e44">ejdb::db</a>
 </li>
@@ -196,14 +225,35 @@
 : <a class="el" href="structejdb_1_1collection.html#ad0a991eb62541a052ea28618110ed1a0">ejdb::collection</a>
 </li>
 <li>set_hints()
-: <a class="el" href="structejdb_1_1query.html#ad64f1038d1e5afe0e1c8d9f9756afa56">ejdb::query</a>
+: <a class="el" href="structejdb_1_1query.html#ac0fa541cc055cbe290d80c31a2a8cedd">ejdb::query</a>
 </li>
 <li>set_index()
 : <a class="el" href="structejdb_1_1collection.html#a8255adfb451c91eb2f160c27f2a18e2f">ejdb::collection</a>
 </li>
+<li>start()
+: <a class="el" href="structejdb_1_1collection_1_1transaction__t.html#a6bc29c6f64ca7d08d1c32486ae0cabff">ejdb::collection::transaction_t</a>
+, <a class="el" href="structejdb_1_1unique__transaction.html#a21e10cdf1337ce5a1131bdc0f7488202">ejdb::unique_transaction</a>
+</li>
 <li>sync()
 : <a class="el" href="structejdb_1_1collection.html#ac7fb5925002b3e1ee06cb4697e125cdb">ejdb::collection</a>
 , <a class="el" href="structejdb_1_1db.html#a5aa43a80100fea0752d3b280bef69b59">ejdb::db</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_t"></a>- t -</h3><ul>
+<li>transaction()
+: <a class="el" href="structejdb_1_1collection.html#ade14d3e6b0a6f20d9a5b70555e52bf32">ejdb::collection</a>
+</li>
+<li>transaction_guard()
+: <a class="el" href="structejdb_1_1transaction__guard.html#a552c1d6ae81795931ffd1db29d8bccda">ejdb::transaction_guard</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_u"></a>- u -</h3><ul>
+<li>unique_transaction()
+: <a class="el" href="structejdb_1_1unique__transaction.html#a3b983ccd94fa0f1afd916cc48146af03">ejdb::unique_transaction</a>
 </li>
 </ul>
 </div><!-- contents -->

@@ -1,0 +1,3 @@
+<map id="ejdb::unique_transaction" name="ejdb::unique_transaction">
+<area shape="rect" id="node3" href="$structejdb_1_1transaction__guard.html" title="Simple collection::transaction_t wrapper for exception safe operation using RAII " alt="" coords="8,80,171,107"/>
+</map>

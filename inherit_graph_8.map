@@ -1,0 +1,4 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$structejdb_1_1unique__transaction.html" title="Defines an exception&#45;safe wrapper around collection::transaction_t with unique ownership. " alt="" coords="5,5,173,32"/>
+<area shape="rect" id="node3" href="$structejdb_1_1transaction__guard.html" title="Simple collection::transaction_t wrapper for exception safe operation using RAII " alt="" coords="221,5,384,32"/>
+</map>

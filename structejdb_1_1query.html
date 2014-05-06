@@ -89,9 +89,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa8f561aef3a5d2e72a2281a148df541a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structejdb_1_1query.html">query</a> &amp;&amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1query.html#aa8f561aef3a5d2e72a2281a148df541a">operator&amp;=</a> (<a class="el" href="structejdb_1_1query.html">query</a>)&amp;&amp;noexcept</td></tr>
 <tr class="memdesc:aa8f561aef3a5d2e72a2281a148df541a"><td class="mdescLeft">&#160;</td><td class="mdescRight">In-place <code>$and</code> operator.  <a href="#aa8f561aef3a5d2e72a2281a148df541a">More...</a><br /></td></tr>
 <tr class="separator:aa8f561aef3a5d2e72a2281a148df541a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae487e11a04dd18adca1e6e32dd291dbd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae487e11a04dd18adca1e6e32dd291dbd"></a>
-<a class="el" href="structejdb_1_1query.html">query</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1query.html#ae487e11a04dd18adca1e6e32dd291dbd">operator|=</a> (const jbson::document &amp;)&amp;</td></tr>
-<tr class="memdesc:ae487e11a04dd18adca1e6e32dd291dbd"><td class="mdescLeft">&#160;</td><td class="mdescRight">In-place <code>$or</code> operator with BSON document as operand. <br /></td></tr>
+<tr class="memitem:ae487e11a04dd18adca1e6e32dd291dbd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structejdb_1_1query.html">query</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1query.html#ae487e11a04dd18adca1e6e32dd291dbd">operator|=</a> (const jbson::document &amp;)&amp;</td></tr>
+<tr class="memdesc:ae487e11a04dd18adca1e6e32dd291dbd"><td class="mdescLeft">&#160;</td><td class="mdescRight">In-place <code>$or</code> operator with BSON document as operand.  <a href="#ae487e11a04dd18adca1e6e32dd291dbd">More...</a><br /></td></tr>
 <tr class="separator:ae487e11a04dd18adca1e6e32dd291dbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a39cd87bc41cfd5e1cfd2cc85471e67dd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a39cd87bc41cfd5e1cfd2cc85471e67dd"></a>
 <a class="el" href="structejdb_1_1query.html">query</a> &amp;&amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1query.html#a39cd87bc41cfd5e1cfd2cc85471e67dd">operator|=</a> (const jbson::document &amp;)&amp;&amp;</td></tr>
@@ -213,6 +212,30 @@ struct&#160;</td><td class="memItemRight" valign="bottom"><b>db</b></td></tr>
 
 <p>In-place <code>$and</code> operator. </p>
 <dl class="section warning"><dt>Warning</dt><dd>Unimplemented. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ae487e11a04dd18adca1e6e32dd291dbd"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structejdb_1_1query.html">query</a> &amp;&amp; ejdb::query::operator|= </td>
+          <td>(</td>
+          <td class="paramtype">const jbson::document &amp;&#160;</td>
+          <td class="paramname"><em>obj</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>In-place <code>$or</code> operator with BSON document as operand. </p>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">jbson::invalid_document_size</td><td>When <code>obj</code> is constructed with an invalid BSON document. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

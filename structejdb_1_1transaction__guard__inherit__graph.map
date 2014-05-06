@@ -1,0 +1,3 @@
+<map id="ejdb::transaction_guard" name="ejdb::transaction_guard">
+<area shape="rect" id="node2" href="$structejdb_1_1unique__transaction.html" title="Defines an exception&#45;safe wrapper around collection::transaction_t with unique ownership. " alt="" coords="5,5,173,32"/>
+</map>

@@ -358,7 +358,13 @@ Only one index can be used in search query operation.</dd></dl>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Valid query on success, invalid query on failure. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Valid query on success, invalid query on failure.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">jbson::invalid_document_size</td><td>When <code>doc</code> is constructed with an invalid BSON document. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -486,7 +492,13 @@ Only one index can be used in search query operation.</dd></dl>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Valid BSON document on success, boost::none on failure. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Valid BSON document on success, boost::none on failure.</dd></dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">jbson::invalid_document_size</td><td>When return valid is constructed with an invalid BSON document (i.e. when EJDB produces a bad BSON document). </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
