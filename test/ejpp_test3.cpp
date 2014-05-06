@@ -462,7 +462,10 @@ TEST_F(EjdbTest3, testTransactions2) {
 
     {
         ASSERT_FALSE(jb.error());
-        ejdb::unique_transaction u_trans{coll.transaction()};
+        ejdb::unique_transaction u_trans{};
+        ASSERT_FALSE(u_trans.owns_transaction());
+        u_trans = ejdb::unique_transaction{coll.transaction()};
+        ASSERT_TRUE(u_trans.owns_transaction());
 
         auto o_oid = coll.save_document(bs, ec);
         EXPECT_TRUE(static_cast<bool>(coll));

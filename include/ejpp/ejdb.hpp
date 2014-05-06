@@ -404,6 +404,7 @@ constexpr adopt_transaction_t adopt_transaction{};
 constexpr try_transaction_t try_transaction{};
 
 struct EJPP_EXPORT unique_transaction {
+    unique_transaction() noexcept = default;
     explicit unique_transaction(collection::transaction_t& trans);
 
     unique_transaction(collection::transaction_t& trans, defer_transaction_t) noexcept;
