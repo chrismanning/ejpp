@@ -208,28 +208,49 @@ struct EJPP_EXPORT db final {
 
     //! Opens EJDB database at \p path.
     bool open(const std::string& path, db_mode mode, std::error_code& ec) noexcept;
+    //! \copybrief open
+    void open(const std::string& path, db_mode mode);
+
     //! Returns whether the db object refers to a valid and open EJDB database.
     bool is_open() const noexcept;
+
     //! Closes the currently open EJDB database.
     bool close(std::error_code& ec) noexcept;
+    //! \copybrief close
+    void close();
 
     //! Returns an existing collection named \p name.
     collection get_collection(const std::string& name, std::error_code& ec) const noexcept;
+    //! \copybrief get_collection
+    collection get_collection(const std::string& name) const;
+
     //! Returns an existing, or otherwise newly created, collection, named \p name.
     collection create_collection(const std::string& name, std::error_code& ec) noexcept;
+    //! \copybrief create_collection
+    collection create_collection(const std::string& name);
+
     //! Removes a collection named \p name.
     bool remove_collection(const std::string& name, bool unlink_file, std::error_code& ec) noexcept;
+    //! \copybrief remove_collection
+    void remove_collection(const std::string& name, bool unlink_file);
+
     //! Returns all existing collections.
-    const std::vector<collection> get_collections() const noexcept;
+    const std::vector<collection> get_collections() const;
 
     //! Create a query from a BSON document.
     query create_query(const jbson::document& doc, std::error_code& ec);
+    //! \copybrief create_query
+    query create_query(const jbson::document& doc);
 
     //! Synchronise the EJDB database to disk.
     bool sync(std::error_code& ec) noexcept;
+    //! \copybrief sync
+    void sync();
 
     //! Returns description of the EJDB database.
     boost::optional<jbson::document> metadata(std::error_code& ec);
+    //! \copybrief metadata
+    jbson::document metadata();
 
   private:
     std::shared_ptr<EJDB> m_db;
@@ -258,7 +279,7 @@ using query_return_type =
  * Valid collections can only be created via ejdb::db::create_collection or ejdb::db::get_collection.
  *
  * Should the parent ejdb::db object expire before the collection, all operations performed on or with the collection
- * will fail, with any `std::error_code`s set to `std::errc::bad_address` (`EFAULT`).
+ * will fail, with any `std::error_code`s set to `std::errc::operation_not_permitted` (`EPERM`).
  * The parent ejdb::db object is guaranteed to stay alive for the duration of an operation.
  */
 struct EJPP_EXPORT collection final {
@@ -272,14 +293,23 @@ struct EJPP_EXPORT collection final {
     boost::optional<std::array<char, 12>> save_document(const jbson::document& data, std::error_code& ec);
     //! Saves a document to the collection, optionally merging with an existing, matching document.
     boost::optional<std::array<char, 12>> save_document(const jbson::document& data, bool merge, std::error_code& ec);
+    //! \copybrief save_document(const jbson::document&,bool,std::error_code&)
+    std::array<char, 12> save_document(const jbson::document& data, bool merge = false);
+
     //! Loads a matching document from the collection.
     boost::optional<jbson::document> load_document(std::array<char, 12> oid, std::error_code& ec) const;
+    //! \copybrief load_document
+    jbson::document load_document(std::array<char, 12> oid) const;
 
     //! Removes a document from the collection.
     bool remove_document(std::array<char, 12>, std::error_code& ec) noexcept;
+    //! \copybrief remove_document
+    void remove_document(std::array<char, 12>);
 
     //! Sets the index for a BSON field in the collection.
     bool set_index(const std::string& ipath, index_mode flags, std::error_code& ec) noexcept;
+    //! \copybrief set_index
+    void set_index(const std::string& ipath, index_mode flags);
 
     /*!
      * \brief Executes a query on the collection.
@@ -295,6 +325,8 @@ struct EJPP_EXPORT collection final {
 
     //! Synchronises the EJDB database to disk.
     bool sync(std::error_code& ec) noexcept;
+    //! \copybrief sync
+    void sync();
 
     //! Returns the name of the collection.
     boost::string_ref name() const noexcept;
@@ -376,7 +408,7 @@ collection::execute_query<query_search_mode::count_only | query_search_mode::fir
  * Valid queries can only be created via ejdb::db::create_query.
  *
  * Should the parent ejdb::db object expire before the query, all operations performed on or with the query will fail,
- * with any `std::error_code`s set to `std::errc::bad_address` (`EFAULT`).
+ * with any `std::error_code`s set to `std::errc::operation_not_permitted` (`EPERM`).
  * The parent ejdb::db object is guaranteed to stay alive for the duration of an operation.
  */
 struct EJPP_EXPORT query final {

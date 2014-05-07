@@ -20,6 +20,8 @@
  *****************************************************************************/
 
 #include <array>
+#include <string>
+using namespace std::literals;
 
 #include <boost/optional.hpp>
 #include <boost/range/adaptor/transformed.hpp>
@@ -44,22 +46,23 @@ db::operator bool() const noexcept { return static_cast<bool>(m_db); }
 
 /*!
  * \return std::error_code representing last error,
- *         or std::errc::bad_address (EFAULT) if EJDB handle is invalid.
+ *         or std::errc::operation_not_permitted (EPERM) if EJDB handle is invalid.
  */
 std::error_code db::error() const noexcept {
     if(!m_db)
-        return std::make_error_code(std::errc::bad_address);
+        return std::make_error_code(std::errc::operation_not_permitted);
     return static_cast<errc>(c_ejdb::ecode(m_db.get()));
 }
 
 /*!
  * \param db weak_ptr to an EJDB handle.
- * \return std::error_code representing last error, or std::errc::bad_address (EFAULT) if db refers to destroyed handle.
+ * \return std::error_code representing last error, or std::errc::operation_not_permitted (EPERM) if db refers to
+ * destroyed handle.
  */
 std::error_code db::error(std::weak_ptr<EJDB> db) noexcept {
     auto ptr = db.lock();
     if(!ptr)
-        return std::make_error_code(std::errc::bad_address);
+        return std::make_error_code(std::errc::operation_not_permitted);
     return static_cast<errc>(c_ejdb::ecode(ptr.get()));
 }
 
@@ -77,6 +80,23 @@ bool db::open(const std::string& path, db_mode mode, std::error_code& ec) noexce
     return r;
 }
 
+/*!
+ * \param path Location on filesystem where an EJDB databaes exists.
+ * \param mode Bitwise-ORed flags to determine how to open the database.
+ *
+ * \throws std::system_error with appropriate error code and message on failure.
+ *
+ * \sa db::open
+ */
+void db::open(const std::string& path, db_mode mode) {
+    std::error_code ec;
+    auto r = open(path, mode, ec);
+    (void)r;
+    assert(r == !ec);
+    if(ec)
+        throw std::system_error(ec, "could not open database");
+}
+
 bool db::is_open() const noexcept { return m_db && c_ejdb::isopen(m_db.get()); }
 
 /*!
@@ -89,6 +109,20 @@ bool db::close(std::error_code& ec) noexcept {
         ec = error();
     m_db.reset();
     return r;
+}
+
+/*!
+ * \throws std::system_error with appropriate error code and message on failure.
+ *
+ * \sa db::close
+ */
+void db::close() {
+    std::error_code ec;
+    auto r = close(ec);
+    (void)r;
+    assert(r == !ec);
+    if(ec)
+        throw std::system_error(ec, "could not close database");
 }
 
 /*!
@@ -108,6 +142,21 @@ collection db::get_collection(const std::string& name, std::error_code& ec) cons
 }
 
 /*!
+ * \param name Name of collection to fetch.
+ * \return Valid collection on success, throws on failure.
+ *
+ * \throws std::system_error with appropriate error code and message on failure.
+ */
+collection db::get_collection(const std::string& name) const {
+    std::error_code ec;
+    auto coll = get_collection(name, ec);
+    assert(static_cast<bool>(coll) == !ec);
+    if(ec)
+        throw std::system_error(ec, "could not get collection "s + name);
+    return coll;
+}
+
+/*!
  * \param name Name of collection to fetch or create.
  * \param[out] ec Set to an appropriate error code on failure.
  * \return Valid collection on success, invalid collection on failure.
@@ -124,6 +173,21 @@ collection db::create_collection(const std::string& name, std::error_code& ec) n
 }
 
 /*!
+ * \param name Name of collection to fetch or create.
+ * \return Valid collection on success, throws on failure.
+ *
+ * \throws std::system_error with appropriate error code and message on failure.
+ */
+collection db::create_collection(const std::string& name) {
+    std::error_code ec;
+    auto coll = create_collection(name, ec);
+    assert(static_cast<bool>(coll) == !ec);
+    if(ec)
+        throw std::system_error(ec, "could not get/create collection "s + name);
+    return coll;
+}
+
+/*!
  * \param name Name of collection to remove.
  * \param unlink_file Whether to remove associated files, i.e. db collection file, indexes, etc.
  * \param[out] ec Set to an appropriate error code on failure.
@@ -136,7 +200,22 @@ bool db::remove_collection(const std::string& name, bool unlink_file, std::error
     return r;
 }
 
-const std::vector<collection> db::get_collections() const noexcept {
+/*!
+ * \param name Name of collection to remove.
+ * \param unlink_file Whether to remove associated files, i.e. db collection file, indexes, etc.
+ *
+ * \throws std::system_error with appropriate error code and message on failure.
+ */
+void db::remove_collection(const std::string& name, bool unlink_file) {
+    std::error_code ec;
+    auto r = remove_collection(name, unlink_file, ec);
+    (void)r;
+    assert(r == !ec);
+    if(ec)
+        throw std::system_error(ec, "could not remove collection "s + name);
+}
+
+const std::vector<collection> db::get_collections() const {
     if(!m_db)
         return {};
     auto colls = c_ejdb::getcolls(m_db.get());
@@ -248,6 +327,24 @@ query db::create_query(const jbson::document& doc, std::error_code& ec) {
 }
 
 /*!
+ * Same as create_query, throws exception instead of setting an std::error_code on failure.
+ *
+ * \param doc BSON query object.
+ *
+ * \throws std::system_error with appropriate error code and message on failure.
+ * \throws jbson::invalid_document_size When \p doc is constructed with an invalid BSON document.
+ * \sa create_query
+ */
+query db::create_query(const jbson::document& doc) {
+    std::error_code ec;
+    auto qry = create_query(doc, ec);
+    assert(static_cast<bool>(qry) == !ec);
+    if(ec)
+        throw std::system_error(ec, "could not create query");
+    return qry;
+}
+
+/*!
  * \param[out] ec Set to an appropriate error code on failure.
  * \return true on success, false on failure.
  */
@@ -256,6 +353,18 @@ bool db::sync(std::error_code& ec) noexcept {
     if(!r)
         ec = error();
     return r;
+}
+
+/*!
+ * \throws std::system_error with appropriate error code and message on failure.
+ */
+void db::sync() {
+    std::error_code ec;
+    auto r = sync(ec);
+    (void)r;
+    assert(r == !ec);
+    if(ec)
+        throw std::system_error(ec, "could not sync db");
 }
 
 /*!
@@ -276,6 +385,19 @@ boost::optional<jbson::document> db::metadata(std::error_code& ec) {
         return boost::none;
     }
     return jbson::document{std::move(r)};
+}
+
+/*!
+ * \return Valid BSON document.
+ * \throws std::system_error with appropriate error code and message on failure.
+ */
+jbson::document db::metadata() {
+    std::error_code ec;
+    auto meta = metadata(ec);
+    assert(static_cast<bool>(meta) == !ec);
+    if(ec)
+        throw std::system_error(ec, "could not get metadata");
+    return *meta;
 }
 
 collection::collection(std::weak_ptr<EJDB> db, EJCOLL* coll) noexcept : m_db(db), m_coll(coll) {}
@@ -305,7 +427,7 @@ boost::optional<std::array<char, 12>> collection::save_document(const jbson::doc
 boost::optional<std::array<char, 12>> collection::save_document(const jbson::document& doc, bool merge,
                                                                 std::error_code& ec) {
     if(m_coll == nullptr) {
-        ec = std::make_error_code(std::errc::bad_address);
+        ec = std::make_error_code(std::errc::operation_not_permitted);
         return boost::none;
     }
 
@@ -319,6 +441,23 @@ boost::optional<std::array<char, 12>> collection::save_document(const jbson::doc
 }
 
 /*!
+ * \param data BSON document to be saved.
+ * \param merge Whether or not to merge with an existing, matching document. Default = false.
+ * \return OID of saved document.
+ *
+ * \throws std::system_error with appropriate error code and message on failure.
+ * \throws jbson::invalid_document_size When \p doc is constructed with an invalid BSON document.
+ */
+std::array<char, 12> collection::save_document(const jbson::document& data, bool merge) {
+    std::error_code ec;
+    auto oid = save_document(data, merge, ec);
+    assert(static_cast<bool>(oid) == !ec);
+    if(ec)
+        throw std::system_error(ec, "could not save document");
+    return *oid;
+}
+
+/*!
  * \param oid OID of the document to fetch.
  * \param[out] ec Set to an appropriate error code on failure.
  * \return Document corresponding to \p oid on success, boost::none on failure.
@@ -328,7 +467,7 @@ boost::optional<std::array<char, 12>> collection::save_document(const jbson::doc
  */
 boost::optional<jbson::document> collection::load_document(std::array<char, 12> oid, std::error_code& ec) const {
     if(m_coll == nullptr) {
-        ec = std::make_error_code(std::errc::bad_address);
+        ec = std::make_error_code(std::errc::operation_not_permitted);
         return boost::none;
     }
 
@@ -341,19 +480,50 @@ boost::optional<jbson::document> collection::load_document(std::array<char, 12> 
 }
 
 /*!
+ * \param oid OID of the document to fetch.
+ * \return Document corresponding to \p oid.
+ *
+ * \throws std::system_error with appropriate error code and message on failure.
+ * \throws jbson::invalid_document_size When return value is constructed with an invalid BSON document
+ *          (i.e. when EJDB produces a bad BSON document).
+ */
+jbson::document collection::load_document(std::array<char, 12> oid) const {
+    std::error_code ec;
+    auto doc = load_document(oid, ec);
+    assert(static_cast<bool>(doc) == !ec);
+    if(ec)
+        throw std::system_error(ec, "could not load document");
+    return *doc;
+}
+
+/*!
  * \param oid OID of the document to remove.
  * \param[out] ec Set to an appropriate error code on failure.
  * \return true on success, false on failure.
  */
 bool collection::remove_document(std::array<char, 12> oid, std::error_code& ec) noexcept {
     if(m_coll == nullptr) {
-        ec = std::make_error_code(std::errc::bad_address);
+        ec = std::make_error_code(std::errc::operation_not_permitted);
         return false;
     }
     const auto r = c_ejdb::rmbson(m_coll, oid.data());
     if(!r)
         ec = db::error(m_db);
     return r;
+}
+
+/*!
+ * \param oid OID of the document to remove.
+ *
+ * \throws std::system_error with appropriate error code and message on failure.
+ */
+void collection::remove_document(std::array<char, 12> oid) {
+    std::error_code ec;
+    auto r = remove_document(oid, ec);
+    (void)r;
+    assert(static_cast<bool>(r) == !ec);
+    if(ec)
+        throw std::system_error(ec, "could not remove document");
 }
 
 /*!
@@ -382,20 +552,36 @@ bool collection::remove_document(std::array<char, 12> oid, std::error_code& ec) 
  *      - Rebuild previous index:
  *          \code coll.set_index("album.tags", index_mode::array | index_mode::rebuild) \endcode
  *
- * \param ipath
- * \param flags
+ * \param ipath Field path to set index on.
+ * \param flags ejdb::index_mode flags controlling the mode of operation of the index.
  * \param[out] ec Set to an appropriate error code on failure.
  * \return true on success, false on failure.
  */
 bool collection::set_index(const std::string& ipath, index_mode flags, std::error_code& ec) noexcept {
     if(m_coll == nullptr) {
-        ec = std::make_error_code(std::errc::bad_address);
+        ec = std::make_error_code(std::errc::operation_not_permitted);
         return false;
     }
     const auto r = c_ejdb::setindex(m_coll, ipath.c_str(), (std::underlying_type_t<index_mode>)flags);
     if(!r)
         ec = db::error(m_db);
     return r;
+}
+
+/*!
+ * \param ipath Field path to set index on.
+ * \param flags ejdb::index_mode flags controlling the mode of operation of the index.
+ *
+ * \throws std::system_error with appropriate error code and message on failure.
+ * \sa set_index
+ */
+void collection::set_index(const std::string& ipath, index_mode flags) {
+    std::error_code ec;
+    auto r = set_index(ipath, flags, ec);
+    (void)r;
+    assert(static_cast<bool>(r) == !ec);
+    if(ec)
+        throw std::system_error(ec, "could not set index for field "s + ipath);
 }
 
 /*!
@@ -537,13 +723,25 @@ std::vector<jbson::document> collection::get_all() {
  */
 bool collection::sync(std::error_code& ec) noexcept {
     if(m_coll == nullptr) {
-        ec = std::make_error_code(std::errc::bad_address);
+        ec = std::make_error_code(std::errc::operation_not_permitted);
         return false;
     }
     const auto r = c_ejdb::syncoll(m_coll);
     if(!r)
         ec = db::error(m_db);
     return r;
+}
+
+/*!
+ * \throws std::system_error with appropriate error code and message on failure.
+ */
+void collection::sync() {
+    std::error_code ec;
+    auto r = sync(ec);
+    (void)r;
+    assert(r == !ec);
+    if(ec)
+        throw std::system_error(ec, "could not sync collection");
 }
 
 boost::string_ref collection::name() const noexcept {
