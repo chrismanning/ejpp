@@ -14,7 +14,6 @@ if(${EJPP_ENABLE_TESTING})
 enable_testing()
 endif()
 
-set(EJDB_STATIC_LIB true)
 find_package(EJDB REQUIRED)
 find_package(Boost 1.53.0 REQUIRED)
 find_package(JBSON REQUIRED)
