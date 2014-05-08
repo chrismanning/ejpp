@@ -78,7 +78,7 @@ TEST_F(EjdbTest2, TestAddData) {
         ]
     })"_json_doc);
 
-    auto oid = ccoll.save_document(a1, ec);
+    auto oid = ccoll.save_document(a1.data(), ec);
     EXPECT_FALSE(ec);
     EXPECT_TRUE(static_cast<bool>(oid));
     ec.clear();
@@ -99,16 +99,18 @@ TEST_F(EjdbTest2, TestAddData) {
         "drinks": [ 4, 556667, 77676.22 ]
     })"_json_doc);
 
-    oid = ccoll.save_document(a1, ec);
+    oid = ccoll.save_document(a1.data(), ec);
     EXPECT_FALSE(ec);
     EXPECT_TRUE(static_cast<bool>(oid));
     ec.clear();
 
     auto o_doc = ccoll.load_document(*oid, ec);
     EXPECT_FALSE(ec);
-    ASSERT_TRUE(static_cast<bool>(o_doc));
-    auto it = o_doc->find("name");
-    ASSERT_NE(o_doc->end(), it);
+    ASSERT_TRUE(!o_doc.empty());
+
+    auto doc = jbson::document(std::move(o_doc));
+    auto it = doc.find("name");
+    ASSERT_NE(doc.end(), it);
     ASSERT_EQ("Адаманский", it->value<std::string>());
 
     // Record 3
@@ -125,7 +127,7 @@ TEST_F(EjdbTest2, TestAddData) {
         "drinks": [ 41, 222334, 77676.22 ]
     })"_json_doc);
 
-    oid = ccoll.save_document(a1, ec);
+    oid = ccoll.save_document(a1.data(), ec);
     EXPECT_FALSE(ec);
     EXPECT_TRUE(static_cast<bool>(oid));
 
@@ -157,7 +159,7 @@ TEST_F(EjdbTest2, TestSetIndex1) {
 
     ASSERT_NO_THROW((a1 = jbson::builder("name", "John Travolta")("address", jbson::element_type::document_element,
                                                                   jbson::builder("country", "USA")("zip", "4499995"))));
-    auto oid = ccoll.save_document(a1, ec);
+    auto oid = ccoll.save_document(a1.data(), ec);
     EXPECT_FALSE(ec);
     ASSERT_TRUE(static_cast<bool>(oid));
 
@@ -173,7 +175,7 @@ TEST_F(EjdbTest2, TestSetIndex1) {
             )
         ));
 
-    auto new_oid = ccoll.save_document(a1, ec);
+    auto new_oid = ccoll.save_document(a1.data(), ec);
     ASSERT_FALSE(ec);
     ASSERT_TRUE(static_cast<bool>(new_oid));
     EXPECT_EQ(oid, new_oid);
@@ -193,7 +195,7 @@ TEST_F(EjdbTest2, TestSetIndex1) {
              ("yellow")("red")("black")
             )
         ));
-    oid = ccoll.save_document(a1, ec);
+    oid = ccoll.save_document(a1.data(), ec);
     EXPECT_FALSE(ec);
     ASSERT_TRUE(static_cast<bool>(oid));
 }
@@ -253,7 +255,7 @@ TEST_F(EjdbTest2, TestQuery1) {
     ASSERT_NO_THROW(bshints = R"({ "$orderby": { "name": 1 } })"_json_doc);
 
     ejdb::query q1;
-    ASSERT_NO_THROW(q1 = jb.create_query(bsq1, ec).set_hints(bshints));
+    ASSERT_NO_THROW(q1 = jb.create_query(bsq1.data(), ec).set_hints(bshints.data()));
     static_assert(std::is_same<decltype(q1), ejdb::query>::value, "");
     ASSERT_TRUE(static_cast<bool>(q1));
 
@@ -262,19 +264,22 @@ TEST_F(EjdbTest2, TestQuery1) {
 
     auto doc_it = q1res.begin();
     ASSERT_NE(q1res.end(), doc_it);
-    auto el_it = doc_it->find("name");
-    ASSERT_NE(doc_it->end(), el_it);
+
+    auto doc = jbson::document(std::move(*doc_it));
+    auto el_it = doc.find("name");
+    ASSERT_NE(doc.end(), el_it);
     EXPECT_EQ("Адаманский", el_it->value<std::string>());
-    auto val = path(*doc_it, "address", "zip");
+    auto val = path(doc, "address", "zip");
     ASSERT_TRUE(static_cast<bool>(val));
     EXPECT_EQ("630090", val->value<std::string>());
 
     doc_it++;
+    doc = jbson::document(std::move(*doc_it));
     ASSERT_NE(q1res.end(), doc_it);
-    el_it = doc_it->find("name");
-    ASSERT_NE(doc_it->end(), el_it);
+    el_it = doc.find("name");
+    ASSERT_NE(doc.end(), el_it);
     EXPECT_EQ("Антонов", el_it->value<std::string>());
-    val = path(*doc_it, "address", "zip");
+    val = path(doc, "address", "zip");
     ASSERT_TRUE(static_cast<bool>(val));
     EXPECT_EQ("630090", val->value<std::string>());
 
@@ -297,7 +302,7 @@ TEST_F(EjdbTest2, TestQuery2) {
 
     ejdb::query q1;
     ASSERT_FALSE(static_cast<bool>(q1));
-    ASSERT_NO_THROW(q1 = jb.create_query(bsq1, ec).set_hints(bshints));
+    ASSERT_NO_THROW(q1 = jb.create_query(bsq1.data(), ec).set_hints(bshints.data()));
     static_assert(std::is_same<decltype(q1), ejdb::query>::value, "");
     ASSERT_TRUE(static_cast<bool>(q1));
 
@@ -311,23 +316,27 @@ TEST_F(EjdbTest2, TestQuery2) {
     EXPECT_NO_THROW(q1res = contacts.execute_query(q1));
     ASSERT_EQ(2u, q1res.size());
 
-    EXPECT_NO_THROW(ASSERT_NE(boost::none, contacts.execute_query<ejdb::query_search_mode::first_only>(q1)));
+    EXPECT_NO_THROW(ASSERT_FALSE(contacts.execute_query<ejdb::query_search_mode::first_only>(q1).empty()));
 
     auto doc_it = q1res.begin();
     ASSERT_NE(q1res.end(), doc_it);
-    auto el_it = doc_it->find("name");
-    ASSERT_NE(doc_it->end(), el_it);
+    auto doc = jbson::document(std::move(*doc_it));
+
+    auto el_it = doc.find("name");
+    ASSERT_NE(doc.end(), el_it);
     EXPECT_EQ("Антонов", el_it->value<std::string>());
-    auto val = path(*doc_it, "address", "zip");
+    auto val = path(doc, "address", "zip");
     ASSERT_TRUE(static_cast<bool>(val));
     EXPECT_EQ("630090", val->value<std::string>());
 
     doc_it++;
+    doc = jbson::document(std::move(*doc_it));
+
     ASSERT_NE(q1res.end(), doc_it);
-    el_it = doc_it->find("name");
-    ASSERT_NE(doc_it->end(), el_it);
+    el_it = doc.find("name");
+    ASSERT_NE(doc.end(), el_it);
     EXPECT_EQ("Адаманский", el_it->value<std::string>());
-    val = path(*doc_it, "address", "zip");
+    val = path(doc, "address", "zip");
     ASSERT_TRUE(static_cast<bool>(val));
     EXPECT_EQ("630090", val->value<std::string>());
 
@@ -350,7 +359,7 @@ TEST_F(EjdbTest2, TestQuery3) {
     ASSERT_NO_THROW(bshints = R"({ "$orderby": { "name": -1 } })"_json_doc);
 
     ejdb::query q1;
-    ASSERT_NO_THROW(q1 = jb.create_query(bsq1, ec).set_hints(bshints));
+    ASSERT_NO_THROW(q1 = jb.create_query(bsq1.data(), ec).set_hints(bshints.data()));
     static_assert(std::is_same<decltype(q1), ejdb::query>::value, "");
     ASSERT_TRUE(static_cast<bool>(q1));
 
@@ -359,19 +368,23 @@ TEST_F(EjdbTest2, TestQuery3) {
 
     auto doc_it = q1res.begin();
     ASSERT_NE(q1res.end(), doc_it);
-    auto el_it = doc_it->find("name");
-    ASSERT_NE(doc_it->end(), el_it);
+    auto doc = jbson::document(std::move(*doc_it));
+
+    auto el_it = doc.find("name");
+    ASSERT_NE(doc.end(), el_it);
     EXPECT_EQ("Антонов", el_it->value<std::string>());
-    auto val = path(*doc_it, "address", "zip");
+    auto val = path(doc, "address", "zip");
     ASSERT_TRUE(static_cast<bool>(val));
     EXPECT_EQ("630090", val->value<std::string>());
 
     doc_it++;
+    doc = jbson::document(std::move(*doc_it));
+
     ASSERT_NE(q1res.end(), doc_it);
-    el_it = doc_it->find("name");
-    ASSERT_NE(doc_it->end(), el_it);
+    el_it = doc.find("name");
+    ASSERT_NE(doc.end(), el_it);
     EXPECT_EQ("Адаманский", el_it->value<std::string>());
-    val = path(*doc_it, "address", "zip");
+    val = path(doc, "address", "zip");
     ASSERT_TRUE(static_cast<bool>(val));
     EXPECT_EQ("630090", val->value<std::string>());
 
@@ -394,7 +407,7 @@ TEST_F(EjdbTest2, TestQuery4) {
     ASSERT_NO_THROW(bshints = R"({ "$orderby": { "name": -1 } })"_json_doc);
 
     ejdb::query q1;
-    ASSERT_NO_THROW(q1 = jb.create_query(bsq1, ec).set_hints(bshints));
+    ASSERT_NO_THROW(q1 = jb.create_query(bsq1.data(), ec).set_hints(bshints.data()));
     static_assert(std::is_same<decltype(q1), ejdb::query>::value, "");
     ASSERT_TRUE(static_cast<bool>(q1));
 
@@ -403,19 +416,23 @@ TEST_F(EjdbTest2, TestQuery4) {
 
     auto doc_it = q1res.begin();
     ASSERT_NE(q1res.end(), doc_it);
-    auto el_it = doc_it->find("name");
-    ASSERT_NE(doc_it->end(), el_it);
+    auto doc = jbson::document(std::move(*doc_it));
+
+    auto el_it = doc.find("name");
+    ASSERT_NE(doc.end(), el_it);
     EXPECT_EQ("Антонов", el_it->value<std::string>());
-    auto val = path(*doc_it, "address", "zip");
+    auto val = path(doc, "address", "zip");
     ASSERT_TRUE(static_cast<bool>(val));
     EXPECT_EQ("630090", val->value<std::string>());
 
     doc_it++;
+    doc = jbson::document(std::move(*doc_it));
+
     ASSERT_NE(q1res.end(), doc_it);
-    el_it = doc_it->find("name");
-    ASSERT_NE(doc_it->end(), el_it);
+    el_it = doc.find("name");
+    ASSERT_NE(doc.end(), el_it);
     EXPECT_EQ("Адаманский", el_it->value<std::string>());
-    val = path(*doc_it, "address", "zip");
+    val = path(doc, "address", "zip");
     ASSERT_TRUE(static_cast<bool>(val));
     EXPECT_EQ("630090", val->value<std::string>());
 
@@ -432,7 +449,7 @@ TEST_F(EjdbTest2, TestQuery5) {
     ASSERT_NO_THROW(bsq1 = R"({ "labels": "red" })"_json_doc);
 
     ejdb::query q1;
-    ASSERT_NO_THROW(q1 = jb.create_query(bsq1, ec));
+    ASSERT_NO_THROW(q1 = jb.create_query(bsq1.data(), ec));
     ASSERT_TRUE(static_cast<bool>(q1));
 
     auto q1res = contacts.execute_query(q1);
@@ -450,7 +467,7 @@ TEST_F(EjdbTest2, TestQuery6) {
     ASSERT_NO_THROW(bsq1 = R"({ "labels": "red" })"_json_doc);
 
     ejdb::query q1;
-    ASSERT_NO_THROW(q1 = jb.create_query(bsq1, ec).set_hints(R"({ "$orderby": { "name": 1 } })"_json_doc));
+    ASSERT_NO_THROW(q1 = jb.create_query(bsq1.data(), ec).set_hints(R"({ "$orderby": { "name": 1 } })"_json_doc.data()));
     ASSERT_TRUE(static_cast<bool>(q1));
 
     auto q1res = contacts.execute_query(q1);
@@ -458,19 +475,23 @@ TEST_F(EjdbTest2, TestQuery6) {
 
     auto doc_it = q1res.begin();
     ASSERT_NE(q1res.end(), doc_it);
-    auto el_it = doc_it->find("name");
-    ASSERT_NE(doc_it->end(), el_it);
+    auto doc = jbson::document(std::move(*doc_it));
+
+    auto el_it = doc.find("name");
+    ASSERT_NE(doc.end(), el_it);
     EXPECT_EQ("John Travolta", el_it->value<std::string>());
-    auto val = path(*doc_it, "address", "zip");
+    auto val = path(doc, "address", "zip");
     ASSERT_TRUE(static_cast<bool>(val));
     EXPECT_EQ("4499996", val->value<std::string>());
 
     doc_it++;
+    doc = jbson::document(std::move(*doc_it));
+
     ASSERT_NE(q1res.end(), doc_it);
-    el_it = doc_it->find("name");
-    ASSERT_NE(doc_it->end(), el_it);
+    el_it = doc.find("name");
+    ASSERT_NE(doc.end(), el_it);
     EXPECT_EQ("Адаманский", el_it->value<std::string>());
-    val = path(*doc_it, "address", "zip");
+    val = path(doc, "address", "zip");
     ASSERT_TRUE(static_cast<bool>(val));
     EXPECT_EQ("630090", val->value<std::string>());
 
@@ -487,7 +508,7 @@ TEST_F(EjdbTest2, TestQuery7) {
     ASSERT_NO_THROW(bsq1 = R"({ "labels": "with gap, label" })"_json_doc);
 
     ejdb::query q1;
-    ASSERT_NO_THROW(q1 = jb.create_query(bsq1, ec).set_hints(R"({ "$orderby": { "name": 1 } })"_json_doc));
+    ASSERT_NO_THROW(q1 = jb.create_query(bsq1.data(), ec).set_hints(R"({ "$orderby": { "name": 1 } })"_json_doc.data()));
     ASSERT_TRUE(static_cast<bool>(q1));
 
     auto q1res = contacts.execute_query(q1);
@@ -495,8 +516,11 @@ TEST_F(EjdbTest2, TestQuery7) {
 
     auto doc_it = q1res.begin();
     ASSERT_NE(q1res.end(), doc_it);
-    auto el_it = doc_it->find("name");
-    ASSERT_NE(doc_it->end(), el_it);
+
+    auto doc = jbson::document(std::move(*doc_it));
+
+    auto el_it = doc.find("name");
+    ASSERT_NE(doc.end(), el_it);
     EXPECT_EQ("Адаманский", el_it->value<std::string>());
 
     doc_it++;
@@ -512,7 +536,7 @@ TEST_F(EjdbTest2, TestQuery8) {
     ASSERT_NO_THROW(bsq1 = R"({ "labels": {"$in" : ["yellow", "green"]} })"_json_doc);
 
     ejdb::query q1;
-    ASSERT_NO_THROW(q1 = jb.create_query(bsq1, ec).set_hints(R"({ "$orderby": { "name": 1 } })"_json_doc));
+    ASSERT_NO_THROW(q1 = jb.create_query(bsq1.data(), ec).set_hints(R"({ "$orderby": { "name": 1 } })"_json_doc.data()));
     ASSERT_TRUE(static_cast<bool>(q1));
 
     auto q1res = contacts.execute_query(q1);
@@ -520,19 +544,23 @@ TEST_F(EjdbTest2, TestQuery8) {
 
     auto doc_it = q1res.begin();
     ASSERT_NE(q1res.end(), doc_it);
-    auto el_it = doc_it->find("name");
-    ASSERT_NE(doc_it->end(), el_it);
+    auto doc = jbson::document(std::move(*doc_it));
+
+    auto el_it = doc.find("name");
+    ASSERT_NE(doc.end(), el_it);
     EXPECT_EQ("John Travolta", el_it->value<std::string>());
-    auto val = path(*doc_it, "labels", "0");
+    auto val = path(doc, "labels", "0");
     ASSERT_TRUE(static_cast<bool>(val));
     EXPECT_EQ("yellow", val->value<std::string>());
 
     doc_it++;
+    doc = jbson::document(std::move(*doc_it));
+
     ASSERT_NE(q1res.end(), doc_it);
-    el_it = doc_it->find("name");
-    ASSERT_NE(doc_it->end(), el_it);
+    el_it = doc.find("name");
+    ASSERT_NE(doc.end(), el_it);
     EXPECT_EQ("Адаманский", el_it->value<std::string>());
-    val = path(*doc_it, "labels", "1");
+    val = path(doc, "labels", "1");
     ASSERT_TRUE(static_cast<bool>(val));
     EXPECT_EQ("green", val->value<std::string>());
 
@@ -646,7 +674,7 @@ TEST_F(EjdbTest2, TestQuery9) {
     ASSERT_NO_THROW(bsq1 = R"({ "labels": "red" })"_json_doc);
 
     ejdb::query q1;
-    ASSERT_NO_THROW(q1 = jb.create_query(bsq1, ec).set_hints(R"({ "$orderby": { "name": 1 } })"_json_doc));
+    ASSERT_NO_THROW(q1 = jb.create_query(bsq1.data(), ec).set_hints(R"({ "$orderby": { "name": 1 } })"_json_doc.data()));
     ASSERT_TRUE(static_cast<bool>(q1));
 
     auto q1res = contacts.execute_query(q1);
@@ -654,19 +682,23 @@ TEST_F(EjdbTest2, TestQuery9) {
 
     auto doc_it = q1res.begin();
     ASSERT_NE(q1res.end(), doc_it);
-    auto el_it = doc_it->find("name");
-    ASSERT_NE(doc_it->end(), el_it);
+    auto doc = jbson::document(std::move(*doc_it));
+
+    auto el_it = doc.find("name");
+    ASSERT_NE(doc.end(), el_it);
     EXPECT_EQ("John Travolta", el_it->value<std::string>());
-    auto val = path(*doc_it, "address", "zip");
+    auto val = path(doc, "address", "zip");
     ASSERT_TRUE(static_cast<bool>(val));
     EXPECT_EQ("4499996", val->value<std::string>());
 
     doc_it++;
+    doc = jbson::document(std::move(*doc_it));
+
     ASSERT_NE(q1res.end(), doc_it);
-    el_it = doc_it->find("name");
-    ASSERT_NE(doc_it->end(), el_it);
+    el_it = doc.find("name");
+    ASSERT_NE(doc.end(), el_it);
     EXPECT_EQ("Адаманский", el_it->value<std::string>());
-    val = path(*doc_it, "address", "zip");
+    val = path(doc, "address", "zip");
     ASSERT_TRUE(static_cast<bool>(val));
     EXPECT_EQ("630090", val->value<std::string>());
 
@@ -685,7 +717,7 @@ TEST_F(EjdbTest2, TestQuery10) {
     ASSERT_NO_THROW(bsq1 = R"({ "address.street" : {"$in" : ["Pirogova", "Beverly Hills"] } })"_json_doc);
 
     ejdb::query q1;
-    ASSERT_NO_THROW(q1 = jb.create_query(bsq1, ec).set_hints(R"({ "$orderby": { "name": 1 } })"_json_doc));
+    ASSERT_NO_THROW(q1 = jb.create_query(bsq1.data(), ec).set_hints(R"({ "$orderby": { "name": 1 } })"_json_doc.data()));
     ASSERT_TRUE(static_cast<bool>(q1));
 
     auto q1res = contacts.execute_query(q1);
@@ -693,28 +725,34 @@ TEST_F(EjdbTest2, TestQuery10) {
 
     auto doc_it = q1res.begin();
     ASSERT_NE(q1res.end(), doc_it);
-    auto el_it = doc_it->find("name");
-    ASSERT_NE(doc_it->end(), el_it);
+    auto doc = jbson::document(std::move(*doc_it));
+
+    auto el_it = doc.find("name");
+    ASSERT_NE(doc.end(), el_it);
     EXPECT_EQ("John Travolta", el_it->value<std::string>());
-    auto val = path(*doc_it, "address", "street");
+    auto val = path(doc, "address", "street");
     ASSERT_TRUE(static_cast<bool>(val));
     EXPECT_EQ("Beverly Hills", val->value<std::string>());
 
     doc_it++;
+    doc = jbson::document(std::move(*doc_it));
+
     ASSERT_NE(q1res.end(), doc_it);
-    el_it = doc_it->find("name");
-    ASSERT_NE(doc_it->end(), el_it);
+    el_it = doc.find("name");
+    ASSERT_NE(doc.end(), el_it);
     EXPECT_EQ("Адаманский", el_it->value<std::string>());
-    val = path(*doc_it, "address", "street");
+    val = path(doc, "address", "street");
     ASSERT_TRUE(static_cast<bool>(val));
     EXPECT_EQ("Pirogova", val->value<std::string>());
 
     doc_it++;
+    doc = jbson::document(std::move(*doc_it));
+
     ASSERT_NE(q1res.end(), doc_it);
-    el_it = doc_it->find("name");
-    ASSERT_NE(doc_it->end(), el_it);
+    el_it = doc.find("name");
+    ASSERT_NE(doc.end(), el_it);
     EXPECT_EQ("Антонов", el_it->value<std::string>());
-    val = path(*doc_it, "address", "street");
+    val = path(doc, "address", "street");
     ASSERT_TRUE(static_cast<bool>(val));
     EXPECT_EQ("Pirogova", val->value<std::string>());
 

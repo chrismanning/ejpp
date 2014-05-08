@@ -86,11 +86,8 @@ EJCOLL* createcoll(EJDB* jb, const char* colname, void* opts);
 //! Returns ejdbrmcoll(jb, collname, unlinkfile)
 bool rmcoll(EJDB* jb, const char* colname, bool unlinkfile);
 
-//! Returns ejdbsavebson3(coll, bsdata, oid, false)
-bool savebson(EJCOLL* coll, const void* bsdata, char oid[12]);
-
 //! Returns ejdbsavebson3(coll, bsdata, oid, merge)
-bool savebson2(EJCOLL* jcoll, const void* bsdata, char oid[12], bool merge);
+bool savebson(EJCOLL* jcoll, const std::vector<char>& bsdata, char oid[12], bool merge, int* err);
 
 //! Returns ejdbrmbson(coll, oid)
 bool rmbson(EJCOLL* coll, char oid[12]);

@@ -106,6 +106,8 @@ function(cxx_test test_name)
   add_test(${test_name} ${EXECUTABLE_OUTPUT_PATH}/${test_name})
 endfunction()
 
+cxx_test(api_test)
+
 cxx_test(ejpp_test1)
 cxx_test(ejpp_test2)
 cxx_test(ejpp_test3)

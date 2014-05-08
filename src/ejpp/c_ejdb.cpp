@@ -19,6 +19,8 @@
  * USA
 **************************************************************************/
 
+#include <system_error>
+
 #include <tcejdb/ejdb.h>
 #include <tcejdb/ejdb_private.h>
 
@@ -60,12 +62,15 @@ EJCOLL* createcoll(EJDB* jb, const char* colname, void* opts) {
 
 bool rmcoll(EJDB* jb, const char* colname, bool unlinkfile) { return ejdbrmcoll(jb, colname, unlinkfile); }
 
-bool savebson(EJCOLL* coll, const void* bsdata, char oid[12]) {
-    return ejdbsavebson3(coll, bsdata, reinterpret_cast<bson_oid_t*>(oid), false);
-}
-
-bool savebson2(EJCOLL* jcoll, const void* bsdata, char oid[12], bool merge) {
-    return ejdbsavebson3(jcoll, bsdata, reinterpret_cast<bson_oid_t*>(oid), merge);
+bool savebson(EJCOLL* jcoll, const std::vector<char>& bsdata, char oid[12], bool merge, int* err) {
+    if(bsdata.size() < 5 ||
+       jbson::detail::little_endian_to_native<int32_t>(bsdata.begin(), bsdata.end()) !=
+           static_cast<int32_t>(bsdata.size())) {
+        assert(err != nullptr);
+        *err = JBEINVALIDBSON;
+        return false;
+    }
+    return ejdbsavebson3(jcoll, bsdata.data(), reinterpret_cast<bson_oid_t*>(oid), merge);
 }
 
 bool rmbson(EJCOLL* coll, char oid[12]) { return ejdbrmbson(coll, reinterpret_cast<bson_oid_t*>(oid)); }
@@ -125,7 +130,7 @@ std::vector<char> metadb(EJDB* jb) {
     auto bs = ejdbmeta(jb);
     if(bs == nullptr)
         return {};
-    std::vector<char> ret{bs->data, bs->data+bs->dataSize};
+    std::vector<char> ret{bs->data, bs->data + bs->dataSize};
     bson_del(bs);
     return std::move(ret);
 }

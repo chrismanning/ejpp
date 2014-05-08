@@ -25,13 +25,12 @@
 #include <memory>
 #include <string>
 #include <system_error>
-#include <cassert>
-#include <deque>
+#include <vector>
+#include <array>
 
 #include <boost/config.hpp>
 #include <boost/optional/optional_fwd.hpp>
-
-#include <jbson/document.hpp>
+#include <boost/utility/string_ref_fwd.hpp>
 
 struct EJDB;
 struct EJCOLL;
@@ -219,7 +218,7 @@ struct EJPP_EXPORT db final {
     //! \copybrief close
     void close();
 
-    //! Returns an existing collection named \p name.
+    //! Returns an existing collection named \p name, or a default constructed ejdb::collection.
     collection get_collection(const std::string& name, std::error_code& ec) const noexcept;
     //! \copybrief get_collection
     collection get_collection(const std::string& name) const;
@@ -229,7 +228,7 @@ struct EJPP_EXPORT db final {
     //! \copybrief create_collection
     collection create_collection(const std::string& name);
 
-    //! Removes a collection named \p name.
+    //! Removes a collection named \p name, or do nothing if \p name does not exist.
     bool remove_collection(const std::string& name, bool unlink_file, std::error_code& ec) noexcept;
     //! \copybrief remove_collection
     void remove_collection(const std::string& name, bool unlink_file);
@@ -238,9 +237,9 @@ struct EJPP_EXPORT db final {
     const std::vector<collection> get_collections() const;
 
     //! Create a query from a BSON document.
-    query create_query(const jbson::document& doc, std::error_code& ec);
+    query create_query(const std::vector<char>& doc, std::error_code& ec);
     //! \copybrief create_query
-    query create_query(const jbson::document& doc);
+    query create_query(const std::vector<char>& doc);
 
     //! Synchronise the EJDB database to disk.
     bool sync(std::error_code& ec) noexcept;
@@ -248,9 +247,9 @@ struct EJPP_EXPORT db final {
     void sync();
 
     //! Returns description of the EJDB database.
-    boost::optional<jbson::document> metadata(std::error_code& ec);
+    std::vector<char> metadata(std::error_code& ec);
     //! \copybrief metadata
-    jbson::document metadata();
+    std::vector<char> metadata();
 
   private:
     std::shared_ptr<EJDB> m_db;
@@ -270,7 +269,7 @@ template <query_search_mode flags>
 using query_return_type =
     std::conditional_t<(flags & query_search_mode::count_only) == query_search_mode::count_only, uint32_t,
                        std::conditional_t<(flags & query_search_mode::first_only) == query_search_mode::first_only,
-                                          boost::optional<jbson::document>, std::vector<jbson::document>>>;
+                                          std::vector<char>, std::vector<std::vector<char>>>>;
 }
 
 /*!
@@ -290,16 +289,16 @@ struct EJPP_EXPORT collection final {
     explicit operator bool() const noexcept;
 
     //! Saves a document to the collection, overwriting an existing, matching document.
-    boost::optional<std::array<char, 12>> save_document(const jbson::document& data, std::error_code& ec);
+    boost::optional<std::array<char, 12>> save_document(const std::vector<char>& data, std::error_code& ec);
     //! Saves a document to the collection, optionally merging with an existing, matching document.
-    boost::optional<std::array<char, 12>> save_document(const jbson::document& data, bool merge, std::error_code& ec);
+    boost::optional<std::array<char, 12>> save_document(const std::vector<char>& data, bool merge, std::error_code& ec);
     //! \copybrief save_document(const jbson::document&,bool,std::error_code&)
-    std::array<char, 12> save_document(const jbson::document& data, bool merge = false);
+    std::array<char, 12> save_document(const std::vector<char>& data, bool merge = false);
 
     //! Loads a matching document from the collection.
-    boost::optional<jbson::document> load_document(std::array<char, 12> oid, std::error_code& ec) const;
+    std::vector<char> load_document(std::array<char, 12> oid, std::error_code& ec) const;
     //! \copybrief load_document
-    jbson::document load_document(std::array<char, 12> oid) const;
+    std::vector<char> load_document(std::array<char, 12> oid) const;
 
     //! Removes a document from the collection.
     bool remove_document(std::array<char, 12>, std::error_code& ec) noexcept;
@@ -321,7 +320,7 @@ struct EJPP_EXPORT collection final {
     detail::query_return_type<flags> execute_query(const query&);
 
     //! Returns all documents in the collection.
-    std::vector<jbson::document> get_all();
+    std::vector<std::vector<char>> get_all();
 
     //! Synchronises the EJDB database to disk.
     bool sync(std::error_code& ec) noexcept;
@@ -374,29 +373,28 @@ struct EJPP_EXPORT collection final {
         explicit operator bool() const noexcept;
 
       private:
-        explicit transaction_t(collection&) noexcept;
+        explicit transaction_t(collection*) noexcept;
         transaction_t(transaction_t&&) = default;
         transaction_t& operator=(transaction_t&&) = default;
-        transaction_t(const transaction_t&) = default;
+        transaction_t(const transaction_t& b) = default;
         transaction_t& operator=(const transaction_t&) = default;
 
         friend struct collection;
         friend struct unique_transaction;
-        collection& m_collection;
+        collection* m_collection;
         std::weak_ptr<EJDB> m_db;
     };
 
   private:
-    transaction_t m_transaction{*this};
+    transaction_t m_transaction{this};
 };
 
 template <>
-EJPP_EXPORT std::vector<jbson::document> collection::execute_query<query_search_mode::normal>(const query& qry);
+EJPP_EXPORT std::vector<std::vector<char>> collection::execute_query<query_search_mode::normal>(const query& qry);
 
 template <> EJPP_EXPORT uint32_t collection::execute_query<query_search_mode::count_only>(const query& qry);
 
-template <>
-EJPP_EXPORT boost::optional<jbson::document> collection::execute_query<query_search_mode::first_only>(const query& qry);
+template <> EJPP_EXPORT std::vector<char> collection::execute_query<query_search_mode::first_only>(const query& qry);
 
 template <>
 EJPP_EXPORT uint32_t
@@ -419,27 +417,27 @@ struct EJPP_EXPORT query final {
     explicit operator bool() const noexcept;
 
     //! In-place `$and` operator. \warning Unimplemented.
-    query& operator&=(const jbson::document&)&;
+    query& operator&=(const std::vector<char>&)&;
     //! In-place `$and` operator. \warning Unimplemented.
-    query&& operator&=(const jbson::document&)&&;
+    query&& operator&=(const std::vector<char>&)&&;
     //! In-place `$and` operator. \warning Unimplemented.
     query& operator&=(query) & noexcept;
     //! In-place `$and` operator. \warning Unimplemented.
     query&& operator&=(query) && noexcept;
 
     //! In-place `$or` operator with BSON document as operand.
-    query& operator|=(const jbson::document&)&;
+    query& operator|=(const std::vector<char>&)&;
     //! In-place `$or` operator with BSON document as operand. Rvalue overload.
-    query&& operator|=(const jbson::document&)&&;
+    query&& operator|=(const std::vector<char>&)&&;
     //! In-place `$or` operator with ejdb::query as operand. \warning Unimplemented.
     query& operator|=(query) & noexcept;
     //! In-place `$or` operator with ejdb::query as operand. Rvalue overload. \warning Unimplemented.
     query&& operator|=(query) && noexcept;
 
     //! Sets hints for a query.
-    query& set_hints(const jbson::document&)&;
+    query& set_hints(const std::vector<char>&)&;
     //! \copydoc set_hints
-    query&& set_hints(const jbson::document&)&&;
+    query&& set_hints(const std::vector<char>&)&&;
 
   private:
     friend struct db;

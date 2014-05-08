@@ -398,7 +398,7 @@ TEST_F(EjdbTest3, testTransactions1) {
 
         ASSERT_TRUE(t.owns_transaction());
 
-        auto o_oid = coll.save_document(bs, ec);
+        auto o_oid = coll.save_document(bs.data(), ec);
         EXPECT_FALSE(ec);
         ASSERT_TRUE(o_oid);
 
@@ -412,7 +412,7 @@ TEST_F(EjdbTest3, testTransactions1) {
     ASSERT_TRUE(static_cast<bool>(coll));
     auto o_doc = coll.load_document(oid, ec);
     EXPECT_FALSE(ec);
-    ASSERT_TRUE(o_doc);
+    ASSERT_TRUE(!o_doc.empty());
 
     {
         ejdb::unique_transaction t{coll.transaction(), ejdb::adopt_transaction};
@@ -421,7 +421,7 @@ TEST_F(EjdbTest3, testTransactions1) {
         ASSERT_NO_THROW(t.start());
         ASSERT_TRUE(t.owns_transaction());
 
-        auto o_oid = coll.save_document(bs, ec);
+        auto o_oid = coll.save_document(bs.data(), ec);
         EXPECT_TRUE(static_cast<bool>(coll));
         EXPECT_FALSE(ec);
         ASSERT_TRUE(o_oid);
@@ -433,7 +433,7 @@ TEST_F(EjdbTest3, testTransactions1) {
 
     o_doc = coll.load_document(oid, ec);
     EXPECT_FALSE(ec);
-    EXPECT_FALSE(o_doc);
+    EXPECT_FALSE(!o_doc.empty());
 }
 
 TEST_F(EjdbTest3, testTransactions2) {
@@ -448,7 +448,7 @@ TEST_F(EjdbTest3, testTransactions2) {
     {
         ejdb::transaction_guard guard{coll.transaction()};
 
-        auto o_oid = coll.save_document(bs, ec);
+        auto o_oid = coll.save_document(bs.data(), ec);
         EXPECT_FALSE(ec);
         ASSERT_TRUE(o_oid);
 
@@ -458,7 +458,7 @@ TEST_F(EjdbTest3, testTransactions2) {
     ASSERT_TRUE(static_cast<bool>(coll));
     auto o_doc = coll.load_document(oid, ec);
     EXPECT_FALSE(ec);
-    ASSERT_TRUE(o_doc);
+    ASSERT_TRUE(!o_doc.empty());
 
     {
         ASSERT_FALSE(jb.error());
@@ -467,7 +467,7 @@ TEST_F(EjdbTest3, testTransactions2) {
         u_trans = ejdb::unique_transaction{coll.transaction()};
         ASSERT_TRUE(u_trans.owns_transaction());
 
-        auto o_oid = coll.save_document(bs, ec);
+        auto o_oid = coll.save_document(bs.data(), ec);
         EXPECT_TRUE(static_cast<bool>(coll));
         EXPECT_FALSE(ec);
         ASSERT_TRUE(o_oid);
@@ -478,7 +478,7 @@ TEST_F(EjdbTest3, testTransactions2) {
 
     o_doc = coll.load_document(oid, ec);
     EXPECT_FALSE(ec);
-    EXPECT_FALSE(o_doc);
+    EXPECT_FALSE(!o_doc.empty());
 }
 
 TEST_F(EjdbTest3, testTransactions3) {
@@ -493,7 +493,7 @@ TEST_F(EjdbTest3, testTransactions3) {
     {
         ejdb::transaction_guard guard{coll.transaction()};
 
-        auto o_oid = coll.save_document(bs, ec);
+        auto o_oid = coll.save_document(bs.data(), ec);
         EXPECT_FALSE(ec);
         ASSERT_TRUE(o_oid);
 
@@ -503,7 +503,7 @@ TEST_F(EjdbTest3, testTransactions3) {
     ASSERT_TRUE(static_cast<bool>(coll));
     auto o_doc = coll.load_document(oid, ec);
     EXPECT_FALSE(ec);
-    ASSERT_TRUE(o_doc);
+    ASSERT_TRUE(!o_doc.empty());
 
     {
         ejdb::unique_transaction tran{coll.transaction()};
@@ -515,7 +515,7 @@ TEST_F(EjdbTest3, testTransactions3) {
         tran = ejdb::unique_transaction{coll.transaction(), ejdb::adopt_transaction};
         ASSERT_TRUE(tran.owns_transaction());
 
-        auto o_oid = coll.save_document(bs, ec);
+        auto o_oid = coll.save_document(bs.data(), ec);
         EXPECT_FALSE(ec);
         ASSERT_TRUE(o_oid);
 
@@ -525,13 +525,13 @@ TEST_F(EjdbTest3, testTransactions3) {
     ASSERT_TRUE(static_cast<bool>(coll));
     o_doc = coll.load_document(oid, ec);
     EXPECT_FALSE(ec);
-    ASSERT_TRUE(o_doc);
+    ASSERT_TRUE(!o_doc.empty());
 
     try {
         ASSERT_FALSE(jb.error());
         ejdb::transaction_guard guard_trans{coll.transaction()};
 
-        auto o_oid = coll.save_document(bs, ec);
+        auto o_oid = coll.save_document(bs.data(), ec);
         EXPECT_TRUE(static_cast<bool>(coll));
         EXPECT_FALSE(ec);
         ASSERT_TRUE(o_oid);
@@ -543,13 +543,13 @@ TEST_F(EjdbTest3, testTransactions3) {
 
     o_doc = coll.load_document(oid, ec);
     EXPECT_FALSE(ec);
-    EXPECT_FALSE(o_doc);
+    EXPECT_FALSE(!o_doc.empty());
 
     try {
         ASSERT_FALSE(jb.error());
         ejdb::unique_transaction u_trans{coll.transaction()};
 
-        auto o_oid = coll.save_document(bs, ec);
+        auto o_oid = coll.save_document(bs.data(), ec);
         EXPECT_TRUE(static_cast<bool>(coll));
         EXPECT_FALSE(ec);
         ASSERT_TRUE(o_oid);
@@ -561,5 +561,5 @@ TEST_F(EjdbTest3, testTransactions3) {
 
     o_doc = coll.load_document(oid, ec);
     EXPECT_FALSE(ec);
-    EXPECT_FALSE(o_doc);
+    EXPECT_FALSE(!o_doc.empty());
 }

@@ -70,7 +70,7 @@ TEST_F(EjdbTest1, TestSaveLoad) {
         "doubleage": 0.333333
     })"_json_doc;
 
-    auto o_oid = ccoll.save_document(a1, ec);
+    auto o_oid = ccoll.save_document(a1.data(), ec);
     ASSERT_FALSE(static_cast<bool>(ec));
     ASSERT_TRUE(static_cast<bool>(o_oid));
     oid = *o_oid;
@@ -78,9 +78,9 @@ TEST_F(EjdbTest1, TestSaveLoad) {
 
     auto o_lbson = ccoll.load_document(oid, ec);
     ASSERT_FALSE(static_cast<bool>(ec));
-    ASSERT_TRUE(static_cast<bool>(o_lbson));
+    ASSERT_TRUE(!o_lbson.empty());
 
-    auto lbson = *o_lbson;
+    auto lbson = jbson::document(std::move(o_lbson));
     ASSERT_EQ(a1, boost::adaptors::filter(lbson, [](auto&& v) {
         return v.name() != "_id";
     }));
@@ -109,7 +109,7 @@ TEST_F(EjdbTest1, TestBuildQuery1) {
          }
     })"_json_doc;
 
-    auto ejq = jb.create_query(q1, ec);
+    auto ejq = jb.create_query(q1.data(), ec);
     ASSERT_FALSE(static_cast<bool>(ec));
     ASSERT_TRUE(static_cast<bool>(ejq));
 }

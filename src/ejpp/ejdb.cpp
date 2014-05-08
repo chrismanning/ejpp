@@ -25,9 +25,7 @@ using namespace std::literals;
 
 #include <boost/optional.hpp>
 #include <boost/range/adaptor/transformed.hpp>
-
-#include <jbson/document.hpp>
-#include <jbson/builder.hpp>
+#include <boost/utility/string_ref.hpp>
 
 #include <ejpp/c_ejdb.hpp>
 #include <ejpp/ejdb.hpp>
@@ -143,14 +141,14 @@ collection db::get_collection(const std::string& name, std::error_code& ec) cons
 
 /*!
  * \param name Name of collection to fetch.
- * \return Valid collection on success, throws on failure.
+ * \return Valid collection on success, default constructed collection when none matching \p name found,
+ * throws on failure.
  *
  * \throws std::system_error with appropriate error code and message on failure.
  */
 collection db::get_collection(const std::string& name) const {
     std::error_code ec;
     auto coll = get_collection(name, ec);
-    assert(static_cast<bool>(coll) == !ec);
     if(ec)
         throw std::system_error(ec, "could not get collection "s + name);
     return coll;
@@ -208,9 +206,7 @@ bool db::remove_collection(const std::string& name, bool unlink_file, std::error
  */
 void db::remove_collection(const std::string& name, bool unlink_file) {
     std::error_code ec;
-    auto r = remove_collection(name, unlink_file, ec);
-    (void)r;
-    assert(r == !ec);
+    remove_collection(name, unlink_file, ec);
     if(ec)
         throw std::system_error(ec, "could not remove collection "s + name);
 }
@@ -310,15 +306,13 @@ const std::vector<collection> db::get_collections() const {
  * \param doc BSON query object.
  * \param[out] ec Set to an appropriate error code on failure.
  * \return Valid query on success, invalid query on failure.
- *
- * \throws jbson::invalid_document_size When \p doc is constructed with an invalid BSON document.
  */
-query db::create_query(const jbson::document& doc, std::error_code& ec) {
+query db::create_query(const std::vector<char>& doc, std::error_code& ec) {
     if(!m_db) {
         ec = error();
         return {};
     }
-    const auto r = c_ejdb::createquery(m_db.get(), doc.data().data());
+    const auto r = c_ejdb::createquery(m_db.get(), doc.data());
     if(!r) {
         ec = error();
         return query{};
@@ -332,10 +326,9 @@ query db::create_query(const jbson::document& doc, std::error_code& ec) {
  * \param doc BSON query object.
  *
  * \throws std::system_error with appropriate error code and message on failure.
- * \throws jbson::invalid_document_size When \p doc is constructed with an invalid BSON document.
  * \sa create_query
  */
-query db::create_query(const jbson::document& doc) {
+query db::create_query(const std::vector<char>& doc) {
     std::error_code ec;
     auto qry = create_query(doc, ec);
     assert(static_cast<bool>(qry) == !ec);
@@ -369,35 +362,30 @@ void db::sync() {
 
 /*!
  * \param[out] ec Set to an appropriate error code on failure.
- * \return Valid BSON document on success, boost::none on failure.
- *
- * \throws jbson::invalid_document_size When return valid is constructed with an invalid BSON document
- *          (i.e. when EJDB produces a bad BSON document).
+ * \return Valid BSON document on success, empty vector on failure.
  */
-boost::optional<jbson::document> db::metadata(std::error_code& ec) {
+std::vector<char> db::metadata(std::error_code& ec) {
     if(!m_db) {
         ec = error();
-        return boost::none;
+        return {};
     }
-    auto r = c_ejdb::metadb(m_db.get());
-    if(r.empty()) {
+    auto vec = c_ejdb::metadb(m_db.get());
+    if(vec.empty())
         ec = error();
-        return boost::none;
-    }
-    return jbson::document{std::move(r)};
+    return vec;
 }
 
 /*!
  * \return Valid BSON document.
  * \throws std::system_error with appropriate error code and message on failure.
  */
-jbson::document db::metadata() {
+std::vector<char> db::metadata() {
     std::error_code ec;
     auto meta = metadata(ec);
-    assert(static_cast<bool>(meta) == !ec);
+    assert(meta.empty() != !ec);
     if(ec)
         throw std::system_error(ec, "could not get metadata");
-    return *meta;
+    return meta;
 }
 
 collection::collection(std::weak_ptr<EJDB> db, EJCOLL* coll) noexcept : m_db(db), m_coll(coll) {}
@@ -409,10 +397,8 @@ collection::operator bool() const noexcept { return !m_db.expired() && m_coll !=
  * \param data BSON document to be saved.
  * \param[out] ec Set to an appropriate error code on failure.
  * \return OID of saved document on success, boost::none on failure.
- *
- * \throws jbson::invalid_document_size When \p data is constructed with an invalid BSON document.
  */
-boost::optional<std::array<char, 12>> collection::save_document(const jbson::document& data, std::error_code& ec) {
+boost::optional<std::array<char, 12>> collection::save_document(const std::vector<char>& data, std::error_code& ec) {
     return save_document(data, false, ec);
 }
 
@@ -421,10 +407,8 @@ boost::optional<std::array<char, 12>> collection::save_document(const jbson::doc
  * \param merge Whether or not to merge with an existing, matching document.
  * \param[out] ec Set to an appropriate error code on failure.
  * \return OID of saved document on success, boost::none on failure.
- *
- * \throws jbson::invalid_document_size When \p doc is constructed with an invalid BSON document.
  */
-boost::optional<std::array<char, 12>> collection::save_document(const jbson::document& doc, bool merge,
+boost::optional<std::array<char, 12>> collection::save_document(const std::vector<char>& doc, bool merge,
                                                                 std::error_code& ec) {
     if(m_coll == nullptr) {
         ec = std::make_error_code(std::errc::operation_not_permitted);
@@ -432,9 +416,13 @@ boost::optional<std::array<char, 12>> collection::save_document(const jbson::doc
     }
 
     std::array<char, 12> oid;
-    const auto r = c_ejdb::savebson2(m_coll, doc.data().data(), oid.data(), merge);
+    int err{0};
+    const auto r = c_ejdb::savebson(m_coll, doc, oid.data(), merge, &err);
     if(!r) {
-        ec = db::error(m_db);
+        if(err)
+            ec = make_error_code((ejdb::errc)err);
+        else
+            ec = db::error(m_db);
         return boost::none;
     }
     return oid;
@@ -446,9 +434,8 @@ boost::optional<std::array<char, 12>> collection::save_document(const jbson::doc
  * \return OID of saved document.
  *
  * \throws std::system_error with appropriate error code and message on failure.
- * \throws jbson::invalid_document_size When \p doc is constructed with an invalid BSON document.
  */
-std::array<char, 12> collection::save_document(const jbson::document& data, bool merge) {
+std::array<char, 12> collection::save_document(const std::vector<char>& data, bool merge) {
     std::error_code ec;
     auto oid = save_document(data, merge, ec);
     assert(static_cast<bool>(oid) == !ec);
@@ -460,40 +447,32 @@ std::array<char, 12> collection::save_document(const jbson::document& data, bool
 /*!
  * \param oid OID of the document to fetch.
  * \param[out] ec Set to an appropriate error code on failure.
- * \return Document corresponding to \p oid on success, boost::none on failure.
- *
- * \throws jbson::invalid_document_size When return value is constructed with an invalid BSON document
- *          (i.e. when EJDB produces a bad BSON document).
+ * \return Document corresponding to \p oid on success, empty vector on failure or if \p oid has no match.
  */
-boost::optional<jbson::document> collection::load_document(std::array<char, 12> oid, std::error_code& ec) const {
+std::vector<char> collection::load_document(std::array<char, 12> oid, std::error_code& ec) const {
     if(m_coll == nullptr) {
         ec = std::make_error_code(std::errc::operation_not_permitted);
-        return boost::none;
+        return {};
     }
 
-    auto r = c_ejdb::loadbson(m_coll, oid.data());
-    if(r.empty()) {
+    auto vec = c_ejdb::loadbson(m_coll, oid.data());
+    if(vec.empty())
         ec = db::error(m_db);
-        return boost::none;
-    }
-    return jbson::document{std::move(r)};
+    return vec;
 }
 
 /*!
  * \param oid OID of the document to fetch.
- * \return Document corresponding to \p oid.
+ * \return Document corresponding to \p oid. Or empty vector if \p oid has no match.
  *
  * \throws std::system_error with appropriate error code and message on failure.
- * \throws jbson::invalid_document_size When return value is constructed with an invalid BSON document
- *          (i.e. when EJDB produces a bad BSON document).
  */
-jbson::document collection::load_document(std::array<char, 12> oid) const {
+std::vector<char> collection::load_document(std::array<char, 12> oid) const {
     std::error_code ec;
     auto doc = load_document(oid, ec);
-    assert(static_cast<bool>(doc) == !ec);
     if(ec)
         throw std::system_error(ec, "could not load document");
-    return *doc;
+    return doc;
 }
 
 /*!
@@ -589,11 +568,8 @@ void collection::set_index(const std::string& ipath, index_mode flags) {
  *
  * \return All records which match the criteria in \p qry.
  *         If collection or \p qry is invalid, an empty vector is returned.
- *
- * \throws jbson::invalid_document_size When any of the return values are constructed with an invalid BSON document
- *          (i.e. when EJDB produces a bad BSON document).
  */
-template <> std::vector<jbson::document> collection::execute_query<query_search_mode::normal>(const query& qry) {
+template <> std::vector<std::vector<char>> collection::execute_query<query_search_mode::normal>(const query& qry) {
     if(m_coll == nullptr || !qry)
         return {};
     assert(qry.m_qry);
@@ -607,8 +583,9 @@ template <> std::vector<jbson::document> collection::execute_query<query_search_
     if(list == nullptr)
         return {};
     assert(s == static_cast<decltype(s)>(c_ejdb::qresultnum(list)));
-    std::vector<jbson::document> r;
-    r.reserve(s);
+
+    std::vector<std::vector<char>> vec;
+    vec.reserve(s);
     int ns{0};
     for(uint32_t i = 0; i < s; i++) {
         auto data = reinterpret_cast<const char*>(c_ejdb::qresultbsondata(list, i, &ns));
@@ -616,11 +593,11 @@ template <> std::vector<jbson::document> collection::execute_query<query_search_
             s--;
             continue;
         }
-        r.emplace_back(data, data + ns);
+        vec.emplace_back(data, data + ns);
     }
-    assert(r.size() == s);
+    assert(vec.size() == s);
     c_ejdb::qresultdispose(list);
-    return std::move(r);
+    return vec;
 }
 
 /*!
@@ -649,31 +626,27 @@ template <> uint32_t collection::execute_query<query_search_mode::count_only>(co
  * \brief execute_query<query_search_mode::first_only>. Executes a query in first-only mode.
  *
  * \return Only the first record which matches the criteria in \p qry, or boost::none on failure or if none match.
- *
- * \throws jbson::invalid_document_size When return value is constructed with an invalid BSON document
- *          (i.e. when EJDB produces a bad BSON document).
  */
-template <>
-boost::optional<jbson::document> collection::execute_query<query_search_mode::first_only>(const query& qry) {
+template <> std::vector<char> collection::execute_query<query_search_mode::first_only>(const query& qry) {
     if(m_coll == nullptr || !qry)
-        return boost::none;
+        return {};
     assert(qry.m_qry);
 
     auto db = m_db.lock();
     if(!db)
-        return boost::none;
+        return {};
 
     uint32_t s{0u};
     const auto list = c_ejdb::qryexecute(m_coll, qry.m_qry.get(), &s,
                                          (std::underlying_type_t<query_search_mode>)query_search_mode::first_only);
     if(list == nullptr || s == 0)
-        return boost::none;
+        return {};
     assert(s == static_cast<decltype(s)>(c_ejdb::qresultnum(list)));
     assert(s == 1);
 
     int ns{0};
     auto data = reinterpret_cast<const char*>(c_ejdb::qresultbsondata(list, 0, &ns));
-    auto doc = jbson::document(data, data + ns);
+    auto doc = std::vector<char>(data, data + ns);
     c_ejdb::qresultdispose(list);
 
     return std::move(doc);
@@ -704,15 +677,11 @@ uint32_t collection::execute_query<query_search_mode::count_only | query_search_
     return s;
 }
 
-/*!
- * \throws jbson::invalid_document_size When any of the return values are constructed with an invalid BSON document
- *          (i.e. when EJDB produces a bad BSON document).
- */
-std::vector<jbson::document> collection::get_all() {
+std::vector<std::vector<char>> collection::get_all() {
     auto db = m_db.lock();
     if(!db)
         return {};
-    auto vec = jbson::document(jbson::builder()).data();
+    static constexpr std::array<char, 5> vec{{5, 0, 0, 0, 0}}; // empty doc
     auto q = query{m_db, c_ejdb::createquery(db.get(), vec.data())};
     return execute_query(q);
 }
@@ -753,15 +722,16 @@ boost::string_ref collection::name() const noexcept {
 query::query(std::weak_ptr<EJDB> db, EJQ* qry) noexcept : m_db(db), m_qry(qry) {}
 
 /*!
- * \throws jbson::invalid_document_size When \p obj is constructed with an invalid BSON document.
+ * \throws std::system_error with std::errc::operation_not_permitted when query is null.
  */
-query& query::operator|=(const jbson::document& obj) & {
-    assert(m_qry);
+query& query::operator|=(const std::vector<char>& obj) & {
+    if(!m_qry)
+        throw std::system_error(make_error_code(std::errc::operation_not_permitted), "null query");
     auto db = m_db.lock();
     if(!db)
         return *this;
 
-    auto q = c_ejdb::queryaddor(db.get(), m_qry.get(), obj.data().data());
+    auto q = c_ejdb::queryaddor(db.get(), m_qry.get(), obj.data());
     if(q != m_qry.get())
         m_qry.reset(q);
 
@@ -769,9 +739,9 @@ query& query::operator|=(const jbson::document& obj) & {
 }
 
 /*!
- * \throws jbson::invalid_document_size When \p obj is constructed with an invalid BSON document.
+ * \throws std::system_error with std::errc::operation_not_permitted when query is null.
  */
-query&& query::operator|=(const jbson::document& obj) && { return std::move(*this |= obj); }
+query&& query::operator|=(const std::vector<char>& obj) && { return std::move(*this |= obj); }
 
 /*!
  * EJDB's hints documentation follows.
@@ -796,19 +766,19 @@ query&& query::operator|=(const jbson::document& obj) && { return std::move(*thi
         }
  \endcode
  */
-query& query::set_hints(const jbson::document& obj) & {
+query& query::set_hints(const std::vector<char>& obj) & {
     assert(m_qry);
     auto db = m_db.lock();
     if(!db)
         return *this;
-    auto q = c_ejdb::queryhints(db.get(), m_qry.get(), obj.data().data());
+    auto q = c_ejdb::queryhints(db.get(), m_qry.get(), obj.data());
     if(q != m_qry.get())
         m_qry.reset(q);
 
     return *this;
 }
 
-query&& query::set_hints(const jbson::document& obj) && { return std::move(set_hints(obj)); }
+query&& query::set_hints(const std::vector<char>& obj) && { return std::move(set_hints(obj)); }
 
 query::operator bool() const noexcept { return !m_db.expired() && m_qry != nullptr; }
 
@@ -832,7 +802,7 @@ std::error_code make_error_code(errc ecode) noexcept {
 
 collection::transaction_t& collection::transaction() noexcept { return m_transaction; }
 
-collection::transaction_t::transaction_t(collection& coll) noexcept : m_collection(coll), m_db(m_collection.m_db) {}
+collection::transaction_t::transaction_t(collection* coll) noexcept : m_collection(coll), m_db(m_collection->m_db) {}
 
 /*!
  * Any operation performed on the associated collection after a successful call will be part of the transaction.
@@ -844,7 +814,7 @@ collection::transaction_t::transaction_t(collection& coll) noexcept : m_collecti
  */
 bool collection::transaction_t::start() noexcept {
     auto db = m_db.lock();
-    return db && c_ejdb::isopen(db.get()) && m_collection && c_ejdb::tranbegin(m_collection.m_coll);
+    return db && c_ejdb::isopen(db.get()) && m_collection && *m_collection && c_ejdb::tranbegin(m_collection->m_coll);
 }
 
 /*!
@@ -855,7 +825,7 @@ bool collection::transaction_t::start() noexcept {
  */
 bool collection::transaction_t::abort() noexcept {
     auto db = m_db.lock();
-    return db && c_ejdb::isopen(db.get()) && m_collection && c_ejdb::tranabort(m_collection.m_coll);
+    return db && c_ejdb::isopen(db.get()) && m_collection && *m_collection && c_ejdb::tranabort(m_collection->m_coll);
 }
 
 /*!
@@ -866,7 +836,7 @@ bool collection::transaction_t::abort() noexcept {
  */
 bool collection::transaction_t::commit() noexcept {
     auto db = m_db.lock();
-    return db && c_ejdb::isopen(db.get()) && m_collection && c_ejdb::trancommit(m_collection.m_coll);
+    return db && c_ejdb::isopen(db.get()) && m_collection && *m_collection && c_ejdb::trancommit(m_collection->m_coll);
 }
 
 /*!
@@ -876,7 +846,8 @@ bool collection::transaction_t::commit() noexcept {
 bool collection::transaction_t::in_transaction() const noexcept {
     auto db = m_db.lock();
     bool ret{};
-    if(db && c_ejdb::isopen(db.get()) && m_collection && c_ejdb::transtatus(m_collection.m_coll, &ret))
+    if(db && c_ejdb::isopen(db.get()) && m_collection && *m_collection &&
+       c_ejdb::transtatus(m_collection->m_coll, &ret))
         return ret;
     return false;
 }
