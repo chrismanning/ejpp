@@ -25,7 +25,6 @@ using namespace std::literals;
 
 #include <boost/optional.hpp>
 #include <boost/range/adaptor/transformed.hpp>
-#include <boost/utility/string_ref.hpp>
 
 #include <ejpp/c_ejdb.hpp>
 #include <ejpp/ejdb.hpp>
@@ -713,7 +712,7 @@ void collection::sync() {
         throw std::system_error(ec, "could not sync collection");
 }
 
-boost::string_ref collection::name() const noexcept {
+std::string collection::name() const noexcept {
     if(m_coll == nullptr)
         return {};
     return c_ejdb::collection_name(m_coll);

@@ -23,7 +23,7 @@
 #define EJDB_C_EJDB_HPP
 
 #include <tcejdb/tcutil.h>
-#include <boost/utility/string_ref_fwd.hpp>
+#include <string>
 #include <vector>
 
 extern "C" {
@@ -147,7 +147,7 @@ bool transtatus(EJCOLL* jcoll, bool* txactive);
 std::vector<char> metadb(EJDB* jb);
 
 //! Returns name of a collection.
-boost::string_ref collection_name(EJCOLL* coll);
+std::string collection_name(EJCOLL* coll);
 
 } // namespace c_ejdb
 

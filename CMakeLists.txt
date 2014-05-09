@@ -18,7 +18,7 @@ find_package(JBSON REQUIRED)
 endif()
 
 find_package(EJDB REQUIRED)
-find_package(Boost 1.53.0 REQUIRED)
+find_package(Boost 1.30.0 REQUIRED)
 
 include_directories(${Boost_INCLUDE_DIRS} ${EJDB_INCLUDE_DIRS} ${JBSON_INCLUDE_DIRS})
 

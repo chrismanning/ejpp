@@ -30,7 +30,6 @@
 
 #include <boost/config.hpp>
 #include <boost/optional/optional_fwd.hpp>
-#include <boost/utility/string_ref_fwd.hpp>
 
 struct EJDB;
 struct EJCOLL;
@@ -328,7 +327,7 @@ struct EJPP_EXPORT collection final {
     void sync();
 
     //! Returns the name of the collection.
-    boost::string_ref name() const noexcept;
+    std::string name() const noexcept;
 
     struct transaction_t;
 
