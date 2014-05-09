@@ -10,6 +10,8 @@ option(EJPP_LEAK_CHECKER "Enable memory leak checking where available" OFF)
 set(EJPP_DOC_OUTPUT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/doc/out" CACHE FILEPATH
 "Directory to output generated documentation")
 
+set(EJPP_LIBDIR_SUFFIX "" CACHE STRING "Suffix for library installation directory")
+
 if(${EJPP_ENABLE_TESTING})
 enable_testing()
 find_package(JBSON REQUIRED)
@@ -116,8 +118,8 @@ cxx_test(ejpp_test3)
 endif()
 
 install(TARGETS ejpp ejpp-static
-    LIBRARY DESTINATION lib
-    ARCHIVE DESTINATION lib)
+    LIBRARY DESTINATION lib${EJPP_LIBDIR_SUFFIX}
+    ARCHIVE DESTINATION lib${EJPP_LIBDIR_SUFFIX})
 install(DIRECTORY include/ejpp DESTINATION include/ejpp)
 
 find_package(Doxygen)
