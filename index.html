@@ -45,7 +45,102 @@
 <div class="title">ejpp Documentation</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>C++ wrapper for ejdb </p>
+<div class="toc"><h3>Table of Contents</h3>
+<ul><li class="level1"><a href="#rationale">Rationale</a></li>
+<li class="level1"><a href="#usage">Usage</a><ul><li class="level2"><a href="#qry">Queries</a></li>
+<li class="level2"><a href="#trans">Transactions</a></li>
+</ul>
+</li>
+<li class="level1"><a href="#install">Installation</a><ul><li class="level2"><a href="#reqs">Requirements</a></li>
+<li class="level2"><a href="#build">Building</a><ul><li class="level3"><a href="#cmake">CMake Options</a></li>
+</ul>
+</li>
+<li class="level2"><a href="#docs">Documentation</a></li>
+<li class="level2"><a href="#test">Testing</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="textblock"><p><a href="http://chrismanning.github.io/ejpp">ejpp</a> is a C++ wrapper for <a href="http://ejdb.org/">EJDB</a>.</p>
+<h1><a class="anchor" id="rationale"></a>
+Rationale</h1>
+<p>EJDB is a C library, so why a C++ wrapper?</p>
+<p>While the C library is indeed usable from C++, its usage is far from idiomatic. ejpp provides a safe and modern C++ interface, taking advantage of many C++ language and library features such as exceptions, RAII, reference counted memory management, containers, and more.</p>
+<h1><a class="anchor" id="usage"></a>
+Usage</h1>
+<p>ejpp has three main classes, <code><a class="el" href="structejdb_1_1db.html" title="Main point of access to EJDB. ">ejdb::db</a></code>, <code><a class="el" href="structejdb_1_1collection.html" title="Class representing an EJDB collection. ">ejdb::collection</a></code>, and <code><a class="el" href="structejdb_1_1query.html" title="Class representing an EJDB query. ">ejdb::query</a></code>, which correspond to the opaque types <code>EJDB</code>, <code>EJCOLL</code>, and <code>EJQ</code>, respectively. Valid <code><a class="el" href="structejdb_1_1collection.html" title="Class representing an EJDB collection. ">ejdb::collection</a></code> and <code><a class="el" href="structejdb_1_1query.html" title="Class representing an EJDB query. ">ejdb::query</a></code> objects can only be created via <code><a class="el" href="structejdb_1_1db.html" title="Main point of access to EJDB. ">ejdb::db</a></code>, though they are default constructible.</p>
+<p>ejpp does not impose a specific form of BSON data other than <code>std::vector&lt;char&gt;</code> so that it can be used with your favourite BSON library.</p>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;ejpp/ejdb.hpp&gt;</span></div>
+<div class="line"><span class="keyword">using namespace </span>ejdb;</div>
+<div class="line"><span class="preprocessor">#include &lt;jbson/document.hpp&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;jbson/json_reader.hpp&gt;</span></div>
+<div class="line"><span class="keyword">using namespace </span>jbson::literal;</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="structejdb_1_1db.html">db</a> my_db;</div>
+<div class="line">assert(!my_db.is_open());</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// Open &quot;my_db&quot;. Throws std::system_error containing an EJDB error code on error.</span></div>
+<div class="line">my_db.<a class="code" href="structejdb_1_1db.html#aef17315c461f36b3be3afd31141c98ff">open</a>(<span class="stringliteral">&quot;my_db&quot;</span>, <a class="code" href="namespaceejdb.html#ad82ea1eca5597c7e71118e54011644d3aecae13117d6f0584c25a9da6c8f8415e">db_mode::read</a> | <a class="code" href="namespaceejdb.html#ad82ea1eca5597c7e71118e54011644d3aefb2a684e4afb7d55e6147fbe5a332ee">db_mode::write</a> | <a class="code" href="namespaceejdb.html#ad82ea1eca5597c7e71118e54011644d3a76ea0bebb3c22822b4f0dd9c9fd021c5">db_mode::create</a> | <a class="code" href="namespaceejdb.html#ad82ea1eca5597c7e71118e54011644d3a244f58cf07c35fd48d7524b289551e5c">db_mode::truncate</a>);</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="structejdb_1_1collection.html">collection</a> my_coll;</div>
+<div class="line">assert(!my_coll);</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// Open/create &quot;my_coll&quot; collection.</span></div>
+<div class="line">std::error_code ec;</div>
+<div class="line">my_coll = my_db.create_collection(<span class="stringliteral">&quot;my_coll&quot;</span>, ec);</div>
+<div class="line">assert(!ec &amp;&amp; my_coll);</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// Save some BSON data to a collection. Throws std::system_error containing an EJDB error code on error.</span></div>
+<div class="line"><span class="keyword">auto</span> oid = my_coll.save_document(R<span class="stringliteral">&quot;({&quot;some key&quot;: &quot;some value&quot;})&quot;_json_doc.data());</span></div>
+<div class="line"><span class="stringliteral"></span></div>
+<div class="line"><span class="stringliteral"></span><span class="comment">// Load raw BSON data from collection into a jbson::document.</span></div>
+<div class="line"><span class="comment">// Throws std::system_error containing an EJDB error code on error.</span></div>
+<div class="line"><span class="keyword">auto</span> doc = jbson::document(my_coll.load_document(oid));</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">auto</span> it = doc.find(<span class="stringliteral">&quot;some key&quot;</span>);</div>
+<div class="line">assert(it != doc.end());</div>
+<div class="line">assert(it-&gt;value&lt;<a class="code" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694ab45cffe084dd3d20d928bee85e7b0f21">std::string</a>&gt;() == <span class="stringliteral">&quot;some value&quot;</span>);</div>
+</div><!-- fragment --><p> Many ejpp functions offer throwing and non-throwing overloads. Non-throwing overloads take a extra parameter, a non-const reference to a <code>std::error_code</code>.</p>
+<h2><a class="anchor" id="qry"></a>
+Queries</h2>
+<h2><a class="anchor" id="trans"></a>
+Transactions</h2>
+<h1><a class="anchor" id="install"></a>
+Installation</h1>
+<h2><a class="anchor" id="reqs"></a>
+Requirements</h2>
+<ul>
+<li>C++11 compliant compiler.</li>
+<li>Boost headers. (Uses Boost.Optional, and Boost.Config).</li>
+<li><a href="http://www.cmake.org/">cmake</a>.</li>
+<li><a href="http://ejdb.org/">EJDB</a>.</li>
+</ul>
+<h2><a class="anchor" id="build"></a>
+Building</h2>
+<div class="fragment"><div class="line">mkdir build &amp;&amp; cd build</div>
+<div class="line">cmake ..</div>
+<div class="line">make</div>
+<div class="line">make install</div>
+</div><!-- fragment --><p>If EJDB is in a non-standard location, pass <code>EJDB_INCLUDE_DIR</code> and <code>EJDB_LIBRARY_DIR</code> options to cmake. </p><div class="fragment"><div class="line">cmake .. -DEJDB_INCLUDE_DIR=&lt;location-of-tcejdb-header-dir&gt; -DEJDB_LIBRARY_DIR=&lt;location-of-tcejdb-lib-dir&gt;</div>
+</div><!-- fragment --><h3><a class="anchor" id="cmake"></a>
+CMake Options</h3>
+<ul>
+<li><code>EJPP_ENABLE_TESTING</code> - set to <code>ON</code> to enable testing. <code>OFF</code> by default. See <a class="el" href="index.html#test">Testing</a>.</li>
+<li><code>EJPP_SANITIZE_ADDRESS</code> - set to <code>ON</code> to build with <code>-fsanitize=address</code>. <code>OFF</code> by default.</li>
+<li><code>EJPP_LEAK_CHECKER</code> - set to <code>ON</code> to build with <code>-fsanitize=leak</code>. <code>OFF</code> by default.</li>
+<li><code>EJPP_DOC_OUTPUT_DIR</code> - set to a path to output generated documentation. <code>./doc</code> by default. See <a class="el" href="index.html#docs">Documentation</a>.</li>
+<li><code>EJPP_LIBDIR_SUFFIX</code> - set to a string to add a suffix to the installation library directory, e.g. "64" to install to ${PREFIX}/lib64.</li>
+</ul>
+<h2><a class="anchor" id="docs"></a>
+Documentation</h2>
+<p>API documentation can be viewed at <a href="http://chrismanning.github.io/ejpp">http://chrismanning.github.io/ejpp</a> or generated with doxygen. </p><div class="fragment"><div class="line">make doc</div>
+</div><!-- fragment --><p> It can then be viewed in a web browser by opening the generated <code>index.html</code>, or any other file.</p>
+<h2><a class="anchor" id="test"></a>
+Testing</h2>
+<p>Unit testing (enabled via <code>EJPP_ENABLE_TESTING</code>) has some additional requirements.</p><ul>
+<li>Subversion is needed for downloading google test at build time.</li>
+<li><a href="http://chrismanning.github.io/jbson">jbson</a>. This does not have to be installed, its include directory can be specified explicitly via the cmake variable <code>JBSON_INCLUDE_DIR</code>. </li>
+</ul>
 </div></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.5-->
 <!-- start footer part -->

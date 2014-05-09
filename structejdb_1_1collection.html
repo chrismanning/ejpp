@@ -56,6 +56,7 @@
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#friends">Friends</a> &#124;
+<a href="#related">Related Functions</a> &#124;
 <a href="structejdb_1_1collection-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">ejdb::collection Struct Reference<span class="mlabels"><span class="mlabel">final</span></span></div>  </div>
@@ -79,36 +80,24 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1collection.html#ae69d79b2c745df1370bc88e84948a513">collection</a> () noexcept=default</td></tr>
 <tr class="memdesc:ae69d79b2c745df1370bc88e84948a513"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor. Results in an invalid collection, not associated with a db. <br /></td></tr>
 <tr class="separator:ae69d79b2c745df1370bc88e84948a513"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acdd8b716f6efe85502f5dfb9bac3a16e"><td class="memTemplParams" colspan="2">template&lt;query_search_mode flags = query_search_mode::normal&gt; </td></tr>
-<tr class="memitem:acdd8b716f6efe85502f5dfb9bac3a16e"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespaceejdb_1_1detail.html#afd7c702dd2e3032eefb842f715a1958e">detail::query_return_type</a>&lt; flags &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structejdb_1_1collection.html#acdd8b716f6efe85502f5dfb9bac3a16e">execute_query</a> (const <a class="el" href="structejdb_1_1query.html">query</a> &amp;)</td></tr>
-<tr class="memdesc:acdd8b716f6efe85502f5dfb9bac3a16e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Executes a query on the collection.  <a href="#acdd8b716f6efe85502f5dfb9bac3a16e">More...</a><br /></td></tr>
-<tr class="separator:acdd8b716f6efe85502f5dfb9bac3a16e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8649943bf77a1095c0d97fbd961daef7"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
-<tr class="memitem:a8649943bf77a1095c0d97fbd961daef7"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; jbson::document &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structejdb_1_1collection.html#a8649943bf77a1095c0d97fbd961daef7">execute_query</a> (const <a class="el" href="structejdb_1_1query.html">query</a> &amp;qry)</td></tr>
-<tr class="memdesc:a8649943bf77a1095c0d97fbd961daef7"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structejdb_1_1collection.html#acdd8b716f6efe85502f5dfb9bac3a16e" title="Executes a query on the collection. ">execute_query&lt;query_search_mode::normal&gt;</a>. Executes a query in normal mode.  <a href="#a8649943bf77a1095c0d97fbd961daef7">More...</a><br /></td></tr>
-<tr class="separator:a8649943bf77a1095c0d97fbd961daef7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a47bf32278d49a1f8fa77deff51f479ee"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
-<tr class="memitem:a47bf32278d49a1f8fa77deff51f479ee"><td class="memTemplItemLeft" align="right" valign="top">boost::optional&lt; jbson::document &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structejdb_1_1collection.html#a47bf32278d49a1f8fa77deff51f479ee">execute_query</a> (const <a class="el" href="structejdb_1_1query.html">query</a> &amp;qry)</td></tr>
-<tr class="memdesc:a47bf32278d49a1f8fa77deff51f479ee"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structejdb_1_1collection.html#acdd8b716f6efe85502f5dfb9bac3a16e" title="Executes a query on the collection. ">execute_query&lt;query_search_mode::first_only&gt;</a>. Executes a query in first-only mode.  <a href="#a47bf32278d49a1f8fa77deff51f479ee">More...</a><br /></td></tr>
-<tr class="separator:a47bf32278d49a1f8fa77deff51f479ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b58698483cfef611ff9937615b5db40"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
-<tr class="memitem:a9b58698483cfef611ff9937615b5db40"><td class="memTemplItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structejdb_1_1collection.html#a9b58698483cfef611ff9937615b5db40">execute_query</a> (const <a class="el" href="structejdb_1_1query.html">query</a> &amp;qry)</td></tr>
-<tr class="memdesc:a9b58698483cfef611ff9937615b5db40"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structejdb_1_1collection.html#acdd8b716f6efe85502f5dfb9bac3a16e" title="Executes a query on the collection. ">execute_query&lt;query_search_mode::count_only&gt;</a>. Executes a query in count-only mode.  <a href="#a9b58698483cfef611ff9937615b5db40">More...</a><br /></td></tr>
-<tr class="separator:a9b58698483cfef611ff9937615b5db40"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b58698483cfef611ff9937615b5db40"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
-<tr class="memitem:a9b58698483cfef611ff9937615b5db40"><td class="memTemplItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structejdb_1_1collection.html#a9b58698483cfef611ff9937615b5db40">execute_query</a> (const <a class="el" href="structejdb_1_1query.html">query</a> &amp;qry)</td></tr>
-<tr class="memdesc:a9b58698483cfef611ff9937615b5db40"><td class="mdescLeft">&#160;</td><td class="mdescRight">execute_query&lt;<a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75ab2794163428de72debe5efeca32f33f8" title="Query only count(*) ">query_search_mode::count_only</a>|<a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75aa7190158c163d646ef94aa64518ad4e3" title="Fetch first record only. ">query_search_mode::first_only</a>&gt;. Executes a query in count-only mode, but only counts up to one (1).  <a href="#a9b58698483cfef611ff9937615b5db40">More...</a><br /></td></tr>
-<tr class="separator:a9b58698483cfef611ff9937615b5db40"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1afa4f291fc729f949b2bdf27b17e058"><td class="memItemLeft" align="right" valign="top">std::vector&lt; jbson::document &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1collection.html#a1afa4f291fc729f949b2bdf27b17e058">get_all</a> ()</td></tr>
-<tr class="memdesc:a1afa4f291fc729f949b2bdf27b17e058"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns all documents in the collection.  <a href="#a1afa4f291fc729f949b2bdf27b17e058">More...</a><br /></td></tr>
-<tr class="separator:a1afa4f291fc729f949b2bdf27b17e058"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a50e5e017fc87936cf17733666099c568"><td class="memItemLeft" align="right" valign="top">boost::optional&lt; jbson::document &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1collection.html#a50e5e017fc87936cf17733666099c568">load_document</a> (<a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694af1f713c9e000f5d3f280adbd124df4f5">std::array</a>&lt; char, 12 &gt; oid, std::error_code &amp;ec) const </td></tr>
-<tr class="memdesc:a50e5e017fc87936cf17733666099c568"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loads a matching document from the collection.  <a href="#a50e5e017fc87936cf17733666099c568">More...</a><br /></td></tr>
-<tr class="separator:a50e5e017fc87936cf17733666099c568"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6dd08a74eb35583d116b4bdce00b04a5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6dd08a74eb35583d116b4bdce00b04a5"></a>
-boost::string_ref&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1collection.html#a6dd08a74eb35583d116b4bdce00b04a5">name</a> () const noexcept</td></tr>
-<tr class="memdesc:a6dd08a74eb35583d116b4bdce00b04a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the name of the collection. <br /></td></tr>
-<tr class="separator:a6dd08a74eb35583d116b4bdce00b04a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a703e3f0c2779e404f460b1fb92e09f00"><td class="memTemplParams" colspan="2">template&lt;query_search_mode flags = query_search_mode::normal&gt; </td></tr>
+<tr class="memitem:a703e3f0c2779e404f460b1fb92e09f00"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespaceejdb_1_1detail.html#a27ab877cb0f28061f4e141d3a0af4440">detail::query_return_type</a>&lt; flags &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structejdb_1_1collection.html#a703e3f0c2779e404f460b1fb92e09f00">execute_query</a> (const <a class="el" href="structejdb_1_1query.html">query</a> &amp;)</td></tr>
+<tr class="memdesc:a703e3f0c2779e404f460b1fb92e09f00"><td class="mdescLeft">&#160;</td><td class="mdescRight">Executes a query on the collection.  <a href="#a703e3f0c2779e404f460b1fb92e09f00">More...</a><br /></td></tr>
+<tr class="separator:a703e3f0c2779e404f460b1fb92e09f00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae083413c5fa906e7c41e31bf1b2cd310"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae083413c5fa906e7c41e31bf1b2cd310"></a>
+std::vector&lt; std::vector&lt; char &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1collection.html#ae083413c5fa906e7c41e31bf1b2cd310">get_all</a> ()</td></tr>
+<tr class="memdesc:ae083413c5fa906e7c41e31bf1b2cd310"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns all documents in the collection. <br /></td></tr>
+<tr class="separator:ae083413c5fa906e7c41e31bf1b2cd310"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15d3ff2f01247908289ce63e62c1d51b"><td class="memItemLeft" align="right" valign="top">std::vector&lt; char &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1collection.html#a15d3ff2f01247908289ce63e62c1d51b">load_document</a> (<a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694af1f713c9e000f5d3f280adbd124df4f5">std::array</a>&lt; char, 12 &gt; oid, std::error_code &amp;ec) const </td></tr>
+<tr class="memdesc:a15d3ff2f01247908289ce63e62c1d51b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loads a matching document from the collection.  <a href="#a15d3ff2f01247908289ce63e62c1d51b">More...</a><br /></td></tr>
+<tr class="separator:a15d3ff2f01247908289ce63e62c1d51b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abffd6ee773f05af83bf6e7f30db3adc9"><td class="memItemLeft" align="right" valign="top">std::vector&lt; char &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1collection.html#abffd6ee773f05af83bf6e7f30db3adc9">load_document</a> (<a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694af1f713c9e000f5d3f280adbd124df4f5">std::array</a>&lt; char, 12 &gt; oid) const </td></tr>
+<tr class="memdesc:abffd6ee773f05af83bf6e7f30db3adc9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loads a matching document from the collection.  <a href="#abffd6ee773f05af83bf6e7f30db3adc9">More...</a><br /></td></tr>
+<tr class="separator:abffd6ee773f05af83bf6e7f30db3adc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6fbad6c4c71069247a5475d7c4ef964c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6fbad6c4c71069247a5475d7c4ef964c"></a>
+<a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694ab45cffe084dd3d20d928bee85e7b0f21">std::string</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1collection.html#a6fbad6c4c71069247a5475d7c4ef964c">name</a> () const </td></tr>
+<tr class="memdesc:a6fbad6c4c71069247a5475d7c4ef964c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the name of the collection. <br /></td></tr>
+<tr class="separator:a6fbad6c4c71069247a5475d7c4ef964c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ace26575515f906f3a79d8cc302841406"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ace26575515f906f3a79d8cc302841406"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1collection.html#ace26575515f906f3a79d8cc302841406">operator bool</a> () const noexcept</td></tr>
 <tr class="memdesc:ace26575515f906f3a79d8cc302841406"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether the associated <a class="el" href="structejdb_1_1db.html" title="Main point of access to EJDB. ">ejdb::db</a> and represented EJDB collection are both valid. <br /></td></tr>
@@ -116,20 +105,31 @@ boost::string_ref&#160;</td><td class="memItemRight" valign="bottom"><a class="e
 <tr class="memitem:a3b9a5bc80c81068c9aa73b5c9c5cfc19"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1collection.html#a3b9a5bc80c81068c9aa73b5c9c5cfc19">remove_document</a> (<a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694af1f713c9e000f5d3f280adbd124df4f5">std::array</a>&lt; char, 12 &gt;, std::error_code &amp;ec) noexcept</td></tr>
 <tr class="memdesc:a3b9a5bc80c81068c9aa73b5c9c5cfc19"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a document from the collection.  <a href="#a3b9a5bc80c81068c9aa73b5c9c5cfc19">More...</a><br /></td></tr>
 <tr class="separator:a3b9a5bc80c81068c9aa73b5c9c5cfc19"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad0a991eb62541a052ea28618110ed1a0"><td class="memItemLeft" align="right" valign="top">boost::optional&lt; <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694af1f713c9e000f5d3f280adbd124df4f5">std::array</a><br class="typebreak" />
-&lt; char, 12 &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1collection.html#ad0a991eb62541a052ea28618110ed1a0">save_document</a> (const jbson::document &amp;data, std::error_code &amp;ec)</td></tr>
-<tr class="memdesc:ad0a991eb62541a052ea28618110ed1a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Saves a document to the collection, overwriting an existing, matching document.  <a href="#ad0a991eb62541a052ea28618110ed1a0">More...</a><br /></td></tr>
-<tr class="separator:ad0a991eb62541a052ea28618110ed1a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a752b6a1a96c8128c8af2a68168e9683d"><td class="memItemLeft" align="right" valign="top">boost::optional&lt; <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694af1f713c9e000f5d3f280adbd124df4f5">std::array</a><br class="typebreak" />
-&lt; char, 12 &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1collection.html#a752b6a1a96c8128c8af2a68168e9683d">save_document</a> (const jbson::document &amp;data, bool merge, std::error_code &amp;ec)</td></tr>
-<tr class="memdesc:a752b6a1a96c8128c8af2a68168e9683d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Saves a document to the collection, optionally merging with an existing, matching document.  <a href="#a752b6a1a96c8128c8af2a68168e9683d">More...</a><br /></td></tr>
-<tr class="separator:a752b6a1a96c8128c8af2a68168e9683d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8255adfb451c91eb2f160c27f2a18e2f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1collection.html#a8255adfb451c91eb2f160c27f2a18e2f">set_index</a> (const <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> &amp;ipath, <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694">index_mode</a> flags, std::error_code &amp;ec) noexcept</td></tr>
-<tr class="memdesc:a8255adfb451c91eb2f160c27f2a18e2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the index for a BSON field in the collection.  <a href="#a8255adfb451c91eb2f160c27f2a18e2f">More...</a><br /></td></tr>
-<tr class="separator:a8255adfb451c91eb2f160c27f2a18e2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ba57b4cc2db9a9805bf671ea9968604"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1collection.html#a0ba57b4cc2db9a9805bf671ea9968604">remove_document</a> (<a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694af1f713c9e000f5d3f280adbd124df4f5">std::array</a>&lt; char, 12 &gt;)</td></tr>
+<tr class="memdesc:a0ba57b4cc2db9a9805bf671ea9968604"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a document from the collection.  <a href="#a0ba57b4cc2db9a9805bf671ea9968604">More...</a><br /></td></tr>
+<tr class="separator:a0ba57b4cc2db9a9805bf671ea9968604"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3d36a16b37fc0d3a21e8b7a490aea30"><td class="memItemLeft" align="right" valign="top">boost::optional&lt; <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694af1f713c9e000f5d3f280adbd124df4f5">std::array</a><br class="typebreak" />
+&lt; char, 12 &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1collection.html#ae3d36a16b37fc0d3a21e8b7a490aea30">save_document</a> (const std::vector&lt; char &gt; &amp;data, std::error_code &amp;ec)</td></tr>
+<tr class="memdesc:ae3d36a16b37fc0d3a21e8b7a490aea30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Saves a document to the collection, overwriting an existing, matching document.  <a href="#ae3d36a16b37fc0d3a21e8b7a490aea30">More...</a><br /></td></tr>
+<tr class="separator:ae3d36a16b37fc0d3a21e8b7a490aea30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3669e1083c0704ebdf27bcd474875518"><td class="memItemLeft" align="right" valign="top">boost::optional&lt; <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694af1f713c9e000f5d3f280adbd124df4f5">std::array</a><br class="typebreak" />
+&lt; char, 12 &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1collection.html#a3669e1083c0704ebdf27bcd474875518">save_document</a> (const std::vector&lt; char &gt; &amp;data, bool merge, std::error_code &amp;ec)</td></tr>
+<tr class="memdesc:a3669e1083c0704ebdf27bcd474875518"><td class="mdescLeft">&#160;</td><td class="mdescRight">Saves a document to the collection, optionally merging with an existing, matching document.  <a href="#a3669e1083c0704ebdf27bcd474875518">More...</a><br /></td></tr>
+<tr class="separator:a3669e1083c0704ebdf27bcd474875518"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54d875e16bbb4b588afba2ab6f521cde"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694af1f713c9e000f5d3f280adbd124df4f5">std::array</a>&lt; char, 12 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1collection.html#a54d875e16bbb4b588afba2ab6f521cde">save_document</a> (const std::vector&lt; char &gt; &amp;data, bool merge=false)</td></tr>
+<tr class="separator:a54d875e16bbb4b588afba2ab6f521cde"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2af308a1d485187ce108bb3953a4310b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1collection.html#a2af308a1d485187ce108bb3953a4310b">set_index</a> (const <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> &amp;ipath, <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694">index_mode</a> flags, std::error_code &amp;ec)</td></tr>
+<tr class="memdesc:a2af308a1d485187ce108bb3953a4310b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the index for a BSON field in the collection.  <a href="#a2af308a1d485187ce108bb3953a4310b">More...</a><br /></td></tr>
+<tr class="separator:a2af308a1d485187ce108bb3953a4310b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a978e9ff37ce3426017716f1fa20f97e8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1collection.html#a978e9ff37ce3426017716f1fa20f97e8">set_index</a> (const <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> &amp;ipath, <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694">index_mode</a> flags)</td></tr>
+<tr class="memdesc:a978e9ff37ce3426017716f1fa20f97e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the index for a BSON field in the collection.  <a href="#a978e9ff37ce3426017716f1fa20f97e8">More...</a><br /></td></tr>
+<tr class="separator:a978e9ff37ce3426017716f1fa20f97e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac7fb5925002b3e1ee06cb4697e125cdb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1collection.html#ac7fb5925002b3e1ee06cb4697e125cdb">sync</a> (std::error_code &amp;ec) noexcept</td></tr>
 <tr class="memdesc:ac7fb5925002b3e1ee06cb4697e125cdb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Synchronises the EJDB database to disk.  <a href="#ac7fb5925002b3e1ee06cb4697e125cdb">More...</a><br /></td></tr>
 <tr class="separator:ac7fb5925002b3e1ee06cb4697e125cdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21141605b7d7d82e3f33424847cd52f3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1collection.html#a21141605b7d7d82e3f33424847cd52f3">sync</a> ()</td></tr>
+<tr class="memdesc:a21141605b7d7d82e3f33424847cd52f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Synchronises the EJDB database to disk.  <a href="#a21141605b7d7d82e3f33424847cd52f3">More...</a><br /></td></tr>
+<tr class="separator:a21141605b7d7d82e3f33424847cd52f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ade14d3e6b0a6f20d9a5b70555e52bf32"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ade14d3e6b0a6f20d9a5b70555e52bf32"></a>
 <a class="el" href="structejdb_1_1collection_1_1transaction__t.html">transaction_t</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1collection.html#ade14d3e6b0a6f20d9a5b70555e52bf32">transaction</a> () noexcept</td></tr>
 <tr class="memdesc:ade14d3e6b0a6f20d9a5b70555e52bf32"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns this collection's <a class="el" href="structejdb_1_1collection_1_1transaction__t.html" title="Represents an EJDB transaction. ">transaction_t</a>. <br /></td></tr>
@@ -140,23 +140,44 @@ Friends</h2></td></tr>
 <tr class="memitem:a20802d5948a90a4e0528d7ac9384ba36"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a20802d5948a90a4e0528d7ac9384ba36"></a>
 struct&#160;</td><td class="memItemRight" valign="bottom"><b>db</b></td></tr>
 <tr class="separator:a20802d5948a90a4e0528d7ac9384ba36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
+Related Functions</h2></td></tr>
+<tr><td class="ititle" colspan="2"><p>(Note that these are not member functions.) </p>
+</td></tr>
+<tr class="memitem:a9b47fa9dee2b4637504767b0b9f9b8e8"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
+<tr class="memitem:a9b47fa9dee2b4637504767b0b9f9b8e8"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; std::vector&lt; char &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structejdb_1_1collection.html#a9b47fa9dee2b4637504767b0b9f9b8e8">execute_query_impl</a> (std::weak_ptr&lt; EJDB &gt; m_db, EJCOLL *m_coll, EJQ *qry)</td></tr>
+<tr class="memdesc:a9b47fa9dee2b4637504767b0b9f9b8e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Instantiated with flags == <code><a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75afea087517c26fadd409bd4b9dc642555" title="Default search mode. ">query_search_mode::normal</a></code>. Executes a query in normal mode.  <a href="#a9b47fa9dee2b4637504767b0b9f9b8e8">More...</a><br /></td></tr>
+<tr class="separator:a9b47fa9dee2b4637504767b0b9f9b8e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12cee861dfff7331008e0565addb3d1d"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
+<tr class="memitem:a12cee861dfff7331008e0565addb3d1d"><td class="memTemplItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structejdb_1_1collection.html#a12cee861dfff7331008e0565addb3d1d">execute_query_impl</a> (std::weak_ptr&lt; EJDB &gt; m_db, EJCOLL *m_coll, EJQ *qry)</td></tr>
+<tr class="memdesc:a12cee861dfff7331008e0565addb3d1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Instantiated with flags == <code><a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75ab2794163428de72debe5efeca32f33f8" title="Query only count(*) ">query_search_mode::count_only</a></code>. Executes a query in count-only mode.  <a href="#a12cee861dfff7331008e0565addb3d1d">More...</a><br /></td></tr>
+<tr class="separator:a12cee861dfff7331008e0565addb3d1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d1b4396671b35a3a2532309872f2f27"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
+<tr class="memitem:a6d1b4396671b35a3a2532309872f2f27"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; char &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structejdb_1_1collection.html#a6d1b4396671b35a3a2532309872f2f27">execute_query_impl</a> (std::weak_ptr&lt; EJDB &gt; m_db, EJCOLL *m_coll, EJQ *qry)</td></tr>
+<tr class="memdesc:a6d1b4396671b35a3a2532309872f2f27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Instantiated with flags == <code><a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75aa7190158c163d646ef94aa64518ad4e3" title="Fetch first record only. ">query_search_mode::first_only</a></code>. Executes a query in first-only mode.  <a href="#a6d1b4396671b35a3a2532309872f2f27">More...</a><br /></td></tr>
+<tr class="separator:a6d1b4396671b35a3a2532309872f2f27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad266d36dc0168a43e92cdd5acb86c58e"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
+<tr class="memitem:ad266d36dc0168a43e92cdd5acb86c58e"><td class="memTemplItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structejdb_1_1collection.html#ad266d36dc0168a43e92cdd5acb86c58e">execute_query_impl</a> (std::weak_ptr&lt; EJDB &gt; m_db, EJCOLL *m_coll, EJQ *qry)</td></tr>
+<tr class="memdesc:ad266d36dc0168a43e92cdd5acb86c58e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Instantiated with flags == <code><a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75ab2794163428de72debe5efeca32f33f8" title="Query only count(*) ">query_search_mode::count_only</a> | <a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75aa7190158c163d646ef94aa64518ad4e3" title="Fetch first record only. ">query_search_mode::first_only</a></code>. Executes a query in count-only mode, but only counts up to one (1).  <a href="#ad266d36dc0168a43e92cdd5acb86c58e">More...</a><br /></td></tr>
+<tr class="separator:ad266d36dc0168a43e92cdd5acb86c58e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Class representing an EJDB collection. </p>
-<p>Valid collections can only be created via <a class="el" href="structejdb_1_1db.html#ac4c7ad1743f0ee84e38a15cbad0a1d2a" title="Returns an existing, or otherwise newly created, collection, named name. ">ejdb::db::create_collection</a> or <a class="el" href="structejdb_1_1db.html#ac5d878c105596b2247fef3a13e9d0873" title="Returns an existing collection named name. ">ejdb::db::get_collection</a>.</p>
-<p>Should the parent <a class="el" href="structejdb_1_1db.html" title="Main point of access to EJDB. ">ejdb::db</a> object expire before the collection, all operations performed on or with the collection will fail, with any <code>std::error_code</code>s set to <code>std::errc::bad_address</code> (<code>EFAULT</code>). The parent <a class="el" href="structejdb_1_1db.html" title="Main point of access to EJDB. ">ejdb::db</a> object is guaranteed to stay alive for the duration of an operation. </p>
+<p>Valid collections can only be created via <a class="el" href="structejdb_1_1db.html#a9b0617692d408f09c9ae7945d342148a" title="Returns an existing, or otherwise newly created, collection, named name. ">ejdb::db::create_collection</a> or <a class="el" href="structejdb_1_1db.html#ac89da0f66b9dac91b1244c971a1bc4b7" title="Returns an existing collection named name, or a default constructed ejdb::collection. ">ejdb::db::get_collection</a>.</p>
+<p>Should the parent <a class="el" href="structejdb_1_1db.html" title="Main point of access to EJDB. ">ejdb::db</a> object expire before the collection, all operations performed on or with the collection will fail, with any <code>std::error_code</code>s set to <code>std::errc::operation_not_permitted</code> (<code>EPERM</code>). The parent <a class="el" href="structejdb_1_1db.html" title="Main point of access to EJDB. ">ejdb::db</a> object is guaranteed to stay alive for the duration of an operation. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="acdd8b716f6efe85502f5dfb9bac3a16e"></a>
+<a class="anchor" id="a703e3f0c2779e404f460b1fb92e09f00"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;query_search_mode flags = query_search_mode::normal&gt; </div>
+template&lt;query_search_mode flags&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespaceejdb_1_1detail.html#afd7c702dd2e3032eefb842f715a1958e">detail::query_return_type</a>&lt;flags&gt; ejdb::collection::execute_query </td>
+          <td class="memname"><a class="el" href="namespaceejdb_1_1detail.html#a27ab877cb0f28061f4e141d3a0af4440">detail::query_return_type</a>&lt; flags &gt; ejdb::collection::execute_query </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="structejdb_1_1query.html">query</a> &amp;&#160;</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramname"><em>qry</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -169,135 +190,18 @@ template&lt;query_search_mode flags = query_search_mode::normal&gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceejdb_1_1detail.html#afd7c702dd2e3032eefb842f715a1958e" title="Determine the correct return type for query flags. ">detail::query_return_type</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceejdb_1_1detail.html#a27ab877cb0f28061f4e141d3a0af4440" title="Determine the correct return type for query flags. ">detail::query_return_type</a></dd>
+<dd>
+<a class="el" href="structejdb_1_1collection.html#a9b47fa9dee2b4637504767b0b9f9b8e8" title="Instantiated with flags == query_search_mode::normal. Executes a query in normal mode. ">execute_query_impl</a> </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a8649943bf77a1095c0d97fbd961daef7"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt;jbson::document&gt; ejdb::collection::execute_query </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="structejdb_1_1query.html">query</a> &amp;&#160;</td>
-          <td class="paramname"><em>qry</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><a class="el" href="structejdb_1_1collection.html#acdd8b716f6efe85502f5dfb9bac3a16e" title="Executes a query on the collection. ">execute_query&lt;query_search_mode::normal&gt;</a>. Executes a query in normal mode. </p>
-<dl class="section return"><dt>Returns</dt><dd>All records which match the criteria in <code>qry</code>. If collection or <code>qry</code> is invalid, an empty vector is returned.</dd></dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">jbson::invalid_document_size</td><td>When any of the return values are constructed with an invalid BSON document (i.e. when EJDB produces a bad BSON document). </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a class="anchor" id="a9b58698483cfef611ff9937615b5db40"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">uint32_t ejdb::collection::execute_query </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="structejdb_1_1query.html">query</a> &amp;&#160;</td>
-          <td class="paramname"><em>qry</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><a class="el" href="structejdb_1_1collection.html#acdd8b716f6efe85502f5dfb9bac3a16e" title="Executes a query on the collection. ">execute_query&lt;query_search_mode::count_only&gt;</a>. Executes a query in count-only mode. </p>
-<dl class="section return"><dt>Returns</dt><dd>Number of records which match the criteria in <code>qry</code>. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a47bf32278d49a1f8fa77deff51f479ee"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">boost::optional&lt;jbson::document&gt; ejdb::collection::execute_query </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="structejdb_1_1query.html">query</a> &amp;&#160;</td>
-          <td class="paramname"><em>qry</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><a class="el" href="structejdb_1_1collection.html#acdd8b716f6efe85502f5dfb9bac3a16e" title="Executes a query on the collection. ">execute_query&lt;query_search_mode::first_only&gt;</a>. Executes a query in first-only mode. </p>
-<dl class="section return"><dt>Returns</dt><dd>Only the first record which matches the criteria in <code>qry</code>, or boost::none on failure or if none match.</dd></dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">jbson::invalid_document_size</td><td>When return value is constructed with an invalid BSON document (i.e. when EJDB produces a bad BSON document). </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a class="anchor" id="a9b58698483cfef611ff9937615b5db40"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">uint32_t ejdb::collection::execute_query </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="structejdb_1_1query.html">query</a> &amp;&#160;</td>
-          <td class="paramname"><em>qry</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>execute_query&lt;<a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75ab2794163428de72debe5efeca32f33f8" title="Query only count(*) ">query_search_mode::count_only</a>|<a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75aa7190158c163d646ef94aa64518ad4e3" title="Fetch first record only. ">query_search_mode::first_only</a>&gt;. Executes a query in count-only mode, but only counts up to one (1). </p>
-<dl class="section return"><dt>Returns</dt><dd>One (1) when at least one documents match the criteria in <code>qry</code>, otherwise zero (0). </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a1afa4f291fc729f949b2bdf27b17e058"></a>
+<a class="anchor" id="a15d3ff2f01247908289ce63e62c1d51b"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt; jbson::document &gt; ejdb::collection::get_all </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Returns all documents in the collection. </p>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">jbson::invalid_document_size</td><td>When any of the return values are constructed with an invalid BSON document (i.e. when EJDB produces a bad BSON document). </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a class="anchor" id="a50e5e017fc87936cf17733666099c568"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">boost::optional&lt; jbson::document &gt; ejdb::collection::load_document </td>
+          <td class="memname">std::vector&lt; char &gt; ejdb::collection::load_document </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694af1f713c9e000f5d3f280adbd124df4f5">std::array</a>&lt; char, 12 &gt;&#160;</td>
           <td class="paramname"><em>oid</em>, </td>
@@ -324,10 +228,35 @@ template&lt;&gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Document corresponding to <code>oid</code> on success, boost::none on failure.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Document corresponding to <code>oid</code> on success, empty vector on failure or if <code>oid</code> has no match. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="abffd6ee773f05af83bf6e7f30db3adc9"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; char &gt; ejdb::collection::load_document </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694af1f713c9e000f5d3f280adbd124df4f5">std::array</a>&lt; char, 12 &gt;&#160;</td>
+          <td class="paramname"><em>oid</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Loads a matching document from the collection. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">oid</td><td>OID of the document to fetch. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Document corresponding to <code>oid</code>. Or empty vector if <code>oid</code> has no match.</dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname">jbson::invalid_document_size</td><td>When return value is constructed with an invalid BSON document (i.e. when EJDB produces a bad BSON document). </td></tr>
+    <tr><td class="paramname">std::system_error</td><td>with appropriate error code and message on failure. </td></tr>
   </table>
   </dd>
 </dl>
@@ -378,14 +307,44 @@ template&lt;&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="ad0a991eb62541a052ea28618110ed1a0"></a>
+<a class="anchor" id="a0ba57b4cc2db9a9805bf671ea9968604"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ejdb::collection::remove_document </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694af1f713c9e000f5d3f280adbd124df4f5">std::array</a>&lt; char, 12 &gt;&#160;</td>
+          <td class="paramname"><em>oid</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Removes a document from the collection. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">oid</td><td>OID of the document to remove.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::system_error</td><td>with appropriate error code and message on failure. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="ae3d36a16b37fc0d3a21e8b7a490aea30"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">boost::optional&lt; <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694af1f713c9e000f5d3f280adbd124df4f5">std::array</a>&lt; char, 12 &gt; &gt; ejdb::collection::save_document </td>
           <td>(</td>
-          <td class="paramtype">const jbson::document &amp;&#160;</td>
+          <td class="paramtype">const std::vector&lt; char &gt; &amp;&#160;</td>
           <td class="paramname"><em>data</em>, </td>
         </tr>
         <tr>
@@ -403,7 +362,7 @@ template&lt;&gt; </div>
 </div><div class="memdoc">
 
 <p>Saves a document to the collection, overwriting an existing, matching document. </p>
-<p><a class="el" href="structejdb_1_1collection.html#ad0a991eb62541a052ea28618110ed1a0" title="Saves a document to the collection, overwriting an existing, matching document. ">collection::save_document</a></p>
+<p><a class="el" href="structejdb_1_1collection.html#ae3d36a16b37fc0d3a21e8b7a490aea30" title="Saves a document to the collection, overwriting an existing, matching document. ">collection::save_document</a></p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir"></td><td class="paramname">data</td><td>BSON document to be saved. </td></tr>
@@ -411,24 +370,18 @@ template&lt;&gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>OID of saved document on success, boost::none on failure.</dd></dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">jbson::invalid_document_size</td><td>When <code>data</code> is constructed with an invalid BSON document. </td></tr>
-  </table>
-  </dd>
-</dl>
+<dl class="section return"><dt>Returns</dt><dd>OID of saved document on success, boost::none on failure. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a752b6a1a96c8128c8af2a68168e9683d"></a>
+<a class="anchor" id="a3669e1083c0704ebdf27bcd474875518"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">boost::optional&lt; <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694af1f713c9e000f5d3f280adbd124df4f5">std::array</a>&lt; char, 12 &gt; &gt; ejdb::collection::save_document </td>
           <td>(</td>
-          <td class="paramtype">const jbson::document &amp;&#160;</td>
+          <td class="paramtype">const std::vector&lt; char &gt; &amp;&#160;</td>
           <td class="paramname"><em>doc</em>, </td>
         </tr>
         <tr>
@@ -460,22 +413,55 @@ template&lt;&gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>OID of saved document on success, boost::none on failure.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>OID of saved document on success, boost::none on failure. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a54d875e16bbb4b588afba2ab6f521cde"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694af1f713c9e000f5d3f280adbd124df4f5">std::array</a>&lt; char, 12 &gt; ejdb::collection::save_document </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; char &gt; &amp;&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>merge</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p></p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>BSON document to be saved. </td></tr>
+    <tr><td class="paramname">merge</td><td>Whether or not to merge with an existing, matching document. Default = false. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>OID of saved document.</dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname">jbson::invalid_document_size</td><td>When <code>doc</code> is constructed with an invalid BSON document. </td></tr>
+    <tr><td class="paramname">std::system_error</td><td>with appropriate error code and message on failure. </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a class="anchor" id="a8255adfb451c91eb2f160c27f2a18e2f"></a>
+<a class="anchor" id="a2af308a1d485187ce108bb3953a4310b"></a>
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">bool ejdb::collection::set_index </td>
@@ -501,11 +487,6 @@ template&lt;&gt; </div>
           <td></td><td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Sets the index for a BSON field in the collection. </p>
@@ -540,13 +521,55 @@ template&lt;&gt; </div>
 </ul>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir"></td><td class="paramname">ipath</td><td></td></tr>
-    <tr><td class="paramdir"></td><td class="paramname">flags</td><td></td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">ipath</td><td>Field path to set index on. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">flags</td><td><a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694" title="Index modes, index types. ">ejdb::index_mode</a> flags controlling the mode of operation of the index. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">ec</td><td>Set to an appropriate error code on failure. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true on success, false on failure. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a978e9ff37ce3426017716f1fa20f97e8"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ejdb::collection::set_index </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> &amp;&#160;</td>
+          <td class="paramname"><em>ipath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694">index_mode</a>&#160;</td>
+          <td class="paramname"><em>flags</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sets the index for a BSON field in the collection. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ipath</td><td>Field path to set index on. </td></tr>
+    <tr><td class="paramname">flags</td><td><a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694" title="Index modes, index types. ">ejdb::index_mode</a> flags controlling the mode of operation of the index.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::system_error</td><td>with appropriate error code and message on failure. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="structejdb_1_1collection.html#a2af308a1d485187ce108bb3953a4310b" title="Sets the index for a BSON field in the collection. ">set_index</a> </dd></dl>
 
 </div>
 </div>
@@ -580,6 +603,202 @@ template&lt;&gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true on success, false on failure. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a21141605b7d7d82e3f33424847cd52f3"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ejdb::collection::sync </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Synchronises the EJDB database to disk. </p>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname">std::system_error</td><td>with appropriate error code and message on failure. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Friends And Related Function Documentation</h2>
+<a class="anchor" id="a9b47fa9dee2b4637504767b0b9f9b8e8"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::vector&lt; char &gt; &gt; execute_query_impl&lt; <a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75afea087517c26fadd409bd4b9dc642555">query_search_mode::normal</a> &gt; </td>
+          <td>(</td>
+          <td class="paramtype">std::weak_ptr&lt; EJDB &gt;&#160;</td>
+          <td class="paramname"><em>m_db</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">EJCOLL *&#160;</td>
+          <td class="paramname"><em>m_coll</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">EJQ *&#160;</td>
+          <td class="paramname"><em>qry</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Instantiated with flags == <code><a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75afea087517c26fadd409bd4b9dc642555" title="Default search mode. ">query_search_mode::normal</a></code>. Executes a query in normal mode. </p>
+<dl class="section return"><dt>Returns</dt><dd>All records which match the criteria in <code>qry</code>. If collection or <code>qry</code> is invalid, an empty vector is returned. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a6d1b4396671b35a3a2532309872f2f27"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; char &gt; execute_query_impl&lt; <a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75aa7190158c163d646ef94aa64518ad4e3">query_search_mode::first_only</a> &gt; </td>
+          <td>(</td>
+          <td class="paramtype">std::weak_ptr&lt; EJDB &gt;&#160;</td>
+          <td class="paramname"><em>m_db</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">EJCOLL *&#160;</td>
+          <td class="paramname"><em>m_coll</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">EJQ *&#160;</td>
+          <td class="paramname"><em>qry</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Instantiated with flags == <code><a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75aa7190158c163d646ef94aa64518ad4e3" title="Fetch first record only. ">query_search_mode::first_only</a></code>. Executes a query in first-only mode. </p>
+<dl class="section return"><dt>Returns</dt><dd>Only the first record which matches the criteria in <code>qry</code>, or boost::none on failure or if none match. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a12cee861dfff7331008e0565addb3d1d"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t execute_query_impl&lt; <a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75ab2794163428de72debe5efeca32f33f8">query_search_mode::count_only</a> &gt; </td>
+          <td>(</td>
+          <td class="paramtype">std::weak_ptr&lt; EJDB &gt;&#160;</td>
+          <td class="paramname"><em>m_db</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">EJCOLL *&#160;</td>
+          <td class="paramname"><em>m_coll</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">EJQ *&#160;</td>
+          <td class="paramname"><em>qry</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Instantiated with flags == <code><a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75ab2794163428de72debe5efeca32f33f8" title="Query only count(*) ">query_search_mode::count_only</a></code>. Executes a query in count-only mode. </p>
+<dl class="section return"><dt>Returns</dt><dd>Number of records which match the criteria in <code>qry</code>. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ad266d36dc0168a43e92cdd5acb86c58e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t execute_query_impl&lt; <a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75ab2794163428de72debe5efeca32f33f8">query_search_mode::count_only</a>|<a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75aa7190158c163d646ef94aa64518ad4e3">query_search_mode::first_only</a> &gt; </td>
+          <td>(</td>
+          <td class="paramtype">std::weak_ptr&lt; EJDB &gt;&#160;</td>
+          <td class="paramname"><em>m_db</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">EJCOLL *&#160;</td>
+          <td class="paramname"><em>m_coll</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">EJQ *&#160;</td>
+          <td class="paramname"><em>qry</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Instantiated with flags == <code><a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75ab2794163428de72debe5efeca32f33f8" title="Query only count(*) ">query_search_mode::count_only</a> | <a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75aa7190158c163d646ef94aa64518ad4e3" title="Fetch first record only. ">query_search_mode::first_only</a></code>. Executes a query in count-only mode, but only counts up to one (1). </p>
+<dl class="section return"><dt>Returns</dt><dd>One (1) when at least one documents match the criteria in <code>qry</code>, otherwise zero (0). </dd></dl>
 
 </div>
 </div>

@@ -194,22 +194,22 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a15b35ff3f962bc126db332740b0afb64"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
-<tr class="memitem:a15b35ff3f962bc126db332740b0afb64"><td class="memTemplItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceejdb.html#a15b35ff3f962bc126db332740b0afb64">collection::execute_query&lt; query_search_mode::count_only &gt;</a> (const <a class="el" href="structejdb_1_1query.html">query</a> &amp;qry)</td></tr>
-<tr class="memdesc:a15b35ff3f962bc126db332740b0afb64"><td class="mdescLeft">&#160;</td><td class="mdescRight">execute_query&lt;query_search_mode::count_only&gt;. Executes a query in count-only mode.  <a href="#a15b35ff3f962bc126db332740b0afb64">More...</a><br /></td></tr>
-<tr class="separator:a15b35ff3f962bc126db332740b0afb64"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a61b686e9c6538605cab2fa93a22e11ca"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
-<tr class="memitem:a61b686e9c6538605cab2fa93a22e11ca"><td class="memTemplItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceejdb.html#a61b686e9c6538605cab2fa93a22e11ca">collection::execute_query&lt; query_search_mode::count_only|query_search_mode::first_only &gt;</a> (const <a class="el" href="structejdb_1_1query.html">query</a> &amp;qry)</td></tr>
-<tr class="memdesc:a61b686e9c6538605cab2fa93a22e11ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">execute_query&lt;<a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75ab2794163428de72debe5efeca32f33f8" title="Query only count(*) ">query_search_mode::count_only</a>|<a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75aa7190158c163d646ef94aa64518ad4e3" title="Fetch first record only. ">query_search_mode::first_only</a>&gt;. Executes a query in count-only mode, but only counts up to one (1).  <a href="#a61b686e9c6538605cab2fa93a22e11ca">More...</a><br /></td></tr>
-<tr class="separator:a61b686e9c6538605cab2fa93a22e11ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a03c906a4a46fa15b9e4bc13a25ddf81a"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
-<tr class="memitem:a03c906a4a46fa15b9e4bc13a25ddf81a"><td class="memTemplItemLeft" align="right" valign="top">boost::optional&lt; jbson::document &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceejdb.html#a03c906a4a46fa15b9e4bc13a25ddf81a">collection::execute_query&lt; query_search_mode::first_only &gt;</a> (const <a class="el" href="structejdb_1_1query.html">query</a> &amp;qry)</td></tr>
-<tr class="memdesc:a03c906a4a46fa15b9e4bc13a25ddf81a"><td class="mdescLeft">&#160;</td><td class="mdescRight">execute_query&lt;query_search_mode::first_only&gt;. Executes a query in first-only mode.  <a href="#a03c906a4a46fa15b9e4bc13a25ddf81a">More...</a><br /></td></tr>
-<tr class="separator:a03c906a4a46fa15b9e4bc13a25ddf81a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af20effda01db10529153c7209c5b36c3"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
-<tr class="memitem:af20effda01db10529153c7209c5b36c3"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; jbson::document &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceejdb.html#af20effda01db10529153c7209c5b36c3">collection::execute_query&lt; query_search_mode::normal &gt;</a> (const <a class="el" href="structejdb_1_1query.html">query</a> &amp;qry)</td></tr>
-<tr class="memdesc:af20effda01db10529153c7209c5b36c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">execute_query&lt;query_search_mode::normal&gt;. Executes a query in normal mode.  <a href="#af20effda01db10529153c7209c5b36c3">More...</a><br /></td></tr>
-<tr class="separator:af20effda01db10529153c7209c5b36c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb322eed76071b32985c7728e926039a"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
+<tr class="memitem:aeb322eed76071b32985c7728e926039a"><td class="memTemplItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceejdb.html#aeb322eed76071b32985c7728e926039a">execute_query_impl&lt; query_search_mode::count_only &gt;</a> (std::weak_ptr&lt; EJDB &gt; m_db, EJCOLL *m_coll, EJQ *qry)</td></tr>
+<tr class="memdesc:aeb322eed76071b32985c7728e926039a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Instantiated with flags == <code><a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75ab2794163428de72debe5efeca32f33f8" title="Query only count(*) ">query_search_mode::count_only</a></code>. Executes a query in count-only mode.  <a href="#aeb322eed76071b32985c7728e926039a">More...</a><br /></td></tr>
+<tr class="separator:aeb322eed76071b32985c7728e926039a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d0c99be97c0fff9ae69107ac5d4ba29"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
+<tr class="memitem:a8d0c99be97c0fff9ae69107ac5d4ba29"><td class="memTemplItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceejdb.html#a8d0c99be97c0fff9ae69107ac5d4ba29">execute_query_impl&lt; query_search_mode::count_only|query_search_mode::first_only &gt;</a> (std::weak_ptr&lt; EJDB &gt; m_db, EJCOLL *m_coll, EJQ *qry)</td></tr>
+<tr class="memdesc:a8d0c99be97c0fff9ae69107ac5d4ba29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Instantiated with flags == <code><a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75ab2794163428de72debe5efeca32f33f8" title="Query only count(*) ">query_search_mode::count_only</a> | <a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75aa7190158c163d646ef94aa64518ad4e3" title="Fetch first record only. ">query_search_mode::first_only</a></code>. Executes a query in count-only mode, but only counts up to one (1).  <a href="#a8d0c99be97c0fff9ae69107ac5d4ba29">More...</a><br /></td></tr>
+<tr class="separator:a8d0c99be97c0fff9ae69107ac5d4ba29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1ab7ca2c2883897b0b5f3fead3166ef"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
+<tr class="memitem:ac1ab7ca2c2883897b0b5f3fead3166ef"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; char &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceejdb.html#ac1ab7ca2c2883897b0b5f3fead3166ef">execute_query_impl&lt; query_search_mode::first_only &gt;</a> (std::weak_ptr&lt; EJDB &gt; m_db, EJCOLL *m_coll, EJQ *qry)</td></tr>
+<tr class="memdesc:ac1ab7ca2c2883897b0b5f3fead3166ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Instantiated with flags == <code><a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75aa7190158c163d646ef94aa64518ad4e3" title="Fetch first record only. ">query_search_mode::first_only</a></code>. Executes a query in first-only mode.  <a href="#ac1ab7ca2c2883897b0b5f3fead3166ef">More...</a><br /></td></tr>
+<tr class="separator:ac1ab7ca2c2883897b0b5f3fead3166ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ecdd1901cac7620a501f358e5e611a2"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
+<tr class="memitem:a9ecdd1901cac7620a501f358e5e611a2"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; std::vector&lt; char &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceejdb.html#a9ecdd1901cac7620a501f358e5e611a2">execute_query_impl&lt; query_search_mode::normal &gt;</a> (std::weak_ptr&lt; EJDB &gt; m_db, EJCOLL *m_coll, EJQ *qry)</td></tr>
+<tr class="memdesc:a9ecdd1901cac7620a501f358e5e611a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Instantiated with flags == <code><a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75afea087517c26fadd409bd4b9dc642555" title="Default search mode. ">query_search_mode::normal</a></code>. Executes a query in normal mode.  <a href="#a9ecdd1901cac7620a501f358e5e611a2">More...</a><br /></td></tr>
+<tr class="separator:a9ecdd1901cac7620a501f358e5e611a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab8d36636c96d2786646748563d77299a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab8d36636c96d2786646748563d77299a"></a>
 std::error_code&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceejdb.html#ab8d36636c96d2786646748563d77299a">make_error_code</a> (<a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8ea">errc</a> ecode) noexcept</td></tr>
 <tr class="memdesc:ab8d36636c96d2786646748563d77299a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Makes an std::error_code from an <a class="el" href="namespaceejdb.html#a5de9a90fce54dd08fdf9287fe1a0c8ea" title="Error codes. Tokyo Cabinet errors up to errc::miscellaneous. ">ejdb::errc</a>. <br /></td></tr>
@@ -544,99 +544,151 @@ constexpr <a class="el" href="structejdb_1_1try__transaction__t.html">try_transa
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="a15b35ff3f962bc126db332740b0afb64"></a>
+<a class="anchor" id="aeb322eed76071b32985c7728e926039a"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t <a class="el" href="structejdb_1_1collection.html#acdd8b716f6efe85502f5dfb9bac3a16e">ejdb::collection::execute_query</a>&lt; <a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75ab2794163428de72debe5efeca32f33f8">query_search_mode::count_only</a> &gt; </td>
+          <td class="memname">uint32_t execute_query_impl&lt; <a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75ab2794163428de72debe5efeca32f33f8">query_search_mode::count_only</a> &gt; </td>
           <td>(</td>
-          <td class="paramtype">const query &amp;&#160;</td>
-          <td class="paramname"><em>qry</em></td><td>)</td>
+          <td class="paramtype">std::weak_ptr&lt; EJDB &gt;&#160;</td>
+          <td class="paramname"><em>m_db</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">EJCOLL *&#160;</td>
+          <td class="paramname"><em>m_coll</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">EJQ *&#160;</td>
+          <td class="paramname"><em>qry</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>execute_query&lt;query_search_mode::count_only&gt;. Executes a query in count-only mode. </p>
+<p>Instantiated with flags == <code><a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75ab2794163428de72debe5efeca32f33f8" title="Query only count(*) ">query_search_mode::count_only</a></code>. Executes a query in count-only mode. </p>
 <dl class="section return"><dt>Returns</dt><dd>Number of records which match the criteria in <code>qry</code>. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a61b686e9c6538605cab2fa93a22e11ca"></a>
+<a class="anchor" id="a8d0c99be97c0fff9ae69107ac5d4ba29"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t <a class="el" href="structejdb_1_1collection.html#acdd8b716f6efe85502f5dfb9bac3a16e">ejdb::collection::execute_query</a>&lt; <a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75ab2794163428de72debe5efeca32f33f8">query_search_mode::count_only</a>|<a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75aa7190158c163d646ef94aa64518ad4e3">query_search_mode::first_only</a> &gt; </td>
+          <td class="memname">uint32_t execute_query_impl&lt; <a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75ab2794163428de72debe5efeca32f33f8">query_search_mode::count_only</a>|<a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75aa7190158c163d646ef94aa64518ad4e3">query_search_mode::first_only</a> &gt; </td>
           <td>(</td>
-          <td class="paramtype">const query &amp;&#160;</td>
-          <td class="paramname"><em>qry</em></td><td>)</td>
+          <td class="paramtype">std::weak_ptr&lt; EJDB &gt;&#160;</td>
+          <td class="paramname"><em>m_db</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">EJCOLL *&#160;</td>
+          <td class="paramname"><em>m_coll</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">EJQ *&#160;</td>
+          <td class="paramname"><em>qry</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>execute_query&lt;<a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75ab2794163428de72debe5efeca32f33f8" title="Query only count(*) ">query_search_mode::count_only</a>|<a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75aa7190158c163d646ef94aa64518ad4e3" title="Fetch first record only. ">query_search_mode::first_only</a>&gt;. Executes a query in count-only mode, but only counts up to one (1). </p>
+<p>Instantiated with flags == <code><a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75ab2794163428de72debe5efeca32f33f8" title="Query only count(*) ">query_search_mode::count_only</a> | <a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75aa7190158c163d646ef94aa64518ad4e3" title="Fetch first record only. ">query_search_mode::first_only</a></code>. Executes a query in count-only mode, but only counts up to one (1). </p>
 <dl class="section return"><dt>Returns</dt><dd>One (1) when at least one documents match the criteria in <code>qry</code>, otherwise zero (0). </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a03c906a4a46fa15b9e4bc13a25ddf81a"></a>
+<a class="anchor" id="ac1ab7ca2c2883897b0b5f3fead3166ef"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">boost::optional&lt;jbson::document&gt; <a class="el" href="structejdb_1_1collection.html#acdd8b716f6efe85502f5dfb9bac3a16e">ejdb::collection::execute_query</a>&lt; <a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75aa7190158c163d646ef94aa64518ad4e3">query_search_mode::first_only</a> &gt; </td>
+          <td class="memname">std::vector&lt; char &gt; execute_query_impl&lt; <a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75aa7190158c163d646ef94aa64518ad4e3">query_search_mode::first_only</a> &gt; </td>
           <td>(</td>
-          <td class="paramtype">const query &amp;&#160;</td>
-          <td class="paramname"><em>qry</em></td><td>)</td>
+          <td class="paramtype">std::weak_ptr&lt; EJDB &gt;&#160;</td>
+          <td class="paramname"><em>m_db</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">EJCOLL *&#160;</td>
+          <td class="paramname"><em>m_coll</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">EJQ *&#160;</td>
+          <td class="paramname"><em>qry</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>execute_query&lt;query_search_mode::first_only&gt;. Executes a query in first-only mode. </p>
-<dl class="section return"><dt>Returns</dt><dd>Only the first record which matches the criteria in <code>qry</code>, or boost::none on failure or if none match.</dd></dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">jbson::invalid_document_size</td><td>When return value is constructed with an invalid BSON document (i.e. when EJDB produces a bad BSON document). </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Instantiated with flags == <code><a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75aa7190158c163d646ef94aa64518ad4e3" title="Fetch first record only. ">query_search_mode::first_only</a></code>. Executes a query in first-only mode. </p>
+<dl class="section return"><dt>Returns</dt><dd>Only the first record which matches the criteria in <code>qry</code>, or boost::none on failure or if none match. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="af20effda01db10529153c7209c5b36c3"></a>
+<a class="anchor" id="a9ecdd1901cac7620a501f358e5e611a2"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;jbson::document&gt; <a class="el" href="structejdb_1_1collection.html#acdd8b716f6efe85502f5dfb9bac3a16e">ejdb::collection::execute_query</a>&lt; <a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75afea087517c26fadd409bd4b9dc642555">query_search_mode::normal</a> &gt; </td>
+          <td class="memname">std::vector&lt; std::vector&lt; char &gt; &gt; execute_query_impl&lt; <a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75afea087517c26fadd409bd4b9dc642555">query_search_mode::normal</a> &gt; </td>
           <td>(</td>
-          <td class="paramtype">const query &amp;&#160;</td>
-          <td class="paramname"><em>qry</em></td><td>)</td>
+          <td class="paramtype">std::weak_ptr&lt; EJDB &gt;&#160;</td>
+          <td class="paramname"><em>m_db</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">EJCOLL *&#160;</td>
+          <td class="paramname"><em>m_coll</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">EJQ *&#160;</td>
+          <td class="paramname"><em>qry</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>execute_query&lt;query_search_mode::normal&gt;. Executes a query in normal mode. </p>
-<dl class="section return"><dt>Returns</dt><dd>All records which match the criteria in <code>qry</code>. If collection or <code>qry</code> is invalid, an empty vector is returned.</dd></dl>
-<dl class="exception"><dt>Exceptions</dt><dd>
-  <table class="exception">
-    <tr><td class="paramname">jbson::invalid_document_size</td><td>When any of the return values are constructed with an invalid BSON document (i.e. when EJDB produces a bad BSON document). </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Instantiated with flags == <code><a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75afea087517c26fadd409bd4b9dc642555" title="Default search mode. ">query_search_mode::normal</a></code>. Executes a query in normal mode. </p>
+<dl class="section return"><dt>Returns</dt><dd>All records which match the criteria in <code>qry</code>. If collection or <code>qry</code> is invalid, an empty vector is returned. </dd></dl>
 
 </div>
 </div>

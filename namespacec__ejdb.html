@@ -63,10 +63,10 @@ Functions</h2></td></tr>
 bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacec__ejdb.html#acdc80da6c240d8eabe4f8320a0404932">closedb</a> (EJDB *jb)</td></tr>
 <tr class="memdesc:acdc80da6c240d8eabe4f8320a0404932"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns ejdbclose(jb) <br /></td></tr>
 <tr class="separator:acdc80da6c240d8eabe4f8320a0404932"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3b157b1c514803f6697716b4b382bd25"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3b157b1c514803f6697716b4b382bd25"></a>
-boost::string_ref&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacec__ejdb.html#a3b157b1c514803f6697716b4b382bd25">collection_name</a> (EJCOLL *coll)</td></tr>
-<tr class="memdesc:a3b157b1c514803f6697716b4b382bd25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns name of a collection. <br /></td></tr>
-<tr class="separator:a3b157b1c514803f6697716b4b382bd25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a40d72eb0b5bb99e553be06d9faa64d78"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a40d72eb0b5bb99e553be06d9faa64d78"></a>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacec__ejdb.html#a40d72eb0b5bb99e553be06d9faa64d78">collection_name</a> (EJCOLL *coll)</td></tr>
+<tr class="memdesc:a40d72eb0b5bb99e553be06d9faa64d78"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns name of a collection. <br /></td></tr>
+<tr class="separator:a40d72eb0b5bb99e553be06d9faa64d78"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a00d6f855d8edf89c16564fd2e43b52a2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a00d6f855d8edf89c16564fd2e43b52a2"></a>
 EJCOLL *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacec__ejdb.html#a00d6f855d8edf89c16564fd2e43b52a2">createcoll</a> (EJDB *jb, const char *colname, void *opts)</td></tr>
 <tr class="memdesc:a00d6f855d8edf89c16564fd2e43b52a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns ejdbcreatecoll(jb, colname, opts) <br /></td></tr>
@@ -155,14 +155,10 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="name
 bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacec__ejdb.html#abdb9ef9ada663710308b46869cfd020c">rmcoll</a> (EJDB *jb, const char *colname, bool unlinkfile)</td></tr>
 <tr class="memdesc:abdb9ef9ada663710308b46869cfd020c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns ejdbrmcoll(jb, collname, unlinkfile) <br /></td></tr>
 <tr class="separator:abdb9ef9ada663710308b46869cfd020c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abcc04763bb213fdb37aa60f8e60a8fc0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abcc04763bb213fdb37aa60f8e60a8fc0"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacec__ejdb.html#abcc04763bb213fdb37aa60f8e60a8fc0">savebson</a> (EJCOLL *coll, const void *bsdata, char oid[12])</td></tr>
-<tr class="memdesc:abcc04763bb213fdb37aa60f8e60a8fc0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns ejdbsavebson3(coll, bsdata, oid, false) <br /></td></tr>
-<tr class="separator:abcc04763bb213fdb37aa60f8e60a8fc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac926b2d7f1782b7963fbcfe67cfd77ac"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac926b2d7f1782b7963fbcfe67cfd77ac"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacec__ejdb.html#ac926b2d7f1782b7963fbcfe67cfd77ac">savebson2</a> (EJCOLL *jcoll, const void *bsdata, char oid[12], bool merge)</td></tr>
-<tr class="memdesc:ac926b2d7f1782b7963fbcfe67cfd77ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns ejdbsavebson3(coll, bsdata, oid, merge) <br /></td></tr>
-<tr class="separator:ac926b2d7f1782b7963fbcfe67cfd77ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1460d5778a5a60d0c2efe00734e8cfc8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1460d5778a5a60d0c2efe00734e8cfc8"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacec__ejdb.html#a1460d5778a5a60d0c2efe00734e8cfc8">savebson</a> (EJCOLL *jcoll, const std::vector&lt; char &gt; &amp;bsdata, char oid[12], bool merge, int *err)</td></tr>
+<tr class="memdesc:a1460d5778a5a60d0c2efe00734e8cfc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns ejdbsavebson3(coll, bsdata, oid, merge) <br /></td></tr>
+<tr class="separator:a1460d5778a5a60d0c2efe00734e8cfc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6faf6a6f20894dc53366610c1f0c833c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6faf6a6f20894dc53366610c1f0c833c"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacec__ejdb.html#a6faf6a6f20894dc53366610c1f0c833c">setindex</a> (EJCOLL *coll, const char *ipath, int flags)</td></tr>
 <tr class="memdesc:a6faf6a6f20894dc53366610c1f0c833c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns ejdbsetindex(coll, ipath, flags. <br /></td></tr>
