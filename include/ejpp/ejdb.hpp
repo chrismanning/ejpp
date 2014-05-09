@@ -205,7 +205,7 @@ struct EJPP_EXPORT db final {
     static std::error_code error(std::weak_ptr<EJDB>) noexcept;
 
     //! Opens EJDB database at \p path.
-    bool open(const std::string& path, db_mode mode, std::error_code& ec) noexcept;
+    bool open(const std::string& path, db_mode mode, std::error_code& ec);
     //! \copybrief open
     void open(const std::string& path, db_mode mode);
 
@@ -218,17 +218,17 @@ struct EJPP_EXPORT db final {
     void close();
 
     //! Returns an existing collection named \p name, or a default constructed ejdb::collection.
-    collection get_collection(const std::string& name, std::error_code& ec) const noexcept;
+    collection get_collection(const std::string& name, std::error_code& ec) const;
     //! \copybrief get_collection
     collection get_collection(const std::string& name) const;
 
     //! Returns an existing, or otherwise newly created, collection, named \p name.
-    collection create_collection(const std::string& name, std::error_code& ec) noexcept;
+    collection create_collection(const std::string& name, std::error_code& ec);
     //! \copybrief create_collection
     collection create_collection(const std::string& name);
 
     //! Removes a collection named \p name, or do nothing if \p name does not exist.
-    bool remove_collection(const std::string& name, bool unlink_file, std::error_code& ec) noexcept;
+    bool remove_collection(const std::string& name, bool unlink_file, std::error_code& ec);
     //! \copybrief remove_collection
     void remove_collection(const std::string& name, bool unlink_file);
 
@@ -305,7 +305,7 @@ struct EJPP_EXPORT collection final {
     void remove_document(std::array<char, 12>);
 
     //! Sets the index for a BSON field in the collection.
-    bool set_index(const std::string& ipath, index_mode flags, std::error_code& ec) noexcept;
+    bool set_index(const std::string& ipath, index_mode flags, std::error_code& ec);
     //! \copybrief set_index
     void set_index(const std::string& ipath, index_mode flags);
 
@@ -327,7 +327,7 @@ struct EJPP_EXPORT collection final {
     void sync();
 
     //! Returns the name of the collection.
-    std::string name() const noexcept;
+    std::string name() const;
 
     struct transaction_t;
 

@@ -69,7 +69,7 @@ std::error_code db::error(std::weak_ptr<EJDB> db) noexcept {
  * \param[out] ec Set to an appropriate error code on failure.
  * \return true on success, false on failure.
  */
-bool db::open(const std::string& path, db_mode mode, std::error_code& ec) noexcept {
+bool db::open(const std::string& path, db_mode mode, std::error_code& ec) {
     m_db = {c_ejdb::newdb(), ejdb_deleter()};
     const auto r = m_db && c_ejdb::open(m_db.get(), path.c_str(), (std::underlying_type_t<db_mode>)mode);
     if(!r)
@@ -127,7 +127,7 @@ void db::close() {
  * \param[out] ec Set to an appropriate error code on failure.
  * \return Valid collection on success, default collection on failure.
  */
-collection db::get_collection(const std::string& name, std::error_code& ec) const noexcept {
+collection db::get_collection(const std::string& name, std::error_code& ec) const {
     if(!m_db) {
         ec = error();
         return {};
@@ -158,7 +158,7 @@ collection db::get_collection(const std::string& name) const {
  * \param[out] ec Set to an appropriate error code on failure.
  * \return Valid collection on success, invalid collection on failure.
  */
-collection db::create_collection(const std::string& name, std::error_code& ec) noexcept {
+collection db::create_collection(const std::string& name, std::error_code& ec) {
     if(!m_db) {
         ec = error();
         return {};
@@ -190,7 +190,7 @@ collection db::create_collection(const std::string& name) {
  * \param[out] ec Set to an appropriate error code on failure.
  * \return true on success, false on failure.
  */
-bool db::remove_collection(const std::string& name, bool unlink_file, std::error_code& ec) noexcept {
+bool db::remove_collection(const std::string& name, bool unlink_file, std::error_code& ec) {
     const auto r = m_db && c_ejdb::rmcoll(m_db.get(), name.c_str(), unlink_file);
     if(!r)
         ec = error();
@@ -535,7 +535,7 @@ void collection::remove_document(std::array<char, 12> oid) {
  * \param[out] ec Set to an appropriate error code on failure.
  * \return true on success, false on failure.
  */
-bool collection::set_index(const std::string& ipath, index_mode flags, std::error_code& ec) noexcept {
+bool collection::set_index(const std::string& ipath, index_mode flags, std::error_code& ec) {
     if(m_coll == nullptr) {
         ec = std::make_error_code(std::errc::operation_not_permitted);
         return false;
@@ -744,7 +744,7 @@ void collection::sync() {
         throw std::system_error(ec, "could not sync collection");
 }
 
-std::string collection::name() const noexcept {
+std::string collection::name() const {
     if(m_coll == nullptr)
         return {};
     return c_ejdb::collection_name(m_coll);
