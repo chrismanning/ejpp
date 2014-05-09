@@ -26,8 +26,6 @@
 
 #include <boost/utility/string_ref.hpp>
 
-#include <jbson/detail/endian.hpp>
-
 #include <ejpp/c_ejdb.hpp>
 
 namespace c_ejdb {
@@ -64,8 +62,7 @@ bool rmcoll(EJDB* jb, const char* colname, bool unlinkfile) { return ejdbrmcoll(
 
 bool savebson(EJCOLL* jcoll, const std::vector<char>& bsdata, char oid[12], bool merge, int* err) {
     if(bsdata.size() < 5 ||
-       jbson::detail::little_endian_to_native<int32_t>(bsdata.begin(), bsdata.end()) !=
-           static_cast<int32_t>(bsdata.size())) {
+       le32toh(*reinterpret_cast<const int32_t*>(bsdata.data())) != static_cast<int32_t>(bsdata.size())) {
         assert(err != nullptr);
         *err = JBEINVALIDBSON;
         return false;
@@ -84,7 +81,7 @@ std::vector<char> loadbson(EJCOLL* coll, const char oid[12]) {
 
     size_t s = bs->dataSize;
     if(bs->dataSize <= 0)
-        s = jbson::detail::little_endian_to_native<int32_t>(bs->data, bs->data + 4);
+        s = le32toh(*reinterpret_cast<int32_t*>(bs->data));
     assert(s >= 4);
     std::vector<char> ret{bs->data, bs->data + s};
     bson_del(bs);
@@ -110,9 +107,6 @@ int qresultnum(EJQRESULT qr) { return ejdbqresultnum(qr); }
 const void* qresultbsondata(EJQRESULT qr, int pos, int* size) { return ejdbqresultbsondata(qr, pos, size); }
 
 void qresultdispose(EJQRESULT qr) { return ejdbqresultdispose(qr); }
-
-// uint32_t update(EJCOLL *jcoll, bson *qobj, bson *orqobjs,
-//                                int orqobjsnum, bson *hints, TCXSTR *log);
 
 bool syncoll(EJCOLL* jcoll) { return ejdbsyncoll(jcoll); }
 

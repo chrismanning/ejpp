@@ -12,11 +12,11 @@ set(EJPP_DOC_OUTPUT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/doc/out" CACHE FILEPATH
 
 if(${EJPP_ENABLE_TESTING})
 enable_testing()
+find_package(JBSON REQUIRED)
 endif()
 
 find_package(EJDB REQUIRED)
 find_package(Boost 1.53.0 REQUIRED)
-find_package(JBSON REQUIRED)
 
 include_directories(${Boost_INCLUDE_DIRS} ${EJDB_INCLUDE_DIRS} ${JBSON_INCLUDE_DIRS})
 
@@ -106,12 +106,14 @@ function(cxx_test test_name)
   add_test(${test_name} ${EXECUTABLE_OUTPUT_PATH}/${test_name})
 endfunction()
 
+if(${EJPP_ENABLE_TESTING})
 cxx_test(api_test)
 
 cxx_test(ejpp_test1)
 cxx_test(ejpp_test2)
 cxx_test(ejpp_test3)
 #cxx_test(ejpp_test4)
+endif()
 
 install(TARGETS ejpp ejpp-static
     LIBRARY DESTINATION lib
