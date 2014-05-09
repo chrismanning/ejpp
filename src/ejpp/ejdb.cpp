@@ -562,23 +562,29 @@ void collection::set_index(const std::string& ipath, index_mode flags) {
         throw std::system_error(ec, "could not set index for field "s + ipath);
 }
 
+template <query_search_mode flags>
+static detail::query_return_type<flags> execute_query_impl(std::weak_ptr<EJDB> m_db, EJCOLL* m_coll, EJQ* qry);
+
 /*!
- * \brief execute_query<query_search_mode::normal>. Executes a query in normal mode.
+ * \brief Instantiated with flags == `query_search_mode::normal`. Executes a query in normal mode.
  *
  * \return All records which match the criteria in \p qry.
  *         If collection or \p qry is invalid, an empty vector is returned.
+ *
+ * \relatesalso collection
  */
-template <> std::vector<std::vector<char>> collection::execute_query<query_search_mode::normal>(const query& qry) {
+template <>
+std::vector<std::vector<char>> execute_query_impl<query_search_mode::normal>(std::weak_ptr<EJDB> m_db, EJCOLL* m_coll,
+                                                                             EJQ* qry) {
     if(m_coll == nullptr || !qry)
         return {};
-    assert(qry.m_qry);
 
     auto db = m_db.lock();
     if(!db)
         return {};
 
     uint32_t s{0u};
-    const auto list = c_ejdb::qryexecute(m_coll, qry.m_qry.get(), &s, 0);
+    const auto list = c_ejdb::qryexecute(m_coll, qry, &s, 0);
     if(list == nullptr)
         return {};
     assert(s == static_cast<decltype(s)>(c_ejdb::qresultnum(list)));
@@ -600,11 +606,14 @@ template <> std::vector<std::vector<char>> collection::execute_query<query_searc
 }
 
 /*!
- * \brief execute_query<query_search_mode::count_only>. Executes a query in count-only mode.
+ * \brief Instantiated with flags == `query_search_mode::count_only`. Executes a query in count-only mode.
  *
  * \return Number of records which match the criteria in \p qry.
+ *
+ * \relatesalso collection
  */
-template <> uint32_t collection::execute_query<query_search_mode::count_only>(const query& qry) {
+template <>
+uint32_t execute_query_impl<query_search_mode::count_only>(std::weak_ptr<EJDB> m_db, EJCOLL* m_coll, EJQ* qry) {
     if(m_coll == nullptr || !qry)
         return 0;
 
@@ -612,32 +621,34 @@ template <> uint32_t collection::execute_query<query_search_mode::count_only>(co
     if(!db)
         return 0;
 
-    assert(qry.m_qry);
     uint32_t s{0u};
-    const auto list = c_ejdb::qryexecute(m_coll, qry.m_qry.get(), &s,
-                                         (std::underlying_type_t<query_search_mode>)query_search_mode::count_only);
+    const auto list =
+        c_ejdb::qryexecute(m_coll, qry, &s, (std::underlying_type_t<query_search_mode>)query_search_mode::count_only);
     if(list != nullptr)
         c_ejdb::qresultdispose(list);
     return s;
 }
 
 /*!
- * \brief execute_query<query_search_mode::first_only>. Executes a query in first-only mode.
+ * \brief Instantiated with flags == `query_search_mode::first_only`. Executes a query in first-only mode.
  *
  * \return Only the first record which matches the criteria in \p qry, or boost::none on failure or if none match.
+ *
+ * \relatesalso collection
  */
-template <> std::vector<char> collection::execute_query<query_search_mode::first_only>(const query& qry) {
+template <>
+std::vector<char> execute_query_impl<query_search_mode::first_only>(std::weak_ptr<EJDB> m_db, EJCOLL* m_coll,
+                                                                    EJQ* qry) {
     if(m_coll == nullptr || !qry)
         return {};
-    assert(qry.m_qry);
 
     auto db = m_db.lock();
     if(!db)
         return {};
 
     uint32_t s{0u};
-    const auto list = c_ejdb::qryexecute(m_coll, qry.m_qry.get(), &s,
-                                         (std::underlying_type_t<query_search_mode>)query_search_mode::first_only);
+    const auto list =
+        c_ejdb::qryexecute(m_coll, qry, &s, (std::underlying_type_t<query_search_mode>)query_search_mode::first_only);
     if(list == nullptr || s == 0)
         return {};
     assert(s == static_cast<decltype(s)>(c_ejdb::qresultnum(list)));
@@ -652,29 +663,50 @@ template <> std::vector<char> collection::execute_query<query_search_mode::first
 }
 
 /*!
- * \brief execute_query<query_search_mode::count_only\|query_search_mode::first_only>.
+ * \brief Instantiated with flags == `query_search_mode::count_only | query_search_mode::first_only`.
  *        Executes a query in count-only mode, but only counts up to one (1).
  *
  * \return One (1) when at least one documents match the criteria in \p qry, otherwise zero (0).
+ *
+ * \relatesalso collection
  */
 template <>
-uint32_t collection::execute_query<query_search_mode::count_only | query_search_mode::first_only>(const query& qry) {
+uint32_t execute_query_impl<query_search_mode::count_only | query_search_mode::first_only>(std::weak_ptr<EJDB> m_db,
+                                                                                           EJCOLL* m_coll, EJQ* qry) {
     if(m_coll == nullptr || !qry)
         return 0;
-    assert(qry.m_qry);
 
     auto db = m_db.lock();
     if(!db)
         return 0;
 
     uint32_t s{0u};
-    const auto list = c_ejdb::qryexecute(
-        m_coll, qry.m_qry.get(), &s,
-        (std::underlying_type_t<query_search_mode>)(query_search_mode::count_only | query_search_mode::first_only));
+    const auto list =
+        c_ejdb::qryexecute(m_coll, qry, &s, (std::underlying_type_t<query_search_mode>)(query_search_mode::count_only |
+                                                                                        query_search_mode::first_only));
     if(list != nullptr)
         c_ejdb::qresultdispose(list);
     return s;
 }
+
+//! \sa execute_query_impl
+template <query_search_mode flags> detail::query_return_type<flags> collection::execute_query(const query& qry) {
+    return execute_query_impl<flags>(m_db, m_coll, qry.m_qry.get());
+}
+
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+template detail::query_return_type<query_search_mode::normal>
+collection::execute_query<query_search_mode::normal>(const query& qry);
+
+template detail::query_return_type<query_search_mode::count_only>
+collection::execute_query<query_search_mode::count_only>(const query& qry);
+
+template detail::query_return_type<query_search_mode::first_only>
+collection::execute_query<query_search_mode::first_only>(const query& qry);
+
+template detail::query_return_type<query_search_mode::count_only | query_search_mode::first_only>
+collection::execute_query<query_search_mode::count_only | query_search_mode::first_only>(const query& qry);
+#endif // DOXYGEN_SHOULD_SKIP_THIS
 
 std::vector<std::vector<char>> collection::get_all() {
     auto db = m_db.lock();

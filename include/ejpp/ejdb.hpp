@@ -388,16 +388,16 @@ struct EJPP_EXPORT collection final {
     transaction_t m_transaction{this};
 };
 
-template <>
-EJPP_EXPORT std::vector<std::vector<char>> collection::execute_query<query_search_mode::normal>(const query& qry);
-
-template <> EJPP_EXPORT uint32_t collection::execute_query<query_search_mode::count_only>(const query& qry);
-
-template <> EJPP_EXPORT std::vector<char> collection::execute_query<query_search_mode::first_only>(const query& qry);
-
-template <>
-EJPP_EXPORT uint32_t
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+extern template EJPP_EXPORT detail::query_return_type<query_search_mode::normal>
+collection::execute_query<query_search_mode::normal>(const query& qry);
+extern template EJPP_EXPORT detail::query_return_type<query_search_mode::count_only>
+collection::execute_query<query_search_mode::count_only>(const query& qry);
+extern template EJPP_EXPORT detail::query_return_type<query_search_mode::first_only>
+collection::execute_query<query_search_mode::first_only>(const query& qry);
+extern template EJPP_EXPORT detail::query_return_type<query_search_mode::count_only | query_search_mode::first_only>
 collection::execute_query<query_search_mode::count_only | query_search_mode::first_only>(const query& qry);
+#endif // DOXYGEN_SHOULD_SKIP_THIS
 
 /*!
  * \brief Class representing an EJDB query.
