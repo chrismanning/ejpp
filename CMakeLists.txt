@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 2.8.11)
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-option(EJPP_ENABLE_TESTING "Enable ejpp testing" ON)
+option(EJPP_ENABLE_TESTING "Enable ejpp testing" OFF)
 option(EJPP_SANITIZE_ADDRESS "Use -fsanitize=address where available" OFF)
 option(EJPP_LEAK_CHECKER "Enable memory leak checking where available" OFF)
 
