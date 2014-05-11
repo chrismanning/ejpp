@@ -90,6 +90,63 @@ uint32_t has_result = my_coll.execute_query<query_search_mode::first_only|query_
 
 ## Transactions {#trans}
 
+EJDB supports transactions at the collection level, and ejpp wraps this functionality via the class `ejdb::collection::transaction_t`, which is contained within each `ejdb::collection`.
+This class alone provides no additional safety features, though with the help of `ejdb::transaction_guard` and `ejdb::unique_transaction` ejpp provides exception safety using RAII. `ejdb::transaction_guard` and `ejdb::unique_transaction` are mostly modelled after `std::lock_guard` and `std::unique_lock`, respectively.
+
+~~~cpp
+#include <ejpp/ejdb.hpp>
+using namespace ejdb;
+#include <jbson/document.hpp>
+#include <jbson/json_reader.hpp>
+using namespace jbson::literal;
+
+db my_db;
+my_db.open("my_db", db_mode::read | db_mode::write);
+assert(my_db.is_open());
+
+collection my_coll = my_db.get_collection("my_coll");
+assert(my_coll);
+
+using oid_t = std::array<char, 12>;
+
+oid_t oid;
+
+{
+    // Commits at scope exit, or aborts when an exception is thrown.
+    // Cannot be manually committed or aborted.
+    transaction_guard gu(my_coll.transaction());
+    oid = my_coll.save_document(R"({"some other key": "some other value"})"_json_doc.data());
+}
+
+assert(!my_coll.load_document(oid).empty());
+
+try {
+    // Commits at scope exit, or aborts when an exception is thrown.
+    // Cannot be manually committed or aborted.
+    transaction_guard gu(my_coll.transaction());
+    oid = my_coll.save_document(R"({"some other key": "some other value"})"_json_doc.data());
+    throw 0;
+}
+catch(...) {}
+
+assert(my_coll.load_document(oid).empty());
+
+// Can be manually committed or aborted.
+unique_transaction ut(my_coll.transaction());
+oid = my_coll.save_document(R"({"some other key": "some other value"})"_json_doc.data());
+ut.commit();
+
+assert(!my_coll.load_document(oid).empty());
+
+// Rebindable.
+ut = unique_transaction(my_coll.transaction());
+oid = my_coll.save_document(R"({"some other key": "some other value"})"_json_doc.data());
+ut.abort();
+
+assert(my_coll.load_document(oid).empty());
+
+~~~
+
 # Installation {#install}
 
 ## Requirements {#reqs}
