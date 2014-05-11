@@ -137,7 +137,58 @@ Queries</h2>
 <div class="line">uint32_t has_result = my_coll.execute_query&lt;<a class="code" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75aa7190158c163d646ef94aa64518ad4e3">query_search_mode::first_only</a>|<a class="code" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75ab2794163428de72debe5efeca32f33f8">query_search_mode::count_only</a>&gt;(qry);</div>
 </div><!-- fragment --><h2><a class="anchor" id="trans"></a>
 Transactions</h2>
-<h1><a class="anchor" id="install"></a>
+<p>EJDB supports transactions at the collection level, and ejpp wraps this functionality via the class <code><a class="el" href="structejdb_1_1collection_1_1transaction__t.html" title="Represents an EJDB transaction. ">ejdb::collection::transaction_t</a></code>, which is contained within each <code><a class="el" href="structejdb_1_1collection.html" title="Class representing an EJDB collection. ">ejdb::collection</a></code>. This class alone provides no additional safety features, though with the help of <code><a class="el" href="structejdb_1_1transaction__guard.html" title="Simple collection::transaction_t wrapper for exception safe operation using RAII ">ejdb::transaction_guard</a></code> and <code><a class="el" href="structejdb_1_1unique__transaction.html" title="Defines an exception-safe wrapper around collection::transaction_t with unique ownership. ">ejdb::unique_transaction</a></code> ejpp provides exception safety using RAII. <code><a class="el" href="structejdb_1_1transaction__guard.html" title="Simple collection::transaction_t wrapper for exception safe operation using RAII ">ejdb::transaction_guard</a></code> and <code><a class="el" href="structejdb_1_1unique__transaction.html" title="Defines an exception-safe wrapper around collection::transaction_t with unique ownership. ">ejdb::unique_transaction</a></code> are mostly modelled after <code>std::lock_guard</code> and <code>std::unique_lock</code>, respectively.</p>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;ejpp/ejdb.hpp&gt;</span></div>
+<div class="line"><span class="keyword">using namespace </span>ejdb;</div>
+<div class="line"><span class="preprocessor">#include &lt;jbson/document.hpp&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;jbson/json_reader.hpp&gt;</span></div>
+<div class="line"><span class="keyword">using namespace </span>jbson::literal;</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="structejdb_1_1db.html">db</a> my_db;</div>
+<div class="line">my_db.<a class="code" href="structejdb_1_1db.html#aef17315c461f36b3be3afd31141c98ff">open</a>(<span class="stringliteral">&quot;my_db&quot;</span>, <a class="code" href="namespaceejdb.html#ad82ea1eca5597c7e71118e54011644d3aecae13117d6f0584c25a9da6c8f8415e">db_mode::read</a> | <a class="code" href="namespaceejdb.html#ad82ea1eca5597c7e71118e54011644d3aefb2a684e4afb7d55e6147fbe5a332ee">db_mode::write</a>);</div>
+<div class="line">assert(my_db.is_open());</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="structejdb_1_1collection.html">collection</a> my_coll = my_db.get_collection(<span class="stringliteral">&quot;my_coll&quot;</span>);</div>
+<div class="line">assert(my_coll);</div>
+<div class="line"></div>
+<div class="line"><span class="keyword">using</span> oid_t = std::array&lt;char, 12&gt;;</div>
+<div class="line"></div>
+<div class="line">oid_t oid;</div>
+<div class="line"></div>
+<div class="line">{</div>
+<div class="line">    <span class="comment">// Commits at scope exit, or aborts when an exception is thrown.</span></div>
+<div class="line">    <span class="comment">// Cannot be manually committed or aborted.</span></div>
+<div class="line">    <a class="code" href="structejdb_1_1transaction__guard.html">transaction_guard</a> gu(my_coll.transaction());</div>
+<div class="line">    oid = my_coll.save_document(R<span class="stringliteral">&quot;({&quot;some other key&quot;: &quot;some other value&quot;})&quot;_json_doc.data());</span></div>
+<div class="line"><span class="stringliteral">}</span></div>
+<div class="line"><span class="stringliteral"></span></div>
+<div class="line"><span class="stringliteral">assert(!my_coll.load_document(oid).empty());</span></div>
+<div class="line"><span class="stringliteral"></span></div>
+<div class="line"><span class="stringliteral"></span><span class="keywordflow">try</span> {</div>
+<div class="line">    <span class="comment">// Commits at scope exit, or aborts when an exception is thrown.</span></div>
+<div class="line">    <span class="comment">// Cannot be manually committed or aborted.</span></div>
+<div class="line">    <a class="code" href="structejdb_1_1transaction__guard.html">transaction_guard</a> gu(my_coll.transaction());</div>
+<div class="line">    oid = my_coll.save_document(R<span class="stringliteral">&quot;({&quot;some other key&quot;: &quot;some other value&quot;})&quot;_json_doc.data());</span></div>
+<div class="line"><span class="stringliteral">    </span><span class="keywordflow">throw</span> 0;</div>
+<div class="line">}</div>
+<div class="line"><span class="keywordflow">catch</span>(...) {}</div>
+<div class="line"></div>
+<div class="line">assert(my_coll.load_document(oid).empty());</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// Can be manually committed or aborted.</span></div>
+<div class="line"><a class="code" href="structejdb_1_1unique__transaction.html">unique_transaction</a> ut(my_coll.transaction());</div>
+<div class="line">oid = my_coll.save_document(R<span class="stringliteral">&quot;({&quot;some other key&quot;: &quot;some other value&quot;})&quot;_json_doc.data());</span></div>
+<div class="line"><span class="stringliteral">ut.<a class="code" href="structejdb_1_1unique__transaction.html#a21f3584223b39db7951a14835f8a611e">commit</a>();</span></div>
+<div class="line"><span class="stringliteral"></span></div>
+<div class="line"><span class="stringliteral">assert(!my_coll.load_document(oid).empty());</span></div>
+<div class="line"><span class="stringliteral"></span></div>
+<div class="line"><span class="stringliteral"></span><span class="comment">// Rebindable.</span></div>
+<div class="line">ut = <a class="code" href="structejdb_1_1unique__transaction.html">unique_transaction</a>(my_coll.transaction());</div>
+<div class="line">oid = my_coll.save_document(R<span class="stringliteral">&quot;({&quot;some other key&quot;: &quot;some other value&quot;})&quot;_json_doc.data());</span></div>
+<div class="line"><span class="stringliteral">ut.<a class="code" href="structejdb_1_1unique__transaction.html#aab4261f4ffcf12e48cac300c3591839a">abort</a>();</span></div>
+<div class="line"><span class="stringliteral"></span></div>
+<div class="line"><span class="stringliteral">assert(my_coll.load_document(oid).empty());</span></div>
+</div><!-- fragment --><h1><a class="anchor" id="install"></a>
 Installation</h1>
 <h2><a class="anchor" id="reqs"></a>
 Requirements</h2>
