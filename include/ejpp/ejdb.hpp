@@ -70,7 +70,7 @@ enum class db_mode {
 
 //! Allow bitwise-OR of db_mode.
 constexpr inline db_mode operator|(db_mode lhs, db_mode rhs) noexcept {
-    return (db_mode)((std::underlying_type_t<db_mode>)lhs | (std::underlying_type_t<db_mode>)rhs);
+    return (db_mode)((std::underlying_type<db_mode>::type)lhs | (std::underlying_type<db_mode>::type)rhs);
 }
 
 //! Allow bitwise-OR-assign of db_mode.
@@ -90,7 +90,7 @@ enum class index_mode {
 
 //! Allow bitwise-OR of index_mode.
 constexpr inline index_mode operator|(index_mode lhs, index_mode rhs) noexcept {
-    return (index_mode)((std::underlying_type_t<index_mode>)lhs | (std::underlying_type_t<index_mode>)rhs);
+    return (index_mode)((std::underlying_type<index_mode>::type)lhs | (std::underlying_type<index_mode>::type)rhs);
 }
 
 //! Allow bitwise-OR-assign of index_mode.
@@ -105,8 +105,8 @@ enum class query_search_mode {
 
 //! Allow bitwise-OR of query_search_mode.
 constexpr inline query_search_mode operator|(query_search_mode lhs, query_search_mode rhs) noexcept {
-    return (query_search_mode)((std::underlying_type_t<query_search_mode>)lhs |
-                               (std::underlying_type_t<query_search_mode>)rhs);
+    return (query_search_mode)((std::underlying_type<query_search_mode>::type)lhs |
+                               (std::underlying_type<query_search_mode>::type)rhs);
 }
 
 //! Allow bitwise-OR-assign of query_search_mode.
@@ -116,8 +116,8 @@ constexpr inline query_search_mode& operator|=(query_search_mode& lhs, query_sea
 
 //! Allow bitwise-AND of query_search_mode.
 constexpr inline query_search_mode operator&(query_search_mode lhs, query_search_mode rhs) noexcept {
-    return (query_search_mode)((std::underlying_type_t<query_search_mode>)lhs &
-                               (std::underlying_type_t<query_search_mode>)rhs);
+    return (query_search_mode)((std::underlying_type<query_search_mode>::type)lhs &
+                               (std::underlying_type<query_search_mode>::type)rhs);
 }
 
 //! Allow bitwise-AND-assign of query_search_mode.
@@ -265,10 +265,10 @@ namespace detail {
  * \brief Determine the correct return type for query flags.
  */
 template <query_search_mode flags>
-using query_return_type =
-    std::conditional_t<(flags & query_search_mode::count_only) == query_search_mode::count_only, uint32_t,
-                       std::conditional_t<(flags & query_search_mode::first_only) == query_search_mode::first_only,
-                                          std::vector<char>, std::vector<std::vector<char>>>>;
+using query_return_type = typename std::conditional<
+    (flags & query_search_mode::count_only) == query_search_mode::count_only, uint32_t,
+    typename std::conditional<(flags & query_search_mode::first_only) == query_search_mode::first_only,
+                              std::vector<char>, std::vector<std::vector<char>>>::type>::type;
 }
 
 /*!

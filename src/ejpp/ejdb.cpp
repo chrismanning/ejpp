@@ -21,7 +21,6 @@
 
 #include <array>
 #include <string>
-using namespace std::literals;
 
 #include <boost/optional.hpp>
 #include <boost/range/adaptor/transformed.hpp>
@@ -71,7 +70,7 @@ std::error_code db::error(std::weak_ptr<EJDB> db) noexcept {
  */
 bool db::open(const std::string& path, db_mode mode, std::error_code& ec) {
     m_db = {c_ejdb::newdb(), ejdb_deleter()};
-    const auto r = m_db && c_ejdb::open(m_db.get(), path.c_str(), (std::underlying_type_t<db_mode>)mode);
+    const auto r = m_db && c_ejdb::open(m_db.get(), path.c_str(), (std::underlying_type<db_mode>::type)mode);
     if(!r)
         ec = error();
     return r;
@@ -149,7 +148,7 @@ collection db::get_collection(const std::string& name) const {
     std::error_code ec;
     auto coll = get_collection(name, ec);
     if(ec)
-        throw std::system_error(ec, "could not get collection "s + name);
+        throw std::system_error(ec, std::string("could not get collection ") + name);
     return coll;
 }
 
@@ -180,7 +179,7 @@ collection db::create_collection(const std::string& name) {
     auto coll = create_collection(name, ec);
     assert(static_cast<bool>(coll) == !ec);
     if(ec)
-        throw std::system_error(ec, "could not get/create collection "s + name);
+        throw std::system_error(ec, std::string("could not get/create collection ") + name);
     return coll;
 }
 
@@ -207,7 +206,7 @@ void db::remove_collection(const std::string& name, bool unlink_file) {
     std::error_code ec;
     remove_collection(name, unlink_file, ec);
     if(ec)
-        throw std::system_error(ec, "could not remove collection "s + name);
+        throw std::system_error(ec, std::string("could not remove collection ") + name);
 }
 
 const std::vector<collection> db::get_collections() const {
@@ -540,7 +539,7 @@ bool collection::set_index(const std::string& ipath, index_mode flags, std::erro
         ec = std::make_error_code(std::errc::operation_not_permitted);
         return false;
     }
-    const auto r = c_ejdb::setindex(m_coll, ipath.c_str(), (std::underlying_type_t<index_mode>)flags);
+    const auto r = c_ejdb::setindex(m_coll, ipath.c_str(), (std::underlying_type<index_mode>::type)flags);
     if(!r)
         ec = db::error(m_db);
     return r;
@@ -559,7 +558,7 @@ void collection::set_index(const std::string& ipath, index_mode flags) {
     (void)r;
     assert(static_cast<bool>(r) == !ec);
     if(ec)
-        throw std::system_error(ec, "could not set index for field "s + ipath);
+        throw std::system_error(ec, std::string("could not set index for field ") + ipath);
 }
 
 template <query_search_mode flags>
@@ -622,8 +621,8 @@ uint32_t execute_query_impl<query_search_mode::count_only>(std::weak_ptr<EJDB> m
         return 0;
 
     uint32_t s{0u};
-    const auto list =
-        c_ejdb::qryexecute(m_coll, qry, &s, (std::underlying_type_t<query_search_mode>)query_search_mode::count_only);
+    const auto list = c_ejdb::qryexecute(m_coll, qry, &s,
+                                         (std::underlying_type<query_search_mode>::type)query_search_mode::count_only);
     if(list != nullptr)
         c_ejdb::qresultdispose(list);
     return s;
@@ -647,8 +646,8 @@ std::vector<char> execute_query_impl<query_search_mode::first_only>(std::weak_pt
         return {};
 
     uint32_t s{0u};
-    const auto list =
-        c_ejdb::qryexecute(m_coll, qry, &s, (std::underlying_type_t<query_search_mode>)query_search_mode::first_only);
+    const auto list = c_ejdb::qryexecute(m_coll, qry, &s,
+                                         (std::underlying_type<query_search_mode>::type)query_search_mode::first_only);
     if(list == nullptr || s == 0)
         return {};
     assert(s == static_cast<decltype(s)>(c_ejdb::qresultnum(list)));
@@ -681,9 +680,9 @@ uint32_t execute_query_impl<query_search_mode::count_only | query_search_mode::f
         return 0;
 
     uint32_t s{0u};
-    const auto list =
-        c_ejdb::qryexecute(m_coll, qry, &s, (std::underlying_type_t<query_search_mode>)(query_search_mode::count_only |
-                                                                                        query_search_mode::first_only));
+    const auto list = c_ejdb::qryexecute(
+        m_coll, qry, &s,
+        (std::underlying_type<query_search_mode>::type)(query_search_mode::count_only | query_search_mode::first_only));
     if(list != nullptr)
         c_ejdb::qresultdispose(list);
     return s;
