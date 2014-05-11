@@ -68,7 +68,7 @@ Rationale</h1>
 <p>While the C library is indeed usable from C++, its usage is far from idiomatic. ejpp provides a safe and modern C++ interface, taking advantage of many C++ language and library features such as exceptions, RAII, reference counted memory management, containers, and more.</p>
 <h1><a class="anchor" id="usage"></a>
 Usage</h1>
-<p>ejpp has three main classes, <code><a class="el" href="structejdb_1_1db.html" title="Main point of access to EJDB. ">ejdb::db</a></code>, <code><a class="el" href="structejdb_1_1collection.html" title="Class representing an EJDB collection. ">ejdb::collection</a></code>, and <code><a class="el" href="structejdb_1_1query.html" title="Class representing an EJDB query. ">ejdb::query</a></code>, which correspond to the opaque types <code>EJDB</code>, <code>EJCOLL</code>, and <code>EJQ</code>, respectively. Valid <code><a class="el" href="structejdb_1_1collection.html" title="Class representing an EJDB collection. ">ejdb::collection</a></code> and <code><a class="el" href="structejdb_1_1query.html" title="Class representing an EJDB query. ">ejdb::query</a></code> objects can only be created via <code><a class="el" href="structejdb_1_1db.html" title="Main point of access to EJDB. ">ejdb::db</a></code>, though they are default constructible.</p>
+<p>ejpp has three main classes, <code><a class="el" href="structejdb_1_1db.html" title="Main point of access to EJDB. ">ejdb::db</a></code>, <code><a class="el" href="structejdb_1_1collection.html" title="Class representing an EJDB collection. ">ejdb::collection</a></code>, and <code><a class="el" href="structejdb_1_1query.html" title="Class representing an EJDB query. ">ejdb::query</a></code>, which correspond to the opaque types <code>EJDB</code>, <code>EJCOLL</code>, and <code>EJQ</code>, respectively. Valid <code><a class="el" href="structejdb_1_1collection.html" title="Class representing an EJDB collection. ">ejdb::collection</a></code> and <code><a class="el" href="structejdb_1_1query.html" title="Class representing an EJDB query. ">ejdb::query</a></code> objects can only be created via <code><a class="el" href="structejdb_1_1db.html" title="Main point of access to EJDB. ">ejdb::db</a></code>; their default, or ill-constructed forms will give errors when attempting to perform operations on them.</p>
 <p>ejpp does not impose a specific form of BSON data other than <code>std::vector&lt;char&gt;</code> so that it can be used with your favourite BSON library.</p>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;ejpp/ejdb.hpp&gt;</span></div>
 <div class="line"><span class="keyword">using namespace </span>ejdb;</div>
@@ -100,10 +100,42 @@ Usage</h1>
 <div class="line"><span class="keyword">auto</span> it = doc.find(<span class="stringliteral">&quot;some key&quot;</span>);</div>
 <div class="line">assert(it != doc.end());</div>
 <div class="line">assert(it-&gt;value&lt;<a class="code" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694ab45cffe084dd3d20d928bee85e7b0f21">std::string</a>&gt;() == <span class="stringliteral">&quot;some value&quot;</span>);</div>
-</div><!-- fragment --><p> Many ejpp functions offer throwing and non-throwing overloads. Non-throwing overloads take a extra parameter, a non-const reference to a <code>std::error_code</code>.</p>
+</div><!-- fragment --><p> Many ejpp functions offer throwing and non-throwing overloads. Non-throwing overloads take an extra parameter, a non-const lvalue reference to a <code>std::error_code</code>.</p>
 <h2><a class="anchor" id="qry"></a>
 Queries</h2>
-<h2><a class="anchor" id="trans"></a>
+<p>Queries are handled in much the same way as EJDB. A <code><a class="el" href="structejdb_1_1query.html" title="Class representing an EJDB query. ">ejdb::query</a></code> object is created from a BSON document, and can then be manipulated (add hints, <code>$or</code> or <code>$and</code> conditions) and executed. Queries can be executed with several different flags which will change the behaviour and return type of the query result.</p>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;ejpp/ejdb.hpp&gt;</span></div>
+<div class="line"><span class="keyword">using namespace </span>ejdb;</div>
+<div class="line"><span class="preprocessor">#include &lt;jbson/document.hpp&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;jbson/json_reader.hpp&gt;</span></div>
+<div class="line"><span class="keyword">using namespace </span>jbson::literal;</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="structejdb_1_1db.html">db</a> my_db;</div>
+<div class="line">my_db.<a class="code" href="structejdb_1_1db.html#aef17315c461f36b3be3afd31141c98ff">open</a>(<span class="stringliteral">&quot;my_db&quot;</span>, <a class="code" href="namespaceejdb.html#ad82ea1eca5597c7e71118e54011644d3aecae13117d6f0584c25a9da6c8f8415e">db_mode::read</a> | <a class="code" href="namespaceejdb.html#ad82ea1eca5597c7e71118e54011644d3aefb2a684e4afb7d55e6147fbe5a332ee">db_mode::write</a>);</div>
+<div class="line">assert(my_db.is_open());</div>
+<div class="line"></div>
+<div class="line"><a class="code" href="structejdb_1_1collection.html">collection</a> my_coll = my_db.get_collection(<span class="stringliteral">&quot;my_coll&quot;</span>);</div>
+<div class="line">assert(my_coll);</div>
+<div class="line"></div>
+<div class="line">std::vector&lt;char&gt; bson_qry = R<span class="stringliteral">&quot;({&quot;some key&quot;: { &quot;$begin&quot;: &quot;some v&quot; }})&quot;_json_doc.data();</span></div>
+<div class="line"><span class="stringliteral"></span></div>
+<div class="line"><span class="stringliteral"></span><span class="keyword">auto</span> qry = my_db.create_query(bson_qry)</div>
+<div class="line">                .set_hints(R<span class="stringliteral">&quot;({&quot;$max&quot;: 4})&quot;_json_doc.data()); </span><span class="comment">// Return no more than 4 matches.</span></div>
+<div class="line"></div>
+<div class="line"><span class="comment">// Return all matches, limited by hints only.</span></div>
+<div class="line">std::vector&lt;std::vector&lt;char&gt;&gt; results = my_coll.execute_query(qry);</div>
+<div class="line"><span class="comment">// same as </span></div>
+<div class="line"><span class="comment">// std::vector&lt;std::vector&lt;char&gt;&gt; results = my_coll.execute_query&lt;query_search_mode::normal&gt;(qry);</span></div>
+<div class="line"></div>
+<div class="line"><span class="comment">// Just count the number of matches, don&#39;t bother assembling the documents. Handy for update queries.</span></div>
+<div class="line">uint32_t no_results = my_coll.execute_query&lt;<a class="code" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75ab2794163428de72debe5efeca32f33f8">query_search_mode::count_only</a>&gt;(qry);</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// Just return the first match. Empty vector on no matches.</span></div>
+<div class="line">std::vector&lt;char&gt; first_result = my_coll.execute_query&lt;<a class="code" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75aa7190158c163d646ef94aa64518ad4e3">query_search_mode::first_only</a>&gt;(qry);</div>
+<div class="line"></div>
+<div class="line"><span class="comment">// Count only up to a maximum of one.</span></div>
+<div class="line">uint32_t has_result = my_coll.execute_query&lt;<a class="code" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75aa7190158c163d646ef94aa64518ad4e3">query_search_mode::first_only</a>|<a class="code" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75ab2794163428de72debe5efeca32f33f8">query_search_mode::count_only</a>&gt;(qry);</div>
+</div><!-- fragment --><h2><a class="anchor" id="trans"></a>
 Transactions</h2>
 <h1><a class="anchor" id="install"></a>
 Installation</h1>
