@@ -73,6 +73,7 @@ foreach(CACHE_VAR ${CACHE_VARS})
   endif()
 endforeach()
 
+if(${EJPP_ENABLE_TESTING})
 include(ExternalProject)
 ExternalProject_Add(
     gtest_${PROJECT_NAME}
@@ -108,14 +109,13 @@ function(cxx_test test_name)
   add_test(${test_name} ${EXECUTABLE_OUTPUT_PATH}/${test_name})
 endfunction()
 
-if(${EJPP_ENABLE_TESTING})
 cxx_test(api_test)
 
 cxx_test(ejpp_test1)
 cxx_test(ejpp_test2)
 cxx_test(ejpp_test3)
 #cxx_test(ejpp_test4)
-endif()
+endif(${EJPP_ENABLE_TESTING})
 
 install(TARGETS ejpp ejpp-static
     LIBRARY DESTINATION lib${EJPP_LIBDIR_SUFFIX}
