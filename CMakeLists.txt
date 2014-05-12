@@ -120,7 +120,7 @@ endif()
 install(TARGETS ejpp ejpp-static
     LIBRARY DESTINATION lib${EJPP_LIBDIR_SUFFIX}
     ARCHIVE DESTINATION lib${EJPP_LIBDIR_SUFFIX})
-install(DIRECTORY include/ejpp DESTINATION include/ejpp)
+install(DIRECTORY include/ejpp DESTINATION include)
 
 find_package(Doxygen)
 
