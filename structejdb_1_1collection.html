@@ -81,7 +81,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:ae69d79b2c745df1370bc88e84948a513"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor. Results in an invalid collection, not associated with a db. <br /></td></tr>
 <tr class="separator:ae69d79b2c745df1370bc88e84948a513"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a703e3f0c2779e404f460b1fb92e09f00"><td class="memTemplParams" colspan="2">template&lt;query_search_mode flags = query_search_mode::normal&gt; </td></tr>
-<tr class="memitem:a703e3f0c2779e404f460b1fb92e09f00"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespaceejdb_1_1detail.html#a27ab877cb0f28061f4e141d3a0af4440">detail::query_return_type</a>&lt; flags &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structejdb_1_1collection.html#a703e3f0c2779e404f460b1fb92e09f00">execute_query</a> (const <a class="el" href="structejdb_1_1query.html">query</a> &amp;)</td></tr>
+<tr class="memitem:a703e3f0c2779e404f460b1fb92e09f00"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespaceejdb_1_1detail.html#aa633dacd336f5a09c8c6009c60794e1e">detail::query_return_type</a>&lt; flags &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structejdb_1_1collection.html#a703e3f0c2779e404f460b1fb92e09f00">execute_query</a> (const <a class="el" href="structejdb_1_1query.html">query</a> &amp;)</td></tr>
 <tr class="memdesc:a703e3f0c2779e404f460b1fb92e09f00"><td class="mdescLeft">&#160;</td><td class="mdescRight">Executes a query on the collection.  <a href="#a703e3f0c2779e404f460b1fb92e09f00">More...</a><br /></td></tr>
 <tr class="separator:a703e3f0c2779e404f460b1fb92e09f00"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae083413c5fa906e7c41e31bf1b2cd310"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae083413c5fa906e7c41e31bf1b2cd310"></a>
@@ -108,14 +108,14 @@ std::vector&lt; std::vector&lt; char &gt; &gt;&#160;</td><td class="memItemRight
 <tr class="memitem:a0ba57b4cc2db9a9805bf671ea9968604"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1collection.html#a0ba57b4cc2db9a9805bf671ea9968604">remove_document</a> (<a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694af1f713c9e000f5d3f280adbd124df4f5">std::array</a>&lt; char, 12 &gt;)</td></tr>
 <tr class="memdesc:a0ba57b4cc2db9a9805bf671ea9968604"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a document from the collection.  <a href="#a0ba57b4cc2db9a9805bf671ea9968604">More...</a><br /></td></tr>
 <tr class="separator:a0ba57b4cc2db9a9805bf671ea9968604"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae3d36a16b37fc0d3a21e8b7a490aea30"><td class="memItemLeft" align="right" valign="top">boost::optional&lt; <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694af1f713c9e000f5d3f280adbd124df4f5">std::array</a><br class="typebreak" />
-&lt; char, 12 &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1collection.html#ae3d36a16b37fc0d3a21e8b7a490aea30">save_document</a> (const std::vector&lt; char &gt; &amp;data, std::error_code &amp;ec)</td></tr>
-<tr class="memdesc:ae3d36a16b37fc0d3a21e8b7a490aea30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Saves a document to the collection, overwriting an existing, matching document.  <a href="#ae3d36a16b37fc0d3a21e8b7a490aea30">More...</a><br /></td></tr>
-<tr class="separator:ae3d36a16b37fc0d3a21e8b7a490aea30"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3669e1083c0704ebdf27bcd474875518"><td class="memItemLeft" align="right" valign="top">boost::optional&lt; <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694af1f713c9e000f5d3f280adbd124df4f5">std::array</a><br class="typebreak" />
-&lt; char, 12 &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1collection.html#a3669e1083c0704ebdf27bcd474875518">save_document</a> (const std::vector&lt; char &gt; &amp;data, bool merge, std::error_code &amp;ec)</td></tr>
-<tr class="memdesc:a3669e1083c0704ebdf27bcd474875518"><td class="mdescLeft">&#160;</td><td class="mdescRight">Saves a document to the collection, optionally merging with an existing, matching document.  <a href="#a3669e1083c0704ebdf27bcd474875518">More...</a><br /></td></tr>
-<tr class="separator:a3669e1083c0704ebdf27bcd474875518"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5bee3ba0f4df97564dc15469dbb7f84c"><td class="memItemLeft" align="right" valign="top">std::experimental::optional<br class="typebreak" />
+&lt; <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694af1f713c9e000f5d3f280adbd124df4f5">std::array</a>&lt; char, 12 &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1collection.html#a5bee3ba0f4df97564dc15469dbb7f84c">save_document</a> (const std::vector&lt; char &gt; &amp;data, std::error_code &amp;ec)</td></tr>
+<tr class="memdesc:a5bee3ba0f4df97564dc15469dbb7f84c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Saves a document to the collection, overwriting an existing, matching document.  <a href="#a5bee3ba0f4df97564dc15469dbb7f84c">More...</a><br /></td></tr>
+<tr class="separator:a5bee3ba0f4df97564dc15469dbb7f84c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a751d12ad2cbdc49038328fa141a4cbca"><td class="memItemLeft" align="right" valign="top">std::experimental::optional<br class="typebreak" />
+&lt; <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694af1f713c9e000f5d3f280adbd124df4f5">std::array</a>&lt; char, 12 &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1collection.html#a751d12ad2cbdc49038328fa141a4cbca">save_document</a> (const std::vector&lt; char &gt; &amp;data, bool merge, std::error_code &amp;ec)</td></tr>
+<tr class="memdesc:a751d12ad2cbdc49038328fa141a4cbca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Saves a document to the collection, optionally merging with an existing, matching document.  <a href="#a751d12ad2cbdc49038328fa141a4cbca">More...</a><br /></td></tr>
+<tr class="separator:a751d12ad2cbdc49038328fa141a4cbca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a54d875e16bbb4b588afba2ab6f521cde"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694af1f713c9e000f5d3f280adbd124df4f5">std::array</a>&lt; char, 12 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1collection.html#a54d875e16bbb4b588afba2ab6f521cde">save_document</a> (const std::vector&lt; char &gt; &amp;data, bool merge=false)</td></tr>
 <tr class="separator:a54d875e16bbb4b588afba2ab6f521cde"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2af308a1d485187ce108bb3953a4310b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structejdb_1_1collection.html#a2af308a1d485187ce108bb3953a4310b">set_index</a> (const <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694ab45cffe084dd3d20d928bee85e7b0f21">std::string</a> &amp;ipath, <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694">index_mode</a> flags, std::error_code &amp;ec)</td></tr>
@@ -174,7 +174,7 @@ Related Functions</h2></td></tr>
 template&lt;query_search_mode flags&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespaceejdb_1_1detail.html#a27ab877cb0f28061f4e141d3a0af4440">detail::query_return_type</a>&lt; flags &gt; ejdb::collection::execute_query </td>
+          <td class="memname"><a class="el" href="namespaceejdb_1_1detail.html#aa633dacd336f5a09c8c6009c60794e1e">detail::query_return_type</a>&lt; flags &gt; ejdb::collection::execute_query </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="structejdb_1_1query.html">query</a> &amp;&#160;</td>
           <td class="paramname"><em>qry</em></td><td>)</td>
@@ -190,7 +190,7 @@ template&lt;query_search_mode flags&gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceejdb_1_1detail.html#a27ab877cb0f28061f4e141d3a0af4440" title="Determine the correct return type for query flags. ">detail::query_return_type</a></dd>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="namespaceejdb_1_1detail.html#aa633dacd336f5a09c8c6009c60794e1e" title="Determine the correct return type for query flags. ">detail::query_return_type</a></dd>
 <dd>
 <a class="el" href="structejdb_1_1collection.html#a9b47fa9dee2b4637504767b0b9f9b8e8" title="Instantiated with flags == query_search_mode::normal. Executes a query in normal mode. ">execute_query_impl</a> </dd></dl>
 
@@ -337,12 +337,12 @@ template&lt;query_search_mode flags&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="ae3d36a16b37fc0d3a21e8b7a490aea30"></a>
+<a class="anchor" id="a5bee3ba0f4df97564dc15469dbb7f84c"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">boost::optional&lt; <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694af1f713c9e000f5d3f280adbd124df4f5">std::array</a>&lt; char, 12 &gt; &gt; ejdb::collection::save_document </td>
+          <td class="memname">std::experimental::optional&lt; <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694af1f713c9e000f5d3f280adbd124df4f5">std::array</a>&lt; char, 12 &gt; &gt; ejdb::collection::save_document </td>
           <td>(</td>
           <td class="paramtype">const std::vector&lt; char &gt; &amp;&#160;</td>
           <td class="paramname"><em>data</em>, </td>
@@ -362,7 +362,7 @@ template&lt;query_search_mode flags&gt; </div>
 </div><div class="memdoc">
 
 <p>Saves a document to the collection, overwriting an existing, matching document. </p>
-<p><a class="el" href="structejdb_1_1collection.html#ae3d36a16b37fc0d3a21e8b7a490aea30" title="Saves a document to the collection, overwriting an existing, matching document. ">collection::save_document</a></p>
+<p><a class="el" href="structejdb_1_1collection.html#a5bee3ba0f4df97564dc15469dbb7f84c" title="Saves a document to the collection, overwriting an existing, matching document. ">collection::save_document</a></p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir"></td><td class="paramname">data</td><td>BSON document to be saved. </td></tr>
@@ -370,16 +370,16 @@ template&lt;query_search_mode flags&gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>OID of saved document on success, boost::none on failure. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>OID of saved document on success, std::experimental::nullopt on failure. </dd></dl>
 
 </div>
 </div>
-<a class="anchor" id="a3669e1083c0704ebdf27bcd474875518"></a>
+<a class="anchor" id="a751d12ad2cbdc49038328fa141a4cbca"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">boost::optional&lt; <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694af1f713c9e000f5d3f280adbd124df4f5">std::array</a>&lt; char, 12 &gt; &gt; ejdb::collection::save_document </td>
+          <td class="memname">std::experimental::optional&lt; <a class="el" href="namespaceejdb.html#ad717f714fc1b88575d9f2131b5ae8694af1f713c9e000f5d3f280adbd124df4f5">std::array</a>&lt; char, 12 &gt; &gt; ejdb::collection::save_document </td>
           <td>(</td>
           <td class="paramtype">const std::vector&lt; char &gt; &amp;&#160;</td>
           <td class="paramname"><em>doc</em>, </td>
@@ -413,7 +413,7 @@ template&lt;query_search_mode flags&gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>OID of saved document on success, boost::none on failure. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>OID of saved document on success, std::experimental::nullopt on failure. </dd></dl>
 
 </div>
 </div>
@@ -712,7 +712,7 @@ template&lt;query_search_mode flags&gt; </div>
 </div><div class="memdoc">
 
 <p>Instantiated with flags == <code><a class="el" href="namespaceejdb.html#aceb78f5b01de913fbdc2656029276a75aa7190158c163d646ef94aa64518ad4e3" title="Fetch first record only. ">query_search_mode::first_only</a></code>. Executes a query in first-only mode. </p>
-<dl class="section return"><dt>Returns</dt><dd>Only the first record which matches the criteria in <code>qry</code>, or boost::none on failure or if none match. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Only the first record which matches the criteria in <code>qry</code>, or std::experimental::nullopt on failure or if none match. </dd></dl>
 
 </div>
 </div>
