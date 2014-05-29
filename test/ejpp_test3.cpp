@@ -400,7 +400,7 @@ TEST_F(EjdbTest3, testTransactions1) {
 
         auto o_oid = coll.save_document(bs.data(), ec);
         EXPECT_FALSE(ec);
-        ASSERT_TRUE(o_oid);
+        ASSERT_TRUE(static_cast<bool>(o_oid));
 
         ASSERT_FALSE(jb.error());
         ASSERT_NO_THROW(t.commit());
@@ -424,7 +424,7 @@ TEST_F(EjdbTest3, testTransactions1) {
         auto o_oid = coll.save_document(bs.data(), ec);
         EXPECT_TRUE(static_cast<bool>(coll));
         EXPECT_FALSE(ec);
-        ASSERT_TRUE(o_oid);
+        ASSERT_TRUE(static_cast<bool>(o_oid));
         oid = *o_oid;
 
         ASSERT_NO_THROW(t.abort());
@@ -450,7 +450,7 @@ TEST_F(EjdbTest3, testTransactions2) {
 
         auto o_oid = coll.save_document(bs.data(), ec);
         EXPECT_FALSE(ec);
-        ASSERT_TRUE(o_oid);
+        ASSERT_TRUE(static_cast<bool>(o_oid));
 
         oid = *o_oid;
     }
@@ -470,7 +470,7 @@ TEST_F(EjdbTest3, testTransactions2) {
         auto o_oid = coll.save_document(bs.data(), ec);
         EXPECT_TRUE(static_cast<bool>(coll));
         EXPECT_FALSE(ec);
-        ASSERT_TRUE(o_oid);
+        ASSERT_TRUE(static_cast<bool>(o_oid));
         oid = *o_oid;
 
         ASSERT_NO_THROW(u_trans.abort());
@@ -495,7 +495,7 @@ TEST_F(EjdbTest3, testTransactions3) {
 
         auto o_oid = coll.save_document(bs.data(), ec);
         EXPECT_FALSE(ec);
-        ASSERT_TRUE(o_oid);
+        ASSERT_TRUE(static_cast<bool>(o_oid));
 
         oid = *o_oid;
     }
@@ -517,7 +517,7 @@ TEST_F(EjdbTest3, testTransactions3) {
 
         auto o_oid = coll.save_document(bs.data(), ec);
         EXPECT_FALSE(ec);
-        ASSERT_TRUE(o_oid);
+        ASSERT_TRUE(static_cast<bool>(o_oid));
 
         oid = *o_oid;
     }
@@ -534,7 +534,7 @@ TEST_F(EjdbTest3, testTransactions3) {
         auto o_oid = coll.save_document(bs.data(), ec);
         EXPECT_TRUE(static_cast<bool>(coll));
         EXPECT_FALSE(ec);
-        ASSERT_TRUE(o_oid);
+        ASSERT_TRUE(static_cast<bool>(o_oid));
         oid = *o_oid;
 
         throw 0;
@@ -552,7 +552,7 @@ TEST_F(EjdbTest3, testTransactions3) {
         auto o_oid = coll.save_document(bs.data(), ec);
         EXPECT_TRUE(static_cast<bool>(coll));
         EXPECT_FALSE(ec);
-        ASSERT_TRUE(o_oid);
+        ASSERT_TRUE(static_cast<bool>(o_oid));
         oid = *o_oid;
 
         throw 0;

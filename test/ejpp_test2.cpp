@@ -201,45 +201,45 @@ TEST_F(EjdbTest2, TestSetIndex1) {
 }
 
 template <typename T>
-static auto path_impl(T&&) -> boost::none_t {
-    return boost::none;
+static auto path_impl(T&&) -> std::experimental::nullopt_t {
+    return std::experimental::nullopt;
 }
 
 template <typename DocC, typename ElemC, typename... StringsT>
 static auto path_impl(const jbson::basic_array<DocC, ElemC>& doc,
                       boost::string_ref first, StringsT&&... strs) {
-    boost::optional<jbson::basic_element<ElemC>> ret;
+    std::experimental::optional<jbson::basic_element<ElemC>> ret;
     auto it = doc.find(boost::lexical_cast<size_t>(first));
     if(it == doc.end())
-        return ret = boost::none;
+        return ret = std::experimental::nullopt;
     if(sizeof...(StringsT) == 0)
         return ret = *it;
     if(it->type() == jbson::element_type::document_element)
         return ret = path_impl(jbson::get<jbson::element_type::document_element>(*it), std::forward<StringsT>(strs)...);
     else if(it->type() == jbson::element_type::array_element)
         return ret = path_impl(jbson::get<jbson::element_type::array_element>(*it), std::forward<StringsT>(strs)...);
-    return ret = boost::none;
+    return ret = std::experimental::nullopt;
 }
 
 template <typename DocC, typename ElemC, typename... StringsT>
 static auto path_impl(const jbson::basic_document<DocC, ElemC>& doc,
                       boost::string_ref first, StringsT&&... strs) {
-    boost::optional<jbson::basic_element<ElemC>> ret;
+    std::experimental::optional<jbson::basic_element<ElemC>> ret;
     auto it = doc.find(first);
     if(it == doc.end())
-        return ret = boost::none;
+        return ret = std::experimental::nullopt;
     if(sizeof...(StringsT) == 0)
         return ret = *it;
     if(it->type() == jbson::element_type::document_element)
         return ret = path_impl(jbson::get<jbson::element_type::document_element>(*it), std::forward<StringsT>(strs)...);
     else if(it->type() == jbson::element_type::array_element)
         return ret = path_impl(jbson::get<jbson::element_type::array_element>(*it), std::forward<StringsT>(strs)...);
-    return ret = boost::none;
+    return ret = std::experimental::nullopt;
 }
 
 template <typename DocC, typename ElemC, typename... StringsT>
 static auto path(const jbson::basic_document<DocC, ElemC>& doc, StringsT&&... strs) {
-    boost::optional<jbson::basic_element<ElemC>> ret;
+    std::experimental::optional<jbson::basic_element<ElemC>> ret;
     return ret = path_impl(doc, std::forward<StringsT>(strs)...);
 }
 

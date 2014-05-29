@@ -22,7 +22,6 @@
 #include <array>
 #include <string>
 
-#include <boost/optional.hpp>
 #include <boost/range/adaptor/transformed.hpp>
 
 #include <ejpp/c_ejdb.hpp>
@@ -213,9 +212,7 @@ const std::vector<collection> db::get_collections() const {
     if(!m_db)
         return {};
     auto colls = c_ejdb::getcolls(m_db.get());
-    auto range = boost::adaptors::transform(colls, [this](EJCOLL* c) -> collection {
-        return collection{m_db, c};
-    });
+    auto range = boost::adaptors::transform(colls, [this](EJCOLL* c) -> collection { return collection{m_db, c}; });
     return {range.begin(), range.end()};
 }
 
@@ -394,9 +391,10 @@ collection::operator bool() const noexcept { return !m_db.expired() && m_coll !=
  * \brief collection::save_document
  * \param data BSON document to be saved.
  * \param[out] ec Set to an appropriate error code on failure.
- * \return OID of saved document on success, boost::none on failure.
+ * \return OID of saved document on success, std::experimental::nullopt on failure.
  */
-boost::optional<std::array<char, 12>> collection::save_document(const std::vector<char>& data, std::error_code& ec) {
+std::experimental::optional<std::array<char, 12>> collection::save_document(const std::vector<char>& data,
+                                                                            std::error_code& ec) {
     return save_document(data, false, ec);
 }
 
@@ -404,13 +402,13 @@ boost::optional<std::array<char, 12>> collection::save_document(const std::vecto
  * \param doc BSON document to be saved.
  * \param merge Whether or not to merge with an existing, matching document.
  * \param[out] ec Set to an appropriate error code on failure.
- * \return OID of saved document on success, boost::none on failure.
+ * \return OID of saved document on success, std::experimental::nullopt on failure.
  */
-boost::optional<std::array<char, 12>> collection::save_document(const std::vector<char>& doc, bool merge,
-                                                                std::error_code& ec) {
+std::experimental::optional<std::array<char, 12>> collection::save_document(const std::vector<char>& doc, bool merge,
+                                                                            std::error_code& ec) {
     if(m_coll == nullptr) {
         ec = std::make_error_code(std::errc::operation_not_permitted);
-        return boost::none;
+        return std::experimental::nullopt;
     }
 
     std::array<char, 12> oid;
@@ -421,7 +419,7 @@ boost::optional<std::array<char, 12>> collection::save_document(const std::vecto
             ec = make_error_code((ejdb::errc)err);
         else
             ec = db::error(m_db);
-        return boost::none;
+        return std::experimental::nullopt;
     }
     return oid;
 }
@@ -631,7 +629,8 @@ uint32_t execute_query_impl<query_search_mode::count_only>(std::weak_ptr<EJDB> m
 /*!
  * \brief Instantiated with flags == `query_search_mode::first_only`. Executes a query in first-only mode.
  *
- * \return Only the first record which matches the criteria in \p qry, or boost::none on failure or if none match.
+ * \return Only the first record which matches the criteria in \p qry, or std::experimental::nullopt on failure or if
+ *none match.
  *
  * \relatesalso collection
  */

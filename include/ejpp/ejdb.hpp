@@ -27,9 +27,9 @@
 #include <system_error>
 #include <vector>
 #include <array>
+#include <experimental/optional>
 
 #include <boost/config.hpp>
-#include <boost/optional/optional_fwd.hpp>
 
 struct EJDB;
 struct EJCOLL;
@@ -288,9 +288,10 @@ struct EJPP_EXPORT collection final {
     explicit operator bool() const noexcept;
 
     //! Saves a document to the collection, overwriting an existing, matching document.
-    boost::optional<std::array<char, 12>> save_document(const std::vector<char>& data, std::error_code& ec);
+    std::experimental::optional<std::array<char, 12>> save_document(const std::vector<char>& data, std::error_code& ec);
     //! Saves a document to the collection, optionally merging with an existing, matching document.
-    boost::optional<std::array<char, 12>> save_document(const std::vector<char>& data, bool merge, std::error_code& ec);
+    std::experimental::optional<std::array<char, 12>> save_document(const std::vector<char>& data, bool merge,
+                                                                    std::error_code& ec);
     //! \copybrief save_document(const jbson::document&,bool,std::error_code&)
     std::array<char, 12> save_document(const std::vector<char>& data, bool merge = false);
 
